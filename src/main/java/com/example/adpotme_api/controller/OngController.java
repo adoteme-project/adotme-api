@@ -3,6 +3,7 @@ package com.example.adpotme_api.controller;
 import com.example.adpotme_api.ong.Ong;
 import com.example.adpotme_api.ong.OngCreateDto;
 import com.example.adpotme_api.ong.OngRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("ongs")
+@Tag(name = "Ong")
 public class OngController {
 
 

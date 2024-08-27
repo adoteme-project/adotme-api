@@ -5,17 +5,21 @@ import com.example.adpotme_api.ong.OngRepository;
 import com.example.adpotme_api.ongUser.OngUser;
 import com.example.adpotme_api.ongUser.OngUserCreateDto;
 import com.example.adpotme_api.ongUser.OngUserRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClient;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/ongusers")
+@Tag(name = "OngUser")
 public class OngUserController {
 
     @Autowired
@@ -86,6 +90,8 @@ public class OngUserController {
             ongUserRepository.delete(optOngUser.get());
         }
     }
+
+
 
 
 }
