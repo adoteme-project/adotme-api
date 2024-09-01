@@ -3,6 +3,7 @@ package com.example.adpotme_api.controller;
 import com.example.adpotme_api.animal.*;
 import com.example.adpotme_api.ong.Ong;
 import com.example.adpotme_api.ong.OngRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,13 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/animais")
+@Tag(name = "Animal")
 public class AnimalController {
 
     @Autowired
@@ -56,7 +60,21 @@ public class AnimalController {
         animalRepository.save(animal);
         return ResponseEntity.ok("Animal cadastrado com sucesso.");
     }
+    @GetMapping
+    public List<Animal> recuperarAnimais(){
+        return animalRepository.findAll();
+    }
 
+    @GetMapping("/{id}")
+    public Animal recuperarAnimalPorId(@PathVariable Long id) {
+        Optional<Animal> animal = animalRepository.findById(id);
+
+        if(animal.isPresent()) {
+            return animal.get();
+        }
+
+        return null;
+    }
 
 
 }
