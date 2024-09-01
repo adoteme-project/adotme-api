@@ -38,22 +38,25 @@ public class AnimalController {
 
                 Cachorro cachorro = new Cachorro(cachorroDto);
                 cachorro.setOng(ong);
+                cachorro.calcularTaxaAdocao();
                 animal = cachorro;
-
-
-
+        animalRepository.save(animal);
+        return ResponseEntity.ok("Animal cadastrado com sucesso.");
+    }
+    @PostMapping("/gato")
+    @Transactional
+    public ResponseEntity<?> cadastrarGato(@RequestBody @Valid GatoCreateDto gatoDto) {
+        Ong ong = ongRepository.findById(gatoDto.getOngId())
+                .orElseThrow(() -> new RuntimeException("ONG não encontrada"));
+        Animal animal;
+        Gato gato = new Gato(gatoDto);
+        gato.setOng(ong);
+        gato.calcularTaxaAdocao();
+        animal = gato;
         animalRepository.save(animal);
         return ResponseEntity.ok("Animal cadastrado com sucesso.");
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
+
+
 }

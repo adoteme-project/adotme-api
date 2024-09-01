@@ -16,9 +16,10 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 @Setter
+
 public abstract class AnimalCreateDto {
     protected String nome;
-    protected Date nascimento;
+    protected Integer anoNascimento;
     protected String sexo;
 
     protected String especie;

@@ -17,12 +17,12 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class Animal {
-@Getter
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
     protected String nome;
-    protected Date nascimento;
+    protected Integer anoNascimento;
     protected String sexo;
     protected String especie;
     protected Boolean isCastrado;
@@ -41,7 +41,7 @@ public abstract class Animal {
 
     public Animal(@Valid AnimalCreateDto animal) {
         this.nome = animal.getNome();
-        this.nascimento = animal.getNascimento();
+        this.anoNascimento = animal.getAnoNascimento();
         this.sexo = animal.getSexo();
         this.especie = animal.getEspecie();
         this.isCastrado = false;
@@ -53,5 +53,4 @@ public abstract class Animal {
 
     }
 
-    public abstract void calcularTaxaAdocao(Animal animal);
 }
