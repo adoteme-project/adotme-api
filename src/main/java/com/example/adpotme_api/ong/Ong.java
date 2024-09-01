@@ -1,12 +1,10 @@
 package com.example.adpotme_api.ong;
 
-import com.example.adpotme_api.voluntario.Voluntario;
+import com.example.adpotme_api.animal.Animal;
+import com.example.adpotme_api.ongUser.OngUser;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -17,19 +15,33 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Ong {
+    @Setter
+    @Getter
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Setter
+    @Getter
     private String nome;
+    @Setter
+    @Getter
     private String email;
+    @Setter
+    @Getter
     private String telefone;
+    @Getter
+    private String cnpj;
+    @Setter
+    @Getter
     @OneToMany(mappedBy = "ong", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Voluntario> voluntarios;
+    private List<OngUser> ongUser;
+    @OneToMany(mappedBy = "ong", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Animal> animal;
 
     public Ong(OngCreateDto dto) {
         this.nome = dto.getNome();
         this.email = dto.getEmail();
         this.telefone = dto.getTelefone();
+        this.cnpj = dto.getCnpj();
     }
-
 
 }

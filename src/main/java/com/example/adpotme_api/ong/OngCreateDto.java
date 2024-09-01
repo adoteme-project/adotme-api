@@ -2,43 +2,26 @@ package com.example.adpotme_api.ong;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class OngCreateDto {
 
-    @NotBlank
+    @NotBlank(message = "O nome não pode estar em branco")
     private String nome;
 
-    @NotBlank
-    @Email
+    @NotBlank(message = "O email não pode estar em branco")
+    @Email(message = "O email deve ser válido")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "O telefone não pode estar em branco")
     private String telefone;
 
-    public @NotBlank String getNome() {
-        return nome;
-    }
+    @NotBlank(message = "O CNPJ não pode estar em branco")
+    private String cnpj;
 
-    public void setNome(@NotBlank String nome) {
-        this.nome = nome;
-    }
-
-    public @NotBlank @Email String getEmail() {
-        return email;
-    }
-
-    public void setEmail(@NotBlank @Email String email) {
-        this.email = email;
-    }
-
-    public @NotBlank String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(@NotBlank String telefone) {
-        this.telefone = telefone;
-    }
-
+    // Getters e setters
 
 }
