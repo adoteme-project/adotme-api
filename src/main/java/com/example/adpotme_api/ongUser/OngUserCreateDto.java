@@ -16,12 +16,11 @@ public class OngUserCreateDto {
     @NotBlank(message = "CPF não pode ser vazio")
     private String cpf;
 
-    @Setter
-    @Getter
+
     @NotBlank(message = "Função não pode ser vazia")
     private String funcao;
 
-    @Setter
+
     @NotNull(message = "Ong não pode ser nulo")
     private Long ongId; // ID da ONG associada
 
