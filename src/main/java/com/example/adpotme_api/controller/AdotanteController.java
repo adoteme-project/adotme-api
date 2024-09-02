@@ -3,6 +3,8 @@ package com.example.adpotme_api.controller;
 import com.example.adpotme_api.adotante.Adotante;
 import com.example.adpotme_api.adotante.AdotanteCreateDto;
 import com.example.adpotme_api.adotante.AdotanteRepository;
+import com.example.adpotme_api.animal.AnimalRepository;
+import com.example.adpotme_api.animal.Cachorro;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -19,6 +21,8 @@ public class AdotanteController {
 
     @Autowired
     private AdotanteRepository adotanteRepository;
+    @Autowired
+    private AnimalRepository animalRepository;
 
     @PostMapping
     @Transactional
@@ -62,5 +66,26 @@ public class AdotanteController {
         if(optAdotante.isPresent()){
             adotanteRepository.delete(optAdotante.get());
         }
+    }
+
+    @PutMapping("adotar/{id}/{idAnimal}")
+    @Transactional
+    public Adotante atualizarAdotadosCachorro(@PathVariable Long id, @PathVariable Long idAnimal) {
+        Adotante adotante = adotanteRepository.findById(id).orElse(null);
+
+
+            if(animalRepository.existsById(idAnimal)){
+                Cachorro cachorro = (Cachorro) animalRepository.findById(idAnimal).get();
+
+                cachorro.setIsAdotado(true);
+                adotante.adotarAnimal(cachorro);
+            }
+
+            return adotanteRepository.save(adotante);
+
+
+
+
+
     }
 }

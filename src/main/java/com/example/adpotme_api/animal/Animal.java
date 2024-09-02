@@ -1,5 +1,6 @@
 package com.example.adpotme_api.animal;
 
+import com.example.adpotme_api.adotante.Adotante;
 import com.example.adpotme_api.formulario.Formulario;
 import com.example.adpotme_api.ong.Ong;
 import com.example.adpotme_api.requisicao.Requisicao;
@@ -37,6 +38,10 @@ public abstract class Animal {
     protected String porte;
     protected Boolean isVermifugado;
     protected Double taxaAdocao;
+    @ManyToOne
+    @JoinColumn(name = "adotante_id") // Nome da coluna que mapeia o relacionamento
+    @JsonBackReference
+    private Adotante adotante;
     @Setter
     @ManyToOne
 
@@ -47,6 +52,7 @@ public abstract class Animal {
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     protected List<Formulario> formulario;
+
 
     public Long getOngId() {
         return ong != null ? ong.getId() : null;
