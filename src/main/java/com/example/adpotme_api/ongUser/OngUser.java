@@ -1,6 +1,7 @@
 package com.example.adpotme_api.ongUser;
 
 import com.example.adpotme_api.ong.Ong;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -29,8 +30,12 @@ public class OngUser {
     @Setter
     @ManyToOne
     @JoinColumn(name = "ong_id")
+    @JsonBackReference
     private Ong ong;
 
+    public Long getOngId() {
+        return ong != null ? ong.getId() : null;
+    }
     public OngUser(Long id, Ong ong, String funcao, String cpf, String nome) {
         this.id = id;
         this.ong = ong;

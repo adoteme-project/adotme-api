@@ -30,6 +30,7 @@ public abstract class AnimalCreateDto {
     protected Boolean isAdotado;
     protected String porte;
     protected Boolean isVermifugado;
+    protected Double taxaAdocao;
 
     @NotNull(message = "ONG não pode ser nulo")
     private Long ongId; // ID da ONG associada
