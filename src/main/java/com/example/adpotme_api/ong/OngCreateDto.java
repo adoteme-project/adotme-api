@@ -22,6 +22,6 @@ public class OngCreateDto {
     @NotBlank(message = "O CNPJ não pode estar em branco")
     private String cnpj;
 
-    // Getters e setters
+
 
 }
