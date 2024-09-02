@@ -11,27 +11,17 @@ import java.util.List;
 @Table(name = "ong")
 @Entity(name = "Ong")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Ong {
-    @Setter
-    @Getter
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Setter
-    @Getter
     private String nome;
-    @Setter
-    @Getter
     private String email;
-    @Setter
-    @Getter
     private String telefone;
-    @Getter
     private String cnpj;
-    @Setter
-    @Getter
     @OneToMany(mappedBy = "ong", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OngUser> ongUser;
     @OneToMany(mappedBy = "ong", cascade = CascadeType.ALL, orphanRemoval = true)

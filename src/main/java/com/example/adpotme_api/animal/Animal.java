@@ -1,6 +1,9 @@
 package com.example.adpotme_api.animal;
 
+import com.example.adpotme_api.formulario.Formulario;
 import com.example.adpotme_api.ong.Ong;
+import com.example.adpotme_api.requisicao.Requisicao;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -10,6 +13,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
+
 @Table(name = "animal")
 @Entity(name = "Animal")
 @Getter
@@ -17,7 +22,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class Animal {
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
@@ -37,6 +41,9 @@ public abstract class Animal {
     @JsonIgnore
     @JoinColumn(name = "ong_id")
     protected Ong ong;
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
+    protected List<Formulario> formulario;
 
 
     public Animal(@Valid AnimalCreateDto animal) {
@@ -50,6 +57,7 @@ public abstract class Animal {
         this.isAdotado = false;
         this.porte = animal.getPorte();
         this.isVermifugado = false;
+
 
     }
 
