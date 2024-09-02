@@ -34,6 +34,8 @@ public class Adotante {
     @OneToMany(mappedBy = "adotante", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<Formulario> formulario;
+    @OneToMany(mappedBy = "adotante") // O nome aqui deve corresponder ao nome da propriedade na classe Animal
+    private List<Animal> adotados;
 
     public Adotante(AdotanteCreateDto adotanteCreateDto) {
         this.nome = adotanteCreateDto.getNome();
@@ -48,6 +50,12 @@ public class Adotante {
     }
 
     public Adotante() {
+
+    }
+
+    public void adotarAnimal(Animal animal) {
+        animal.setAdotante(this);
+        this.adotados.add(animal);
 
     }
 }
