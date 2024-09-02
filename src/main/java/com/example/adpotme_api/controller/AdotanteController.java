@@ -5,6 +5,7 @@ import com.example.adpotme_api.adotante.AdotanteCreateDto;
 import com.example.adpotme_api.adotante.AdotanteRepository;
 import com.example.adpotme_api.animal.AnimalRepository;
 import com.example.adpotme_api.animal.Cachorro;
+import com.example.adpotme_api.animal.Gato;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -68,9 +69,9 @@ public class AdotanteController {
         }
     }
 
-    @PutMapping("adotar/{id}/{idAnimal}")
+    @PutMapping("adotarCachorro/{id}/{idAnimal}")
     @Transactional
-    public Adotante atualizarAdotadosCachorro(@PathVariable Long id, @PathVariable Long idAnimal) {
+    public Adotante adotarCachorro(@PathVariable Long id, @PathVariable Long idAnimal) {
         Adotante adotante = adotanteRepository.findById(id).orElse(null);
 
 
@@ -82,6 +83,27 @@ public class AdotanteController {
             }
 
             return adotanteRepository.save(adotante);
+
+
+
+
+
+    }
+
+    @PutMapping("adotarGato/{id}/{idAnimal}")
+    @Transactional
+    public Adotante adotarGato(@PathVariable Long id, @PathVariable Long idAnimal) {
+        Adotante adotante = adotanteRepository.findById(id).orElse(null);
+
+
+        if(animalRepository.existsById(idAnimal)){
+            Gato gato = (Gato) animalRepository.findById(idAnimal).get();
+
+            gato.setIsAdotado(true);
+            adotante.adotarAnimal(gato);
+        }
+
+        return adotanteRepository.save(adotante);
 
 
 
