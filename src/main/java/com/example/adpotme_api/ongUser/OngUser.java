@@ -1,37 +1,37 @@
 package com.example.adpotme_api.ongUser;
 
 import com.example.adpotme_api.ong.Ong;
+import com.example.adpotme_api.requisicao.Requisicao;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.util.List;
+
+@Setter
+@Getter
 @Entity
 @Table(name = "onguser")
 public class OngUser {
 
 
-    @Setter
-    @Getter
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Setter
-    @Getter
     private String nome;
-    @Setter
-    @Getter
     private String cpf;
-    @Setter
-    @Getter
     private String funcao;
-
-    @Setter
+    private LocalDate cadastro;
     @ManyToOne
     @JoinColumn(name = "ong_id")
     @JsonBackReference
     private Ong ong;
+    @ManyToMany(mappedBy = "usersResponsaveis")
+    private List<Requisicao> requisicoes;
 
     public Long getOngId() {
         return ong != null ? ong.getId() : null;
@@ -54,6 +54,10 @@ public class OngUser {
         this.funcao = dto.getFuncao();
         this.cpf = dto.getCpf();
 
+    }
+
+    public void iniciarRevisao(Requisicao requisicao) {
+        requisicoes.add(requisicao);
     }
 
 

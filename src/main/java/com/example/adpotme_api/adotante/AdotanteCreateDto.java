@@ -17,8 +17,7 @@ public class AdotanteCreateDto {
     private String sobrenome;
     private LocalDate dtNasc;
     private String cpf;
-    @JsonIgnore
-    private LocalDateTime cadastro = LocalDateTime.now();
+    private LocalDate cadastro = LocalDate.now();
     @Email
     private String email;
     private String senha;

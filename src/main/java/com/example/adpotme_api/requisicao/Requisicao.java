@@ -4,6 +4,7 @@ import com.example.adpotme_api.adotante.Adotante;
 import com.example.adpotme_api.animal.Animal;
 import com.example.adpotme_api.formulario.Formulario;
 import com.example.adpotme_api.ong.Ong;
+import com.example.adpotme_api.ongUser.OngUser;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -26,7 +27,20 @@ public class Requisicao {
     private Formulario formulario;
     @Enumerated(EnumType.STRING)
     private Status status;
+    @ManyToMany
+    @JoinTable(
+            name = "requisicao_users_responsaveis",
+            joinColumns = @JoinColumn(name = "requisicao_id"),
+            inverseJoinColumns = @JoinColumn(name = "onguser_id")
+    )
+    @JsonManagedReference
+    private List<OngUser> usersResponsaveis;
 
 
+    public void adicionarResponsavel(OngUser user) {
+        if(!usersResponsaveis.contains(user)){
+        usersResponsaveis.add(user);
+    }
+    }
 
 }

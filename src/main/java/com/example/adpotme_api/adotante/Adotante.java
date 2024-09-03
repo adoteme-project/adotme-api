@@ -27,7 +27,7 @@ public class Adotante {
     private String sobrenome;
     private LocalDate dtNasc;
     private String cpf;
-    private LocalDateTime cadastro;
+    private LocalDate cadastro;
     private String email;
     private String senha;
     private String telefone;
