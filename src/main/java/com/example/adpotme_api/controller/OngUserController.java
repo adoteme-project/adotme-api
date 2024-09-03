@@ -5,6 +5,8 @@ import com.example.adpotme_api.ong.OngRepository;
 import com.example.adpotme_api.ongUser.OngUser;
 import com.example.adpotme_api.ongUser.OngUserCreateDto;
 import com.example.adpotme_api.ongUser.OngUserRepository;
+import com.example.adpotme_api.requisicao.Requisicao;
+import com.example.adpotme_api.requisicao.RequisicaoRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -27,6 +29,9 @@ public class OngUserController {
 
     @Autowired
     private OngRepository ongRepository;
+
+    @Autowired
+    private RequisicaoRepository requisicaoRepository;
 
     @PostMapping
     @Transactional
@@ -90,6 +95,25 @@ public class OngUserController {
             ongUserRepository.delete(optOngUser.get());
         }
     }
+
+    @PutMapping("/{idOngUser}/{idRequisicao}")
+    public void iniciarRevisao(@PathVariable Long idOngUser, @PathVariable Long idRequisicao) {
+        Optional<OngUser> optOngUser = ongUserRepository.findById(idOngUser);
+        Optional<Requisicao> optRequisicao = requisicaoRepository.findById(idRequisicao);
+        if(optOngUser.isPresent() && optRequisicao.isPresent()){
+            OngUser ongUser = optOngUser.get();
+            Requisicao requisicao = optRequisicao.get();
+
+            ongUser.iniciarRevisao(requisicao);
+            requisicao.adicionarResponsavel(ongUser);
+
+            ongUserRepository.save(ongUser);
+            requisicaoRepository.save(requisicao);
+
+        }
+
+    }
+
 
 
 

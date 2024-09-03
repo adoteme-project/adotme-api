@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 public class OngUserCreateDto {
@@ -20,7 +22,7 @@ public class OngUserCreateDto {
     @NotBlank(message = "Função não pode ser vazia")
     private String funcao;
 
-
+    private LocalDate cadastro = LocalDate.now();
     @NotNull(message = "Ong não pode ser nulo")
     private Long ongId; // ID da ONG associada
 

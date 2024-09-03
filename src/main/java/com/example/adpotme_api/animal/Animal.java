@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +32,9 @@ public abstract class Animal {
     protected Integer anoNascimento;
     protected String sexo;
     protected String especie;
+    protected String raca;
+    protected LocalDate dataAbrigo;
+    protected LocalDate cadastro;
     protected Boolean isCastrado;
     protected String descricao;
     protected Boolean isVisible;
@@ -38,17 +42,16 @@ public abstract class Animal {
     protected String porte;
     protected Boolean isVermifugado;
     protected Double taxaAdocao;
+    protected Boolean isDestaque;
     @ManyToOne
     @JoinColumn(name = "adotante_id") // Nome da coluna que mapeia o relacionamento
     @JsonBackReference
     private Adotante adotante;
     @Setter
     @ManyToOne
-
     @JoinColumn(name = "ong_id")
     @JsonBackReference
     protected Ong ong;
-
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     protected List<Formulario> formulario;
@@ -63,13 +66,16 @@ public abstract class Animal {
         this.anoNascimento = animal.getAnoNascimento();
         this.sexo = animal.getSexo();
         this.especie = animal.getEspecie();
-        this.isCastrado = false;
+        this.isCastrado = animal.getIsCastrado();
         this.descricao = animal.getDescricao();
-        this.isVisible = false;
-        this.isAdotado = false;
+        this.isVisible = animal.getIsVisible();
+        this.isAdotado = animal.getIsAdotado();
         this.porte = animal.getPorte();
-        this.isVermifugado = false;
-
+        this.isVermifugado = animal.getIsVermifugado();
+        this.cadastro = animal.getCadastro();
+        this.isDestaque = animal.getIsDestaque();
+        this.raca = animal.getRaca();
+        this.dataAbrigo = animal.getDataAbrigo();
 
     }
 
