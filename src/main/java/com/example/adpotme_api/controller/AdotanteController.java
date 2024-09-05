@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,55 +28,66 @@ public class AdotanteController {
 
     @PostMapping
     @Transactional
-    public void cadastrarOng(@RequestBody @Valid AdotanteCreateDto dados){
-        adotanteRepository.save(new Adotante(dados));
+    public ResponseEntity<Adotante> cadastrarOng(@RequestBody @Valid AdotanteCreateDto dados){
+        return ResponseEntity.status(201).body(adotanteRepository.save(new Adotante(dados)));
+
     }
     @GetMapping
-    public List<Adotante> recuperarAdotante(){
-        return adotanteRepository.findAll();
+    public ResponseEntity<List<Adotante>> recuperarAdotante(){
+        if(adotanteRepository.findAll().isEmpty()) {
+            return ResponseEntity.status(204).body(adotanteRepository.findAll());
+        }
+
+        return ResponseEntity.status(200).body(adotanteRepository.findAll());
     }
 
     @GetMapping("/{id}")
-    public Adotante recuperarAdotantePorId(@PathVariable Long id){
+    public ResponseEntity<Adotante> recuperarAdotantePorId(@PathVariable Long id){
         Optional<Adotante> optAdotante = adotanteRepository.findById(id);
 
         if(optAdotante.isPresent()){
-            return optAdotante.get();
+            Adotante adotanteEncontrado = optAdotante.get();
+            return ResponseEntity.status(200).body(adotanteEncontrado) ;
         }
 
-        return null;
+        return ResponseEntity.status(404).build();
     }
 
     @PutMapping("/{id}")
     @Transactional
-    public Adotante atualizar(@PathVariable Long id,
+    public ResponseEntity<Adotante> atualizar(@PathVariable Long id,
                          @RequestBody Adotante adotante) {
         if (adotanteRepository.existsById(id)) {
             adotante.setId(id);
 
-            return adotanteRepository.save(adotante);
+            return ResponseEntity.status(200).body(adotanteRepository.save(adotante));
 
         }
 
-        return null;
+        return ResponseEntity.status(404).build();
 
     }
 
     @DeleteMapping("/{id}")
-    public void deletarAdotante(@PathVariable Long id){
+    public ResponseEntity<Void> deletarAdotante(@PathVariable Long id){
         Optional<Adotante> optAdotante = adotanteRepository.findById(id);
         if(optAdotante.isPresent()){
             adotanteRepository.delete(optAdotante.get());
+            return ResponseEntity.status(204).build();
         }
+
+        return ResponseEntity.status(404).build();
     }
 
     @PutMapping("adoção-animal/{id}/{idAnimal}")
     @Transactional
-    public Adotante adotarAnimal(@PathVariable Long id, @PathVariable Long idAnimal) {
+    public ResponseEntity<Adotante> adotarAnimal(@PathVariable Long id, @PathVariable Long idAnimal) {
         Adotante adotante = adotanteRepository.findById(id).orElse(null);
 
 
-            if(animalRepository.existsById(idAnimal)){
+            if(!animalRepository.existsById(idAnimal)){
+                return ResponseEntity.status(404).build();
+            }
 
                 if(animalRepository.findById(idAnimal).get() instanceof Cachorro){
                     Cachorro cachorro = (Cachorro) animalRepository.findById(idAnimal).get();
@@ -88,10 +100,7 @@ public class AdotanteController {
                     adotante.adotarAnimal(gato);
                 }
 
-
-            }
-
-            return adotanteRepository.save(adotante);
+            return ResponseEntity.status(200).body(adotanteRepository.save(adotante));
 
 
 

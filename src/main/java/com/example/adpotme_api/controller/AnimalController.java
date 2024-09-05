@@ -1,5 +1,6 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.adotante.Adotante;
 import com.example.adpotme_api.animal.*;
 import com.example.adpotme_api.ong.Ong;
 import com.example.adpotme_api.ong.OngRepository;
@@ -33,12 +34,9 @@ public class AnimalController {
 
     @PostMapping("/cachorro")
     @Transactional
-    public ResponseEntity<?> cadastrarCachorro(@RequestBody @Valid CachorroCreateDto cachorroDto) {
+    public ResponseEntity<Animal> cadastrarCachorro(@RequestBody @Valid CachorroCreateDto cachorroDto) {
         Ong ong = ongRepository.findById(cachorroDto.getOngId())
                 .orElseThrow(() -> new RuntimeException("ONG não encontrada"));
-
-
-
                 Animal animal;
 
 
@@ -47,11 +45,11 @@ public class AnimalController {
                 cachorro.calcularTaxaAdocao();
                 animal = cachorro;
         animalRepository.save(animal);
-        return ResponseEntity.ok("Animal cadastrado com sucesso.");
+        return ResponseEntity.status(201).body(cachorro);
     }
     @PostMapping("/gato")
     @Transactional
-    public ResponseEntity<?> cadastrarGato(@RequestBody @Valid GatoCreateDto gatoDto) {
+    public ResponseEntity<Animal> cadastrarGato(@RequestBody @Valid GatoCreateDto gatoDto) {
         Ong ong = ongRepository.findById(gatoDto.getOngId())
                 .orElseThrow(() -> new RuntimeException("ONG não encontrada"));
         Animal animal;
@@ -60,30 +58,41 @@ public class AnimalController {
         gato.calcularTaxaAdocao();
         animal = gato;
         animalRepository.save(animal);
-        return ResponseEntity.ok("Animal cadastrado com sucesso.");
+        return ResponseEntity.status(201).body(gato);
     }
     @GetMapping
-    public List<Animal> recuperarAnimais(){
-        return animalRepository.findAll();
+    public ResponseEntity<List<Animal>> recuperarAnimais(){
+        if(animalRepository.findAll().isEmpty()) {
+            return ResponseEntity.status(204).body(animalRepository.findAll());
+        }
+
+        return ResponseEntity.status(200).body(animalRepository.findAll());
     }
 
     @GetMapping("/{id}")
-    public Animal recuperarAnimalPorId(@PathVariable Long id) {
-        Optional<Animal> animal = animalRepository.findById(id);
+    public ResponseEntity<Animal> recuperarAnimalPorId(@PathVariable Long id) {
+        Optional<Animal> optionalAnimal = animalRepository.findById(id);
 
-        if(animal.isPresent()) {
-            return animal.get();
+        if(optionalAnimal.isPresent()){
+            Animal animalEncontrado = optionalAnimal.get();
+            return ResponseEntity.status(200).body(animalEncontrado) ;
         }
 
-        return null;
+        return ResponseEntity.status(404).build();
     }
 
     @PutMapping("cachorro/{id}")
     @Transactional
-    public Cachorro atualizarCachorro(@PathVariable Long id, @RequestBody CachorroCreateDto cachorroAtualizado) {
+    public ResponseEntity<Cachorro> atualizarCachorro(@PathVariable Long id, @RequestBody CachorroCreateDto cachorroAtualizado) {
 
-        Cachorro cachorro = (Cachorro) animalRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Animal not found"));
+        if(!animalRepository.findById(id).isPresent()){
+            return ResponseEntity.status(404).build();
+        }
+        if(ongRepository.findById(cachorroAtualizado.getOngId()).isEmpty()){
+            return ResponseEntity.status(404).build();
+        }
+
+        Cachorro cachorro = (Cachorro) animalRepository.findById(id).get();
 
 
         cachorro.setNome(cachorroAtualizado.getNome());
@@ -107,7 +116,7 @@ public class AnimalController {
         }
 
 
-        return animalRepository.save(cachorro);
+        return ResponseEntity.status(201).body(animalRepository.save(cachorro));
     }
 
     @DeleteMapping("/{id}")

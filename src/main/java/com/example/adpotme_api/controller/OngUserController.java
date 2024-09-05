@@ -35,9 +35,12 @@ public class OngUserController {
 
     @PostMapping
     @Transactional
-    public void createOngUser(@RequestBody @Valid OngUserCreateDto dto) {
-        Ong ong = ongRepository.findById(dto.getOngId())
-                .orElseThrow(() -> new RuntimeException("ONG não encontrada"));
+    public ResponseEntity<OngUser> createOngUser(@RequestBody @Valid OngUserCreateDto dto) {
+        Ong ong = ongRepository.findById(dto.getOngId()).get();
+
+        if(ong == null) {
+            return ResponseEntity.notFound().build();
+        }
 
 
 
@@ -49,29 +52,38 @@ public class OngUserController {
 
          ongUserRepository.save(ongUser);
 
+         return ResponseEntity.status(201).body(ongUser);
+
     }
     @GetMapping
-    public List<OngUser> recuperarOngUsers(){
-        return ongUserRepository.findAll();
+    public ResponseEntity<List<OngUser>> recuperarOngUsers(){
+        if(ongUserRepository.findAll().isEmpty()) {
+            return ResponseEntity.status(204).body(ongUserRepository.findAll());
+        }
+
+        return ResponseEntity.status(200).body(ongUserRepository.findAll());
     }
 
     @GetMapping("/{id}")
-    public OngUser recuperarOngUserPorId(@PathVariable Long id) {
+    public ResponseEntity<OngUser> recuperarOngUserPorId(@PathVariable Long id) {
         Optional<OngUser> ongUser = ongUserRepository.findById(id);
         if(ongUser.isPresent()) {
-            return ongUser.get();
+            return ResponseEntity.status(200).body(ongUser.get());
         }
 
-        return null;
+        return ResponseEntity.status(404).build();
     }
 
     @PutMapping("/{id}")
     @Transactional
-    public OngUser atualizar(@PathVariable Long id, @RequestBody OngUserCreateDto ongUserAtualizada) {
+    public ResponseEntity<OngUser> atualizar(@PathVariable Long id, @RequestBody OngUserCreateDto ongUserAtualizada) {
 
-        OngUser ongUser = ongUserRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("OngUser not found"));
+       Optional<OngUser> optOngUser = ongUserRepository.findById(id);
+        if(!optOngUser.isPresent()) {
+            return ResponseEntity.status(404).build();
+        }
 
+        OngUser ongUser = optOngUser.get();
 
         ongUser.setNome(ongUserAtualizada.getNome());
         ongUser.setCpf(ongUserAtualizada.getCpf());
@@ -85,19 +97,22 @@ public class OngUserController {
         }
 
 
-        return ongUserRepository.save(ongUser);
+        return ResponseEntity.status(200).body(ongUserRepository.save(ongUser));
     }
 
     @DeleteMapping("/{id}")
-    public void deletarOngUser(@PathVariable Long id){
+    public ResponseEntity<Void> deletarOngUser(@PathVariable Long id){
         Optional<OngUser> optOngUser = ongUserRepository.findById(id);
         if(optOngUser.isPresent()){
             ongUserRepository.delete(optOngUser.get());
+            return ResponseEntity.status(204).build();
         }
+
+        return ResponseEntity.status(404).build();
     }
 
     @PostMapping("/{idOngUser}/{idRequisicao}")
-    public void iniciarRevisao(@PathVariable Long idOngUser, @PathVariable Long idRequisicao) {
+    public ResponseEntity<Void> iniciarRevisao(@PathVariable Long idOngUser, @PathVariable Long idRequisicao) {
         Optional<OngUser> optOngUser = ongUserRepository.findById(idOngUser);
         Optional<Requisicao> optRequisicao = requisicaoRepository.findById(idRequisicao);
         if(optOngUser.isPresent() && optRequisicao.isPresent()){
@@ -110,7 +125,10 @@ public class OngUserController {
             ongUserRepository.save(ongUser);
             requisicaoRepository.save(requisicao);
 
+            return ResponseEntity.status(201).build();
         }
+
+        return ResponseEntity.status(400).build();
 
     }
 
