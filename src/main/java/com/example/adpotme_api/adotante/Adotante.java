@@ -5,6 +5,7 @@ import com.example.adpotme_api.formulario.Formulario;
 import com.example.adpotme_api.requisicao.Requisicao;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,7 +33,7 @@ public class Adotante {
     private String senha;
     private String telefone;
     @OneToMany(mappedBy = "adotante", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference
+    @JsonManagedReference
     private List<Formulario> formulario;
     @OneToMany(mappedBy = "adotante") // O nome aqui deve corresponder ao nome da propriedade na classe Animal
     private List<Animal> adotados;

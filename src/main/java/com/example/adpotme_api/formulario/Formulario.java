@@ -27,11 +27,11 @@ public class Formulario {
     private Boolean casaPortaoAlto;
     @ManyToOne
     @JoinColumn(name = "adotante_id")
-    @JsonManagedReference
+    @JsonBackReference
     private Adotante adotante;
     @ManyToOne
     @JoinColumn(name = "animal_id")
-    @JsonManagedReference
+    @JsonBackReference
     private Animal animal;
     @OneToOne(cascade = CascadeType.ALL)
 

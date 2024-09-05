@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,45 +24,50 @@ public class OngController {
 
     @PostMapping
     @Transactional
-    public void cadastrarOng(@RequestBody @Valid OngCreateDto dados){
-        ongRepository.save(new Ong(dados));
+    public ResponseEntity<Ong> cadastrarOng(@RequestBody @Valid OngCreateDto dados){
+        return ResponseEntity.status(201).body(ongRepository.save(new Ong(dados)));
     }
+
     @GetMapping
-    public List<Ong> recuperarOngs(){
-        return ongRepository.findAll();
+    public ResponseEntity<List<Ong>> recuperarOngs(){
+        if(ongRepository.findAll().isEmpty()){
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.status(200).body(ongRepository.findAll());
     }
 
     @GetMapping("/{id}")
-    public Ong recuperarOngPorId(@PathVariable Long id){
+    public ResponseEntity<Ong> recuperarOngPorId(@PathVariable Long id){
         Optional<Ong> optOng = ongRepository.findById(id);
 
         if(optOng.isPresent()){
-            return optOng.get();
+            return ResponseEntity.status(200).body(optOng.get());
         }
 
-        return null;
+        return ResponseEntity.status(404).build();
     }
 
     @PutMapping("/{id}")
     @Transactional
-    public Ong atualizar(@PathVariable Long id,
+    public ResponseEntity<Ong> atualizar(@PathVariable Long id,
                             @RequestBody Ong ongAtualizada) {
         if (ongRepository.existsById(id)) {
             ongAtualizada.setId(id);
             ongAtualizada.setOngUser(ongRepository.findById(id).get().getOngUser());
-            return ongRepository.save(ongAtualizada);
+            return ResponseEntity.status(200).body(ongRepository.save(ongAtualizada));
 
         }
 
-        return null;
+        return ResponseEntity.status(404).build();
 
     }
 
     @DeleteMapping("/{id}")
-    public void deletarOng(@PathVariable Long id){
+    public ResponseEntity<Void> deletarOng(@PathVariable Long id){
         Optional<Ong> optOng = ongRepository.findById(id);
-        if(optOng.isPresent()){
-            ongRepository.delete(optOng.get());
+        if(optOng.isPresent()){ongRepository.delete(optOng.get());
+           return ResponseEntity.status(204).build() ;
         }
+        return ResponseEntity.status(404).build();
     }
 }

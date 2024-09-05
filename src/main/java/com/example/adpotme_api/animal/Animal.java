@@ -53,7 +53,7 @@ public abstract class Animal {
     @JsonBackReference
     protected Ong ong;
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference
+    @JsonManagedReference
     protected List<Formulario> formulario;
 
 
