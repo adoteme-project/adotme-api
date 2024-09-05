@@ -69,17 +69,26 @@ public class AdotanteController {
         }
     }
 
-    @PutMapping("adotarCachorro/{id}/{idAnimal}")
+    @PutMapping("adoção-animal/{id}/{idAnimal}")
     @Transactional
-    public Adotante adotarCachorro(@PathVariable Long id, @PathVariable Long idAnimal) {
+    public Adotante adotarAnimal(@PathVariable Long id, @PathVariable Long idAnimal) {
         Adotante adotante = adotanteRepository.findById(id).orElse(null);
 
 
             if(animalRepository.existsById(idAnimal)){
-                Cachorro cachorro = (Cachorro) animalRepository.findById(idAnimal).get();
 
-                cachorro.setIsAdotado(true);
-                adotante.adotarAnimal(cachorro);
+                if(animalRepository.findById(idAnimal).get() instanceof Cachorro){
+                    Cachorro cachorro = (Cachorro) animalRepository.findById(idAnimal).get();
+                    cachorro.setIsAdotado(true);
+                    adotante.adotarAnimal(cachorro);
+                }
+                else if(animalRepository.findById(idAnimal).get() instanceof Gato){
+                    Gato gato = (Gato) animalRepository.findById(idAnimal).get();
+                    gato.setIsAdotado(true);
+                    adotante.adotarAnimal(gato);
+                }
+
+
             }
 
             return adotanteRepository.save(adotante);
@@ -90,24 +99,4 @@ public class AdotanteController {
 
     }
 
-    @PutMapping("adotarGato/{id}/{idAnimal}")
-    @Transactional
-    public Adotante adotarGato(@PathVariable Long id, @PathVariable Long idAnimal) {
-        Adotante adotante = adotanteRepository.findById(id).orElse(null);
-
-
-        if(animalRepository.existsById(idAnimal)){
-            Gato gato = (Gato) animalRepository.findById(idAnimal).get();
-
-            gato.setIsAdotado(true);
-            adotante.adotarAnimal(gato);
-        }
-
-        return adotanteRepository.save(adotante);
-
-
-
-
-
-    }
 }

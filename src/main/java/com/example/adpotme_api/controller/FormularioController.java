@@ -60,7 +60,7 @@ public class FormularioController {
     public List<Formulario> listarFormularios() {
         return formularioRepository.findAll();
     }
-    @GetMapping("listar-aceitos")
+    @GetMapping("formularios-aceitos")
     public List<Formulario> listarFormulariosAceitos() {
 
         List<Requisicao> requisicoesAceitas = requisicaoRepository.findAllByStatus(Status.APROVADO);
@@ -68,14 +68,14 @@ public class FormularioController {
 
         return formularioRepository.findByRequisicaoIn(requisicoesAceitas);
     }
-    @GetMapping("listar-reprovados")
+    @GetMapping("formularios-reprovados")
     public List<Formulario> listarFormulariosReprovados(){
         List<Requisicao> requisicoesReprovadas = requisicaoRepository.findAllByStatus(Status.REPROVADO);
 
 
         return formularioRepository.findByRequisicaoIn(requisicoesReprovadas);
     }
-    @GetMapping("listar-em-andamento")
+    @GetMapping("formularios-em-andamento")
 
     public List<Formulario> listarFormulariosEmAndamento(){
         List<Requisicao> requisicoesEmAndamento = requisicaoRepository.findAllByStatus(Status.EM_ANDAMENTO);
@@ -84,7 +84,7 @@ public class FormularioController {
         return formularioRepository.findByRequisicaoIn(requisicoesEmAndamento);
     }
 
-    @GetMapping("listarPorAdotante")
+    @GetMapping("adotante/{id}")
     public List<Formulario> listarFormulariosPorAdotante(Long id){
         return formularioRepository.findByAdotanteId(id);
     }

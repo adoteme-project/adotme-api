@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class AdotanteCreateDto {
+    @JsonIgnore
+    private Long id;
     private String nome;
     private String sobrenome;
     private LocalDate dtNasc;

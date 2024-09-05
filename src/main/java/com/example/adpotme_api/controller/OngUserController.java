@@ -96,7 +96,7 @@ public class OngUserController {
         }
     }
 
-    @PutMapping("/{idOngUser}/{idRequisicao}")
+    @PostMapping("/{idOngUser}/{idRequisicao}")
     public void iniciarRevisao(@PathVariable Long idOngUser, @PathVariable Long idRequisicao) {
         Optional<OngUser> optOngUser = ongUserRepository.findById(idOngUser);
         Optional<Requisicao> optRequisicao = requisicaoRepository.findById(idRequisicao);
@@ -104,7 +104,7 @@ public class OngUserController {
             OngUser ongUser = optOngUser.get();
             Requisicao requisicao = optRequisicao.get();
 
-            ongUser.iniciarRevisao(requisicao);
+
             requisicao.adicionarResponsavel(ongUser);
 
             ongUserRepository.save(ongUser);
