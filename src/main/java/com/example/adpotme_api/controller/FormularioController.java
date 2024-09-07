@@ -43,7 +43,7 @@ public class FormularioController {
         formulario.setAnimal(animalRepository.findById(dados.getAnimalId()).orElse(null));
 
         Requisicao requisicao = new Requisicao();
-        requisicao.setStatus(Status.EM_ANDAMENTO);
+        requisicao.setStatus(Status.INICIO_DA_APLICACAO);
         requisicao.setFormulario(formulario);
 
         formulario.setRequisicao(requisicao);
@@ -83,13 +83,40 @@ public class FormularioController {
     }
     @GetMapping("formularios-em-andamento")
 
-    public ResponseEntity<List<Formulario>> listarFormulariosEmAndamento(){
-        List<Requisicao> requisicoesEmAndamento = requisicaoRepository.findAllByStatus(Status.EM_ANDAMENTO);
+    public ResponseEntity<List<Formulario>> listarFormulariosInicioAplicacao(){
+        List<Requisicao> requisicoesEmAndamento = requisicaoRepository.findAllByStatus(Status.INICIO_DA_APLICACAO);
 
         if(requisicoesEmAndamento.isEmpty()) {
             return ResponseEntity.status(204).body(formularioRepository.findAll());
         }
         return ResponseEntity.status(200).body(formularioRepository.findByRequisicaoIn(requisicoesEmAndamento));
+    }
+
+    public ResponseEntity<List<Formulario>> listarFormularioRevisao(){
+        List<Requisicao> requisicoesRevisao = requisicaoRepository.findAllByStatus(Status.REVISAO);
+
+        if(requisicoesRevisao.isEmpty()) {
+            return ResponseEntity.status(204).body(formularioRepository.findAll());
+        }
+        return ResponseEntity.status(200).body(formularioRepository.findByRequisicaoIn(requisicoesRevisao));
+    }
+
+    public ResponseEntity<List<Formulario>> listarFormulariosDocumentacao(){
+        List<Requisicao> requisicoesEmDocumentacao = requisicaoRepository.findAllByStatus(Status.DOCUMENTACAO);
+
+        if(requisicoesEmDocumentacao.isEmpty()) {
+            return ResponseEntity.status(204).body(formularioRepository.findAll());
+        }
+        return ResponseEntity.status(200).body(formularioRepository.findByRequisicaoIn(requisicoesEmDocumentacao));
+    }
+
+    public ResponseEntity<List<Formulario>> listarFormulariosAdotado(){
+        List<Requisicao> requisicoesAdotado = requisicaoRepository.findAllByStatus(Status.ADOTADO);
+
+        if(requisicoesAdotado.isEmpty()) {
+            return ResponseEntity.status(204).body(formularioRepository.findAll());
+        }
+        return ResponseEntity.status(200).body(formularioRepository.findByRequisicaoIn(requisicoesAdotado));
     }
 
     @GetMapping("adotante/{id}")
