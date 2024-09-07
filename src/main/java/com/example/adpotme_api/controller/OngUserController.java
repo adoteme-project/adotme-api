@@ -63,6 +63,7 @@ public class OngUserController {
         ongUser.setCpf(dto.getCpf());
         ongUser.setFuncao(dto.getFuncao());
         ongUser.setOng(ong);
+        ongUser.setCadastro(dto.getCadastro());
 
          ongUserRepository.save(ongUser);
 
