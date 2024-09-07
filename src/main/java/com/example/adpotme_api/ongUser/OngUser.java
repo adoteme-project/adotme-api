@@ -47,6 +47,7 @@ public class OngUser {
         this.nome = dto.getNome();
         this.funcao = dto.getFuncao();
         this.cpf = dto.getCpf();
+        this.cadastro = dto.getCadastro();
     }
 
     public void rejeitarRequisicao(Requisicao requisicao) {
