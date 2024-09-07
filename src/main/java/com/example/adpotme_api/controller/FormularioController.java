@@ -1,6 +1,8 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.adotante.Adotante;
 import com.example.adpotme_api.adotante.AdotanteRepository;
+import com.example.adpotme_api.animal.Animal;
 import com.example.adpotme_api.animal.AnimalRepository;
 import com.example.adpotme_api.formulario.Formulario;
 import com.example.adpotme_api.formulario.FormularioCreateDto;
@@ -18,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/formularios")
@@ -38,9 +41,21 @@ public class FormularioController {
     public ResponseEntity<?> preencherFormulario(@RequestBody @Valid FormularioCreateDto dados) {
 
         Formulario formulario = new Formulario(dados);
+        Optional<Adotante> adotanteOptional = adotanteRepository.findById(dados.getAdotanteId());
 
-        formulario.setAdotante(adotanteRepository.findById(dados.getAdotanteId()).orElse(null));
-        formulario.setAnimal(animalRepository.findById(dados.getAnimalId()).orElse(null));
+        if (adotanteOptional.isPresent()) {
+
+            formulario.setAdotante(adotanteOptional.get());
+        } else {
+            return ResponseEntity.status(404).body("Adotante não encontrado");
+        }
+        Optional<Animal> animalOptional = animalRepository.findById(dados.getAnimalId());
+
+        if(animalOptional.isPresent()){
+            formulario.setAnimal(animalOptional.get());
+        } else {
+            return ResponseEntity.status(404).body("Animal não encontrado");
+        }
 
         Requisicao requisicao = new Requisicao();
         requisicao.setStatus(Status.INICIO_DA_APLICACAO);
