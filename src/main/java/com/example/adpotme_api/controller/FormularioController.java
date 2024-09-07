@@ -76,7 +76,7 @@ public class FormularioController {
         }
         return ResponseEntity.status(200).body(formularioRepository.findAll());
     }
-    @GetMapping("formularios-aceitos")
+    @GetMapping("/formulario-aceito")
     public ResponseEntity<List<Formulario>> listarFormulariosAceitos() {
 
         List<Requisicao> requisicoesAceitas = requisicaoRepository.findAllByStatus(Status.APROVADO);
@@ -86,7 +86,7 @@ public class FormularioController {
 
         return ResponseEntity.status(200).body(formularioRepository.findByRequisicaoIn(requisicoesAceitas));
     }
-    @GetMapping("formularios-reprovados")
+    @GetMapping("/formulario-reprovado")
     public ResponseEntity<List<Formulario>> listarFormulariosReprovados(){
         List<Requisicao> requisicoesReprovadas = requisicaoRepository.findAllByStatus(Status.REPROVADO);
 
@@ -96,8 +96,7 @@ public class FormularioController {
 
         return ResponseEntity.status(201).body(formularioRepository.findByRequisicaoIn(requisicoesReprovadas));
     }
-    @GetMapping("formularios-em-andamento")
-
+    @GetMapping("/formulario-inicio")
     public ResponseEntity<List<Formulario>> listarFormulariosInicioAplicacao(){
         List<Requisicao> requisicoesEmAndamento = requisicaoRepository.findAllByStatus(Status.INICIO_DA_APLICACAO);
 
@@ -107,6 +106,7 @@ public class FormularioController {
         return ResponseEntity.status(200).body(formularioRepository.findByRequisicaoIn(requisicoesEmAndamento));
     }
 
+    @GetMapping("/formulario-em-revisao")
     public ResponseEntity<List<Formulario>> listarFormularioRevisao(){
         List<Requisicao> requisicoesRevisao = requisicaoRepository.findAllByStatus(Status.REVISAO);
 
@@ -116,6 +116,7 @@ public class FormularioController {
         return ResponseEntity.status(200).body(formularioRepository.findByRequisicaoIn(requisicoesRevisao));
     }
 
+    @GetMapping("/formulario-em-documentacao")
     public ResponseEntity<List<Formulario>> listarFormulariosDocumentacao(){
         List<Requisicao> requisicoesEmDocumentacao = requisicaoRepository.findAllByStatus(Status.DOCUMENTACAO);
 
@@ -125,6 +126,7 @@ public class FormularioController {
         return ResponseEntity.status(200).body(formularioRepository.findByRequisicaoIn(requisicoesEmDocumentacao));
     }
 
+    @GetMapping("/formulario-adotado")
     public ResponseEntity<List<Formulario>> listarFormulariosAdotado(){
         List<Requisicao> requisicoesAdotado = requisicaoRepository.findAllByStatus(Status.ADOTADO);
 
