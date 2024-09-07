@@ -6,6 +6,12 @@ import com.example.adpotme_api.adotante.AdotanteRepository;
 import com.example.adpotme_api.animal.AnimalRepository;
 import com.example.adpotme_api.animal.Cachorro;
 import com.example.adpotme_api.animal.Gato;
+import com.example.adpotme_api.formulario.Formulario;
+import com.example.adpotme_api.formulario.FormularioRepository;
+import com.example.adpotme_api.requisicao.Requisicao;
+import com.example.adpotme_api.requisicao.RequisicaoRepository;
+import com.example.adpotme_api.requisicao.Status;
+import com.example.adpotme_api.requisicaoUser.RequisicaoUserResponsavel;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -25,6 +31,9 @@ public class AdotanteController {
     private AdotanteRepository adotanteRepository;
     @Autowired
     private AnimalRepository animalRepository;
+    private RequisicaoRepository requisicaoRepository;
+    @Autowired
+    private FormularioRepository formularioRepository;
 
     @PostMapping
     @Transactional
@@ -79,33 +88,6 @@ public class AdotanteController {
         return ResponseEntity.status(404).build();
     }
 
-    @PutMapping("adoção-animal/{id}/{idAnimal}")
-    @Transactional
-    public ResponseEntity<Adotante> adotarAnimal(@PathVariable Long id, @PathVariable Long idAnimal) {
-        Adotante adotante = adotanteRepository.findById(id).orElse(null);
 
-
-            if(!animalRepository.existsById(idAnimal)){
-                return ResponseEntity.status(404).build();
-            }
-
-                if(animalRepository.findById(idAnimal).get() instanceof Cachorro){
-                    Cachorro cachorro = (Cachorro) animalRepository.findById(idAnimal).get();
-                    cachorro.setIsAdotado(true);
-                    adotante.adotarAnimal(cachorro);
-                }
-                else if(animalRepository.findById(idAnimal).get() instanceof Gato){
-                    Gato gato = (Gato) animalRepository.findById(idAnimal).get();
-                    gato.setIsAdotado(true);
-                    adotante.adotarAnimal(gato);
-                }
-
-            return ResponseEntity.status(200).body(adotanteRepository.save(adotante));
-
-
-
-
-
-    }
 
 }

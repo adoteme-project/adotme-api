@@ -2,6 +2,7 @@ package com.example.adpotme_api.ongUser;
 
 import com.example.adpotme_api.ong.Ong;
 import com.example.adpotme_api.requisicao.Requisicao;
+import com.example.adpotme_api.requisicao.Status;
 import com.example.adpotme_api.requisicaoUser.RequisicaoUserResponsavel;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -47,6 +48,16 @@ public class OngUser {
         this.funcao = dto.getFuncao();
         this.cpf = dto.getCpf();
     }
+
+    public void rejeitarRequisicao(Requisicao requisicao) {
+        requisicao.setStatus(Status.REPROVADO);
+    }
+
+    public void aceitarRequisicao(Requisicao requisicao) {
+        requisicao.setStatus(Status.APROVADO);
+    }
+
+
 
 
 }
