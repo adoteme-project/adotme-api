@@ -116,7 +116,44 @@ public class AnimalController {
         }
 
 
-        return ResponseEntity.status(201).body(animalRepository.save(cachorro));
+        return ResponseEntity.status(200).body(animalRepository.save(cachorro));
+    }
+
+    @PutMapping("gato/{id}")
+    @Transactional
+    public ResponseEntity<Gato> atualizarGato(@PathVariable Long id, @RequestBody GatoCreateDto gatoAtualizado) {
+
+        if(!animalRepository.findById(id).isPresent()){
+            return ResponseEntity.status(404).build();
+        }
+        if(ongRepository.findById(gatoAtualizado.getOngId()).isEmpty()){
+            return ResponseEntity.status(404).build();
+        }
+
+        Gato gato = (Gato) animalRepository.findById(id).get();
+
+
+        gato.setNome(gatoAtualizado.getNome());
+        gato.setAnoNascimento(gatoAtualizado.getAnoNascimento());
+        gato.setSexo(gatoAtualizado.getSexo());
+        gato.setEspecie(gatoAtualizado.getEspecie());
+        gato.setIsCastrado(gatoAtualizado.getIsCastrado());
+        gato.setDescricao(gatoAtualizado.getDescricao());
+        gato.setIsVisible(gatoAtualizado.getIsVisible());
+        gato.setIsAdotado(gatoAtualizado.getIsAdotado());
+        gato.setIsVermifugado(gatoAtualizado.getIsVermifugado());
+        gato.setTaxaAdocao(gatoAtualizado.getTaxaAdocao());
+
+
+        // aqui to vendo se o id tá ong é valido e atualizando
+        if (gatoAtualizado.getOngId() != null) {
+            Ong ong = ongRepository.findById(gatoAtualizado.getOngId())
+                    .orElseThrow(() -> new RuntimeException("Ong not found"));
+            gato.setOng(ong);
+        }
+
+
+        return ResponseEntity.status(200).body(animalRepository.save(gato));
     }
 
     @DeleteMapping("/{id}")
