@@ -98,15 +98,24 @@ public class AnimalController {
         cachorro.setNome(cachorroAtualizado.getNome());
         cachorro.setAnoNascimento(cachorroAtualizado.getAnoNascimento());
         cachorro.setSexo(cachorroAtualizado.getSexo());
+        cachorro.setDataAbrigo(cachorroAtualizado.getDataAbrigo());
         cachorro.setEspecie(cachorroAtualizado.getEspecie());
+        cachorro.setRaca(cachorroAtualizado.getRaca());
         cachorro.setIsCastrado(cachorroAtualizado.getIsCastrado());
         cachorro.setDescricao(cachorroAtualizado.getDescricao());
         cachorro.setIsVisible(cachorroAtualizado.getIsVisible());
         cachorro.setIsAdotado(cachorroAtualizado.getIsAdotado());
+        cachorro.setIsDestaque(cachorroAtualizado.getIsDestaque());
         cachorro.setPorte(cachorroAtualizado.getPorte());
         cachorro.setIsVermifugado(cachorroAtualizado.getIsVermifugado());
-        cachorro.setTaxaAdocao(cachorroAtualizado.getTaxaAdocao());
 
+        if(!(cachorroAtualizado.getTaxaAdocao() == null)) {
+            cachorro.setTaxaAdocao(cachorroAtualizado.getTaxaAdocao());
+
+        }
+        else{
+            cachorro.calcularTaxaAdocao();
+            }
 
         // aqui to vendo se o id tá ong é valido e atualizando
         if (cachorroAtualizado.getOngId() != null) {
@@ -135,14 +144,23 @@ public class AnimalController {
 
         gato.setNome(gatoAtualizado.getNome());
         gato.setAnoNascimento(gatoAtualizado.getAnoNascimento());
+        gato.setDataAbrigo(gatoAtualizado.getDataAbrigo());
         gato.setSexo(gatoAtualizado.getSexo());
         gato.setEspecie(gatoAtualizado.getEspecie());
+        gato.setRaca(gatoAtualizado.getRaca());
+        gato.setIsDestaque(gatoAtualizado.getIsDestaque());
         gato.setIsCastrado(gatoAtualizado.getIsCastrado());
         gato.setDescricao(gatoAtualizado.getDescricao());
         gato.setIsVisible(gatoAtualizado.getIsVisible());
         gato.setIsAdotado(gatoAtualizado.getIsAdotado());
         gato.setIsVermifugado(gatoAtualizado.getIsVermifugado());
-        gato.setTaxaAdocao(gatoAtualizado.getTaxaAdocao());
+        if(!(gatoAtualizado.getTaxaAdocao() == null)) {
+            gato.setTaxaAdocao(gatoAtualizado.getTaxaAdocao());
+
+        }
+        else{
+            gato.calcularTaxaAdocao();
+        }
 
 
         // aqui to vendo se o id tá ong é valido e atualizando
