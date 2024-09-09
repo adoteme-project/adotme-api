@@ -1,31 +1,23 @@
 package com.example.adpotme_api.animal;
 
+import com.example.adpotme_api.animal.strategy.TaxaAdocaoCachorro;
 import jakarta.persistence.Entity;
 
 @Entity
-public class Cachorro extends Animal implements TaxaAdocao
+public class Cachorro extends Animal
 {
 
 
     public Cachorro(CachorroCreateDto cachorroDto) {
         super(cachorroDto);
+        setTaxaAdocaoStrategy(new TaxaAdocaoCachorro());
     }
 
     public Cachorro() {
-
+        setTaxaAdocaoStrategy(new TaxaAdocaoCachorro());
     }
 
-    @Override
-    public void calcularTaxaAdocao() {
-        Double taxa = 50.0;
-        if(isCastrado){
-            taxa += 20;
-        }
-        if (isVermifugado) {
-            taxa += 20;
-        }
-        setTaxaAdocao(taxa);
-    }
+
 
 
 }

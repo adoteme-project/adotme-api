@@ -23,7 +23,7 @@ public abstract class AnimalCreateDto {
     protected String sexo;
     protected LocalDate dataAbrigo;
     protected LocalDate cadastro = LocalDate.now();
-    protected String especie;
+    protected Especie especie;
     protected String raca;
     protected Boolean isCastrado;
     protected String descricao;
