@@ -1,6 +1,7 @@
 package com.example.adpotme_api.animal;
 
 import com.example.adpotme_api.adotante.Adotante;
+import com.example.adpotme_api.animal.strategy.TaxaAdocaoStrategy;
 import com.example.adpotme_api.formulario.Formulario;
 import com.example.adpotme_api.ong.Ong;
 import com.example.adpotme_api.requisicao.Requisicao;
@@ -31,7 +32,7 @@ public abstract class Animal {
     protected String nome;
     protected Integer anoNascimento;
     protected String sexo;
-    protected String especie;
+    protected Especie especie;
     protected String raca;
     protected LocalDate dataAbrigo;
     protected LocalDate cadastro;
@@ -43,11 +44,14 @@ public abstract class Animal {
     protected Boolean isVermifugado;
     protected Double taxaAdocao;
     protected Boolean isDestaque;
+    @Setter
+    @Transient
+    @JsonIgnore
+    protected TaxaAdocaoStrategy taxaAdocaoStrategy;
     @ManyToOne
     @JoinColumn(name = "adotante_id") // Nome da coluna que mapeia o relacionamento
     @JsonBackReference
     private Adotante adotante;
-    @Setter
     @ManyToOne
     @JoinColumn(name = "ong_id")
     @JsonBackReference
@@ -77,6 +81,12 @@ public abstract class Animal {
         this.raca = animal.getRaca();
         this.dataAbrigo = animal.getDataAbrigo();
 
+    }
+
+    public void calcularTaxaAdocao() {
+        if (taxaAdocaoStrategy != null) {
+            taxaAdocaoStrategy.calcularTaxaAdocao(this);
+        }
     }
 
 }
