@@ -4,6 +4,7 @@ import com.example.adpotme_api.animal.*;
 import com.example.adpotme_api.animalPerdido.*;
 import com.example.adpotme_api.ong.Ong;
 import com.example.adpotme_api.ong.OngRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/animais-perdidos")
+@Tag(name = "AnimalPerdido")
 public class AnimalPerdidoController {
 
     @Autowired
@@ -103,8 +105,45 @@ public class AnimalPerdidoController {
         }
 
 
-        return ResponseEntity.status(201).body(animalPerdidoRepository.save(cachorro));
+        return ResponseEntity.status(200).body(animalPerdidoRepository.save(cachorro));
     }
+
+    @PutMapping("gato/{id}")
+    @Transactional
+    public ResponseEntity<GatoPerdido> atualizarGato(@PathVariable Long id, @RequestBody GatoPerdidoCreateDto gatoAtualizado) {
+
+        if(!animalPerdidoRepository.findById(id).isPresent()){
+            return ResponseEntity.status(404).build();
+        }
+        if(ongRepository.findById(gatoAtualizado.getOngId()).isEmpty()){
+            return ResponseEntity.status(404).build();
+        }
+
+        GatoPerdido gato = (GatoPerdido) animalPerdidoRepository.findById(id).get();
+
+
+        gato.setApelido(gatoAtualizado.getApelido());
+        gato.setSexo(gatoAtualizado.getSexo());
+        gato.setEspecie(gatoAtualizado.getEspecie());
+        gato.setIsEncontrado(gatoAtualizado.getIsEncontrado());
+        gato.setDescricao(gatoAtualizado.getDescricao());
+        gato.setIsVisible(gatoAtualizado.getIsVisible());
+        gato.setPorte(gatoAtualizado.getPorte());
+
+
+
+        // aqui to vendo se o id tá ong é valido e atualizando
+        if (gatoAtualizado.getOngId() != null) {
+            Ong ong = ongRepository.findById(gatoAtualizado.getOngId())
+                    .orElseThrow(() -> new RuntimeException("Ong not found"));
+            gato.setOng(ong);
+        }
+
+
+        return ResponseEntity.status(200).body(animalPerdidoRepository.save(gato));
+    }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarAnimal(@PathVariable Long id) {
