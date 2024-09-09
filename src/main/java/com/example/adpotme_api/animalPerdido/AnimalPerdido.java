@@ -25,7 +25,6 @@ public abstract class AnimalPerdido {
     protected String sexo;
     protected String especie;
     protected String raca;
-    protected LocalDate dataAbrigo;
     protected LocalDate cadastro;
     protected String descricao;
     protected Boolean isVisible;
@@ -50,7 +49,6 @@ public abstract class AnimalPerdido {
         this.porte = animal.getPorte();
         this.cadastro = animal.getCadastro();
         this.raca = animal.getRaca();
-        this.dataAbrigo = animal.getDataAbrigo();
 
     }
 
