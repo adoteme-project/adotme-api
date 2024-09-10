@@ -3,6 +3,7 @@ package com.example.adpotme_api.controller;
 import com.example.adpotme_api.adotante.Adotante;
 import com.example.adpotme_api.endereco.Endereco;
 import com.example.adpotme_api.endereco.EnderecoRepository;
+import com.example.adpotme_api.endereco.ViaCepService;
 import com.example.adpotme_api.ong.Ong;
 import com.example.adpotme_api.ong.OngCreateDto;
 import com.example.adpotme_api.ong.OngRepository;
@@ -27,11 +28,12 @@ public class OngController {
     private OngRepository ongRepository;
     @Autowired
     private EnderecoRepository enderecoRepository;
-
+    @Autowired
+    ViaCepService viaCepService;
     @PostMapping
     @Transactional
     public ResponseEntity<Ong> cadastrarOng(@RequestBody @Valid OngCreateDto dados){
-        Endereco endereco = new Endereco(dados.getEndereco());
+        Endereco endereco = viaCepService.obterEnderecoPorCep(dados.getCep());
         enderecoRepository.save(endereco);
         Ong ong = new Ong(dados);
         ong.setEndereco(endereco);

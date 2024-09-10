@@ -23,7 +23,7 @@ public class OngCreateDto {
 
     @NotBlank(message = "O CNPJ não pode estar em branco")
     private String cnpj;
-    private EnderecoDto endereco;
+    private String cep;
 
 
 
