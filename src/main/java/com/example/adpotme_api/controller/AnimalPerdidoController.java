@@ -1,9 +1,14 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.adotante.Adotante;
+import com.example.adpotme_api.adotante.AdotanteRepository;
 import com.example.adpotme_api.animal.*;
 import com.example.adpotme_api.animalPerdido.*;
+import com.example.adpotme_api.endereco.Endereco;
+import com.example.adpotme_api.endereco.EnderecoRepository;
 import com.example.adpotme_api.ong.Ong;
 import com.example.adpotme_api.ong.OngRepository;
+import com.example.adpotme_api.util.Sorting;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -25,6 +30,8 @@ public class AnimalPerdidoController {
     @Autowired
     private OngRepository ongRepository;
 
+    @Autowired
+    private EnderecoRepository enderecoRepository;
     @PostMapping("/cachorro")
     @Transactional
     public ResponseEntity<AnimalPerdido> cadastrarCachorroPerdido(@RequestBody @Valid CachorroPerdidoCreateDto cachorroDto) {
@@ -32,12 +39,17 @@ public class AnimalPerdidoController {
                 .orElseThrow(() -> new RuntimeException("ONG não encontrada"));
         AnimalPerdido animal;
 
+        Endereco endereco = new Endereco(cachorroDto.getEnderecoPerdido());
+        enderecoRepository.save(endereco);
+        CachorroPerdido cachorroPerdido = new CachorroPerdido(cachorroDto);
+        cachorroPerdido.setEnderecoPerdido(endereco);
+        cachorroPerdido.setOng(ong);
 
-        CachorroPerdido cachorro = new CachorroPerdido(cachorroDto);
-        cachorro.setOng(ong);
-        animal = cachorro;
+
+
+        animal = cachorroPerdido;
         animalPerdidoRepository.save(animal);
-        return ResponseEntity.status(201).body(cachorro);
+        return ResponseEntity.status(201).body(cachorroPerdido);
     }
     @PostMapping("/gato")
     @Transactional
@@ -45,12 +57,18 @@ public class AnimalPerdidoController {
         Ong ong = ongRepository.findById(gatoDto.getOngId())
                 .orElseThrow(() -> new RuntimeException("ONG não encontrada"));
         AnimalPerdido animal;
-        GatoPerdido gato = new GatoPerdido(gatoDto);
-        gato.setOng(ong);
 
-        animal = gato;
+        Endereco endereco = new Endereco(gatoDto.getEnderecoPerdido());
+        enderecoRepository.save(endereco);
+        GatoPerdido gatoPerdido = new GatoPerdido(gatoDto);
+        gatoPerdido.setEnderecoPerdido(endereco);
+        gatoPerdido.setOng(ong);
+
+
+
+        animal = gatoPerdido;
         animalPerdidoRepository.save(animal);
-        return ResponseEntity.status(201).body(gato);
+        return ResponseEntity.status(201).body(gatoPerdido);
     }
     @GetMapping
     public ResponseEntity<List<AnimalPerdido>> recuperarAnimais(){
@@ -71,6 +89,15 @@ public class AnimalPerdidoController {
         }
 
         return ResponseEntity.status(404).build();
+    }
+
+    @GetMapping("/ordenados-por-estado")
+    public ResponseEntity<List<AnimalPerdido>> recuperarAdotanteOrdenadoPorEstado() {
+        List<AnimalPerdido> animais = animalPerdidoRepository.findAll();
+
+        Sorting.selectionSortAnimalPerdidoByEstado(animais);
+
+        return ResponseEntity.ok(animais);
     }
 
     @PutMapping("cachorro/{id}")

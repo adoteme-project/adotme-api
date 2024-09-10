@@ -6,12 +6,16 @@ import com.example.adpotme_api.adotante.AdotanteRepository;
 import com.example.adpotme_api.animal.AnimalRepository;
 import com.example.adpotme_api.animal.Cachorro;
 import com.example.adpotme_api.animal.Gato;
+import com.example.adpotme_api.endereco.Endereco;
+import com.example.adpotme_api.endereco.EnderecoRepository;
 import com.example.adpotme_api.formulario.Formulario;
 import com.example.adpotme_api.formulario.FormularioRepository;
+import com.example.adpotme_api.ong.Ong;
 import com.example.adpotme_api.requisicao.Requisicao;
 import com.example.adpotme_api.requisicao.RequisicaoRepository;
 import com.example.adpotme_api.requisicao.Status;
 import com.example.adpotme_api.requisicaoUser.RequisicaoUserResponsavel;
+import com.example.adpotme_api.util.Sorting;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -34,11 +38,18 @@ public class AdotanteController {
     private RequisicaoRepository requisicaoRepository;
     @Autowired
     private FormularioRepository formularioRepository;
+    @Autowired
+    private EnderecoRepository enderecoRepository;
 
     @PostMapping
     @Transactional
     public ResponseEntity<Adotante> cadastrarOng(@RequestBody @Valid AdotanteCreateDto dados){
-        return ResponseEntity.status(201).body(adotanteRepository.save(new Adotante(dados)));
+
+        Endereco endereco = new Endereco(dados.getEndereco());
+        enderecoRepository.save(endereco);
+        Adotante adotante = new Adotante(dados);
+        adotante.setEndereco(endereco);
+        return ResponseEntity.status(201).body(adotanteRepository.save(adotante));
 
     }
     @GetMapping
@@ -60,6 +71,15 @@ public class AdotanteController {
         }
 
         return ResponseEntity.status(404).build();
+    }
+
+    @GetMapping("/ordenados-por-estado")
+    public ResponseEntity<List<Adotante>> recuperarAdotanteOrdenadoPorEstado() {
+        List<Adotante> adotantes = adotanteRepository.findAll();
+
+        Sorting.selectionSortAdotanteByEstado(adotantes);
+
+        return ResponseEntity.ok(adotantes);
     }
 
     @PutMapping("/{id}")

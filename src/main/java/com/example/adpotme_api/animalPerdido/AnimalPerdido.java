@@ -1,5 +1,6 @@
 package com.example.adpotme_api.animalPerdido;
 
+import com.example.adpotme_api.endereco.Endereco;
 import com.example.adpotme_api.ong.Ong;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -23,6 +24,8 @@ public abstract class AnimalPerdido {
     protected Long id;
     protected String apelido;
     protected String sexo;
+    @OneToOne
+    protected Endereco enderecoPerdido;
     protected String especie;
     protected String raca;
     protected LocalDate cadastro;

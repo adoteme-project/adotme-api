@@ -1,6 +1,7 @@
 package com.example.adpotme_api.adotante;
 
 import com.example.adpotme_api.animal.Animal;
+import com.example.adpotme_api.endereco.Endereco;
 import com.example.adpotme_api.formulario.Formulario;
 import com.example.adpotme_api.requisicao.Requisicao;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -27,6 +28,8 @@ public class Adotante {
     private String nome;
     private String sobrenome;
     private LocalDate dtNasc;
+    @OneToOne
+    private Endereco endereco;
     private String cpf;
     private LocalDate cadastro;
     private String email;

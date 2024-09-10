@@ -1,6 +1,7 @@
 package com.example.adpotme_api.ong;
 
 import com.example.adpotme_api.animal.Animal;
+import com.example.adpotme_api.endereco.Endereco;
 import com.example.adpotme_api.ongUser.OngUser;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -22,6 +23,8 @@ public class Ong {
     private String nome;
     private String email;
     private String telefone;
+    @OneToOne
+    private Endereco endereco;
     private String cnpj;
     @OneToMany(mappedBy = "ong", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
