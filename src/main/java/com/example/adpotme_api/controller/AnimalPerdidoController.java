@@ -6,6 +6,7 @@ import com.example.adpotme_api.animal.*;
 import com.example.adpotme_api.animalPerdido.*;
 import com.example.adpotme_api.endereco.Endereco;
 import com.example.adpotme_api.endereco.EnderecoRepository;
+import com.example.adpotme_api.endereco.ViaCepService;
 import com.example.adpotme_api.ong.Ong;
 import com.example.adpotme_api.ong.OngRepository;
 import com.example.adpotme_api.util.Sorting;
@@ -32,6 +33,10 @@ public class AnimalPerdidoController {
 
     @Autowired
     private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    ViaCepService viaCepService;
+
     @PostMapping("/cachorro")
     @Transactional
     public ResponseEntity<AnimalPerdido> cadastrarCachorroPerdido(@RequestBody @Valid CachorroPerdidoCreateDto cachorroDto) {
@@ -39,7 +44,7 @@ public class AnimalPerdidoController {
                 .orElseThrow(() -> new RuntimeException("ONG não encontrada"));
         AnimalPerdido animal;
 
-        Endereco endereco = new Endereco(cachorroDto.getEnderecoPerdido());
+        Endereco endereco = viaCepService.obterEnderecoPorCep(cachorroDto.getCep());
         enderecoRepository.save(endereco);
         CachorroPerdido cachorroPerdido = new CachorroPerdido(cachorroDto);
         cachorroPerdido.setEnderecoPerdido(endereco);
@@ -58,7 +63,7 @@ public class AnimalPerdidoController {
                 .orElseThrow(() -> new RuntimeException("ONG não encontrada"));
         AnimalPerdido animal;
 
-        Endereco endereco = new Endereco(gatoDto.getEnderecoPerdido());
+        Endereco endereco = viaCepService.obterEnderecoPorCep(gatoDto.getCep());
         enderecoRepository.save(endereco);
         GatoPerdido gatoPerdido = new GatoPerdido(gatoDto);
         gatoPerdido.setEnderecoPerdido(endereco);

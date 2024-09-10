@@ -21,11 +21,11 @@ public class AdotanteCreateDto {
     private String sobrenome;
     private LocalDate dtNasc;
     private String cpf;
-    private EnderecoDto endereco;
+    private String cep;
     private LocalDate cadastro = LocalDate.now();
     @Email
     private String email;
     private String senha;
     private String telefone;
-    private Long enderecoId; // ID do endereço associada
+
 }

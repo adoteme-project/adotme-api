@@ -8,6 +8,7 @@ import com.example.adpotme_api.animal.Cachorro;
 import com.example.adpotme_api.animal.Gato;
 import com.example.adpotme_api.endereco.Endereco;
 import com.example.adpotme_api.endereco.EnderecoRepository;
+import com.example.adpotme_api.endereco.ViaCepService;
 import com.example.adpotme_api.formulario.Formulario;
 import com.example.adpotme_api.formulario.FormularioRepository;
 import com.example.adpotme_api.ong.Ong;
@@ -40,15 +41,17 @@ public class AdotanteController {
     private FormularioRepository formularioRepository;
     @Autowired
     private EnderecoRepository enderecoRepository;
+    @Autowired
+    private ViaCepService viaCepService;
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Adotante> cadastrarOng(@RequestBody @Valid AdotanteCreateDto dados){
+    public ResponseEntity<Adotante> cadastrarAdotante(@RequestBody @Valid AdotanteCreateDto dados){
+        Endereco endereco = viaCepService.obterEnderecoPorCep(dados.getCep());
 
-        Endereco endereco = new Endereco(dados.getEndereco());
-        enderecoRepository.save(endereco);
         Adotante adotante = new Adotante(dados);
         adotante.setEndereco(endereco);
+        enderecoRepository.save(endereco);
         return ResponseEntity.status(201).body(adotanteRepository.save(adotante));
 
     }
@@ -88,6 +91,8 @@ public class AdotanteController {
                          @RequestBody Adotante adotante) {
         if (adotanteRepository.existsById(id)) {
             adotante.setId(id);
+
+
 
             return ResponseEntity.status(200).body(adotanteRepository.save(adotante));
 
