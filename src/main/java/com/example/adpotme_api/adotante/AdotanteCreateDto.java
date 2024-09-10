@@ -1,5 +1,7 @@
 package com.example.adpotme_api.adotante;
 
+import com.example.adpotme_api.endereco.Endereco;
+import com.example.adpotme_api.endereco.EnderecoDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
@@ -19,9 +21,11 @@ public class AdotanteCreateDto {
     private String sobrenome;
     private LocalDate dtNasc;
     private String cpf;
+    private EnderecoDto endereco;
     private LocalDate cadastro = LocalDate.now();
     @Email
     private String email;
     private String senha;
     private String telefone;
+    private Long enderecoId; // ID do endereço associada
 }

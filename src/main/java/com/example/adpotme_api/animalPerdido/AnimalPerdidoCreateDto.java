@@ -1,5 +1,7 @@
 package com.example.adpotme_api.animalPerdido;
 
+import com.example.adpotme_api.endereco.Endereco;
+import com.example.adpotme_api.endereco.EnderecoDto;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +18,7 @@ import java.time.LocalDate;
 public abstract class AnimalPerdidoCreateDto {
     protected String apelido;
     protected String sexo;
+    protected EnderecoDto enderecoPerdido;
     protected LocalDate cadastro = LocalDate.now();
     protected String especie;
     protected String raca;

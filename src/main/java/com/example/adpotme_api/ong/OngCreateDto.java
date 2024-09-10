@@ -1,5 +1,7 @@
 package com.example.adpotme_api.ong;
 
+import com.example.adpotme_api.endereco.Endereco;
+import com.example.adpotme_api.endereco.EnderecoDto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -21,6 +23,7 @@ public class OngCreateDto {
 
     @NotBlank(message = "O CNPJ não pode estar em branco")
     private String cnpj;
+    private EnderecoDto endereco;
 
 
 

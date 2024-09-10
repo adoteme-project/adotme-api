@@ -1,8 +1,12 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.adotante.Adotante;
+import com.example.adpotme_api.endereco.Endereco;
+import com.example.adpotme_api.endereco.EnderecoRepository;
 import com.example.adpotme_api.ong.Ong;
 import com.example.adpotme_api.ong.OngCreateDto;
 import com.example.adpotme_api.ong.OngRepository;
+import com.example.adpotme_api.util.Sorting;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -21,11 +25,17 @@ public class OngController {
 
     @Autowired
     private OngRepository ongRepository;
+    @Autowired
+    private EnderecoRepository enderecoRepository;
 
     @PostMapping
     @Transactional
     public ResponseEntity<Ong> cadastrarOng(@RequestBody @Valid OngCreateDto dados){
-        return ResponseEntity.status(201).body(ongRepository.save(new Ong(dados)));
+        Endereco endereco = new Endereco(dados.getEndereco());
+        enderecoRepository.save(endereco);
+        Ong ong = new Ong(dados);
+        ong.setEndereco(endereco);
+        return ResponseEntity.status(201).body(ongRepository.save(ong));
     }
 
     @GetMapping
@@ -45,6 +55,15 @@ public class OngController {
         }
 
         return ResponseEntity.status(404).build();
+    }
+
+    @GetMapping("/ordenados-por-estado")
+    public ResponseEntity<List<Ong>> recuperarOngsOrdenadoPorEstado() {
+        List<Ong> ongs = ongRepository.findAll();
+
+        Sorting.selectionSortOngByEstado(ongs);
+
+        return ResponseEntity.ok(ongs);
     }
 
     @PutMapping("/{id}")
