@@ -1,8 +1,8 @@
 package com.example.adpotme_api.util;
 
-import com.example.adpotme_api.adotante.Adotante;
-import com.example.adpotme_api.animalPerdido.AnimalPerdido;
-import com.example.adpotme_api.ong.Ong;
+import com.example.adpotme_api.entity.adotante.Adotante;
+import com.example.adpotme_api.entity.animalPerdido.AnimalPerdido;
+import com.example.adpotme_api.entity.ong.Ong;
 
 import java.util.List;
 
@@ -10,24 +10,19 @@ public class Sorting {
     public static void selectionSortAdotanteByEstado(List<Adotante> adotantes) {
         int n = adotantes.size();
         for (int i = 0; i < n - 1; i++) {
-            int minIndex = i;
-            boolean troca = false;
-
             for (int j = i + 1; j < n; j++) {
-                String estadoAtual = adotantes.get(j).getEndereco().getEstado();
-                String estadoMinimo = adotantes.get(minIndex).getEndereco().getEstado();
+                Adotante adotanteI = adotantes.get(i);
+                Adotante adotanteJ = adotantes.get(j);
 
-                if (estadoAtual.compareTo(estadoMinimo) < 0) {
-                    minIndex = j;
-                    troca = true;
+                String estadoI = (adotanteI.getEndereco() != null) ? adotanteI.getEndereco().getEstado() : "";
+                String estadoJ = (adotanteJ.getEndereco() != null) ? adotanteJ.getEndereco().getEstado() : "";
+
+                if (estadoI.compareTo(estadoJ) > 0) {
+
+                    Adotante temp = adotantes.get(i);
+                    adotantes.set(i, adotantes.get(j));
+                    adotantes.set(j, temp);
                 }
-            }
-
-
-            if (troca) {
-                Adotante temp = adotantes.get(minIndex);
-                adotantes.set(minIndex, adotantes.get(i));
-                adotantes.set(i, temp);
             }
         }
     }
@@ -39,15 +34,17 @@ public class Sorting {
             boolean troca = false;
 
             for (int j = i + 1; j < n; j++) {
-                String estadoAtual = ongs.get(j).getEndereco().getEstado();
-                String estadoMinimo = ongs.get(minIndex).getEndereco().getEstado();
+                Ong ongAtual = ongs.get(j);
+                Ong ongMinimo = ongs.get(minIndex);
+
+                String estadoAtual = (ongAtual.getEndereco() != null) ? ongAtual.getEndereco().getEstado() : "";
+                String estadoMinimo = (ongMinimo.getEndereco() != null) ? ongMinimo.getEndereco().getEstado() : "";
 
                 if (estadoAtual.compareTo(estadoMinimo) < 0) {
                     minIndex = j;
                     troca = true;
                 }
             }
-
 
             if (troca) {
                 Ong temp = ongs.get(minIndex);
@@ -64,15 +61,17 @@ public class Sorting {
             boolean troca = false;
 
             for (int j = i + 1; j < n; j++) {
-                String estadoAtual = animais.get(j).getEnderecoPerdido().getEstado();
-                String estadoMinimo = animais.get(minIndex).getEnderecoPerdido().getEstado();
+                AnimalPerdido animalAtual = animais.get(j);
+                AnimalPerdido animalMinimo = animais.get(minIndex);
+
+                String estadoAtual = (animalAtual.getEnderecoPerdido() != null) ? animalAtual.getEnderecoPerdido().getEstado() : "";
+                String estadoMinimo = (animalMinimo.getEnderecoPerdido() != null) ? animalMinimo.getEnderecoPerdido().getEstado() : "";
 
                 if (estadoAtual.compareTo(estadoMinimo) < 0) {
                     minIndex = j;
                     troca = true;
                 }
             }
-
 
             if (troca) {
                 AnimalPerdido temp = animais.get(minIndex);
@@ -81,4 +80,5 @@ public class Sorting {
             }
         }
     }
+
 }
