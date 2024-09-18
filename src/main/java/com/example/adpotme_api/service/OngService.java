@@ -1,5 +1,6 @@
 package com.example.adpotme_api.service;
 
+import com.example.adpotme_api.dto.ong.OngUpdateDto;
 import com.example.adpotme_api.entity.endereco.Endereco;
 import com.example.adpotme_api.entity.endereco.ViaCepService;
 import com.example.adpotme_api.entity.ong.Ong;
@@ -59,12 +60,16 @@ public class OngService {
     }
 
     @Transactional
-    public Ong atualizar(Long id, OngCreateDto ongAtualizada) {
+    public Ong atualizar(Long id, OngUpdateDto ongAtualizada) {
         Optional<Ong> optOng = ongRepository.findById(id);
         if (optOng.isPresent()) {
-            Ong ongAtt = new Ong(ongAtualizada);
-            ongAtt.setId(id);
-            ongAtt.setOngUser(optOng.get().getOngUser());
+            Ong ongAtt = optOng.get();
+
+            ongAtt.setNome(ongAtualizada.getNome());
+            ongAtt.setCnpj(ongAtualizada.getCnpj());
+            ongAtt.setEmail(ongAtualizada.getEmail());
+            ongAtt.setTelefone(ongAtualizada.getTelefone());
+
             return ongRepository.save(ongAtt);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada para atualização");

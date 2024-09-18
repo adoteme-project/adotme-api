@@ -1,5 +1,6 @@
 package com.example.adpotme_api.service;
 
+import com.example.adpotme_api.dto.ongUser.OngUserUpdateDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.animal.Cachorro;
@@ -70,7 +71,7 @@ public class OngUserService {
         }
     }
 
-    public OngUser updateOngUser(Long id, OngUserCreateDto ongUserAtualizada) {
+    public OngUser updateOngUser(Long id, OngUserUpdateDto ongUserAtualizada) {
         Optional<OngUser> ongUserOpt = ongUserRepository.findById(id);
         if (!ongUserOpt.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG User não encontrado");
@@ -80,14 +81,6 @@ public class OngUserService {
         ongUser.setNome(ongUserAtualizada.getNome());
         ongUser.setCpf(ongUserAtualizada.getCpf());
         ongUser.setFuncao(ongUserAtualizada.getFuncao());
-
-        if (ongUserAtualizada.getOngId() != null) {
-            Optional<Ong> ongOpt = ongRepository.findById(ongUserAtualizada.getOngId());
-            if (!ongOpt.isPresent()) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ONG não encontrada");
-            }
-            ongUser.setOng(ongOpt.get());
-        }
 
         return ongUserRepository.save(ongUser);
     }

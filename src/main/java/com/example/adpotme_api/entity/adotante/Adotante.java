@@ -1,6 +1,7 @@
 package com.example.adpotme_api.entity.adotante;
 
 import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
+import com.example.adpotme_api.dto.adotante.AdotanteUpdateDto;
 import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.endereco.Endereco;
 import com.example.adpotme_api.entity.formulario.Formulario;
@@ -52,6 +53,7 @@ public class Adotante {
     public Adotante() {
 
     }
+
 
     public void adotarAnimal(Animal animal) {
         animal.setAdotante(this);

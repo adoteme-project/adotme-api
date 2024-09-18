@@ -1,5 +1,6 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.dto.adotante.AdotanteUpdateDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
 import com.example.adpotme_api.service.AdotanteService;
@@ -47,7 +48,7 @@ public class AdotanteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Adotante> atualizarAdotante(@PathVariable Long id, @RequestBody AdotanteCreateDto adotante) {
+    public ResponseEntity<Adotante> atualizarAdotante(@PathVariable Long id, @RequestBody AdotanteUpdateDto adotante) {
         Adotante atualizado = adotanteService.atualizarAdotante(id, adotante);
         return ResponseEntity.ok(atualizado);
     }

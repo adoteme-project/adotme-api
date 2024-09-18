@@ -1,6 +1,7 @@
 package com.example.adpotme_api.entity.ong;
 
 import com.example.adpotme_api.dto.ong.OngCreateDto;
+import com.example.adpotme_api.dto.ong.OngUpdateDto;
 import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.endereco.Endereco;
 import com.example.adpotme_api.entity.ongUser.OngUser;
@@ -40,4 +41,6 @@ public class Ong {
         this.cnpj = dto.getCnpj();
     }
 
+    public Ong(OngUpdateDto ongAtualizada) {
+    }
 }

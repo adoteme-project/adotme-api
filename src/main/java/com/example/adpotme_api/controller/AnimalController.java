@@ -1,5 +1,6 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.dto.animal.AnimalUpdateDto;
 import com.example.adpotme_api.dto.animal.CachorroCreateDto;
 import com.example.adpotme_api.dto.animal.GatoCreateDto;
 import com.example.adpotme_api.entity.animal.*;
@@ -48,13 +49,13 @@ public class AnimalController {
     }
 
     @PutMapping("/cachorro/{id}")
-    public ResponseEntity<Cachorro> atualizarCachorro(@PathVariable Long id, @RequestBody CachorroCreateDto cachorroAtualizado) {
+    public ResponseEntity<Cachorro> atualizarCachorro(@PathVariable Long id, @RequestBody AnimalUpdateDto cachorroAtualizado) {
         Cachorro atualizado = (Cachorro) animalService.atualizarCachorro(id, cachorroAtualizado);
         return ResponseEntity.ok(atualizado);
     }
 
     @PutMapping("/gato/{id}")
-    public ResponseEntity<Gato> atualizarGato(@PathVariable Long id, @RequestBody GatoCreateDto gatoAtualizado) {
+    public ResponseEntity<Gato> atualizarGato(@PathVariable Long id, @RequestBody AnimalUpdateDto gatoAtualizado) {
         Gato atualizado = (Gato) animalService.atualizarGato(id, gatoAtualizado);
         return ResponseEntity.ok(atualizado);
     }

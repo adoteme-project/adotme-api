@@ -50,7 +50,7 @@ public class EnderecoService {
     }
 
     @Transactional
-    public Ong cadastrarEnderecoParaOng(String cep, Long idOng) {
+    public Endereco atualizarEnderecoParaOng(String cep, Long idOng) {
         Endereco endereco = buscarEnderecoViaCep(cep);
 
         Optional<Ong> ongOpt = ongRepository.findById(idOng);
@@ -58,39 +58,37 @@ public class EnderecoService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
         }
 
-        Endereco novoEndereco = new Endereco();
+        Ong ong = ongOpt.get();
+        Endereco novoEndereco = ong.getEndereco();
         novoEndereco.setBairro(endereco.getBairro());
         novoEndereco.setCep(endereco.getCep());
         novoEndereco.setCidade(endereco.getCidade());
         novoEndereco.setEstado(endereco.getEstado());
         novoEndereco.setRua(endereco.getRua());
-
         enderecoRepository.save(novoEndereco);
-        Ong ong = ongOpt.get();
-        ong.setEndereco(novoEndereco);
-        ongRepository.save(ong);
 
-        return ong;
+        ong.setEndereco(novoEndereco);
+
+        return novoEndereco;
     }
 
     @Transactional
-    public Endereco cadastrarEnderecoParaAdotante(String cep, Long idAdotante) {
+    public Endereco atualizarEnderecoParaAdotante(String cep, Long idAdotante) {
         Endereco endereco = buscarEnderecoViaCep(cep);
 
         Optional<Adotante> adotanteOpt = adotanteRepository.findById(idAdotante);
         if (adotanteOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
         }
-
-        Endereco novoEndereco = new Endereco();
+        Adotante adotante = adotanteOpt.get();
+        Endereco novoEndereco = adotante.getEndereco();
         novoEndereco.setBairro(endereco.getBairro());
         novoEndereco.setCep(endereco.getCep());
         novoEndereco.setCidade(endereco.getCidade());
         novoEndereco.setEstado(endereco.getEstado());
         novoEndereco.setRua(endereco.getRua());
-
         enderecoRepository.save(novoEndereco);
-        Adotante adotante = adotanteOpt.get();
+
         adotante.setEndereco(novoEndereco);
         adotanteRepository.save(adotante);
 
