@@ -1,5 +1,6 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.dto.ongUser.OngUserUpdateDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.ongUser.OngUser;
 import com.example.adpotme_api.dto.ongUser.OngUserCreateDto;
@@ -45,7 +46,7 @@ public class OngUserController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<OngUser> atualizar(@PathVariable Long id, @RequestBody OngUserCreateDto ongUserAtualizada) {
+    public ResponseEntity<OngUser> atualizar(@PathVariable Long id, @RequestBody OngUserUpdateDto ongUserAtualizada) {
         OngUser updatedOngUser = ongUserService.updateOngUser(id, ongUserAtualizada);
         return ResponseEntity.ok(updatedOngUser);
     }

@@ -1,5 +1,6 @@
 package com.example.adpotme_api.service;
 
+import com.example.adpotme_api.dto.adotante.AdotanteUpdateDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
 import com.example.adpotme_api.entity.endereco.Endereco;
@@ -58,14 +59,23 @@ public class AdotanteService {
     }
 
     @Transactional
-    public Adotante atualizarAdotante(Long id, AdotanteCreateDto adotante) {
-        if (!adotanteRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
-        }
-        Adotante adotanteAtualizado = new Adotante(adotante);
-        adotanteAtualizado.setId(id);
+    public Adotante atualizarAdotante(Long id, AdotanteUpdateDto adotante) {
+        Optional<Adotante> adotanteOpt = adotanteRepository.findById(id);
+        if(adotanteOpt.isPresent()){
+            Adotante adotanteAtualizado = adotanteOpt.get();
+            adotanteAtualizado.setNome(adotante.getNome());
+            adotanteAtualizado.setEmail(adotante.getEmail());
+            adotanteAtualizado.setCpf(adotante.getCpf());
+            adotanteAtualizado.setSobrenome(adotante.getSobrenome());
+            adotanteAtualizado.setSenha(adotante.getSenha());
+            adotanteAtualizado.setDtNasc(adotante.getDtNasc());
+            adotanteAtualizado.setTelefone(adotante.getTelefone());
 
-        return adotanteRepository.save(adotanteAtualizado);
+            return adotanteRepository.save(adotanteAtualizado);
+        }
+
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
+
     }
 
     @Transactional

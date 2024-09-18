@@ -1,5 +1,6 @@
 package com.example.adpotme_api.service;
 
+import com.example.adpotme_api.dto.animalPerdido.AnimalPerdidoUpdateDto;
 import com.example.adpotme_api.dto.animalPerdido.CachorroPerdidoCreateDto;
 import com.example.adpotme_api.dto.animalPerdido.GatoPerdidoCreateDto;
 import com.example.adpotme_api.entity.animalPerdido.*;
@@ -89,18 +90,14 @@ public class AnimalPerdidoService {
     }
 
     @Transactional
-    public CachorroPerdido atualizarCachorroPerdido(Long id, CachorroPerdidoCreateDto cachorroDto) {
+    public CachorroPerdido atualizarCachorroPerdido(Long id, AnimalPerdidoUpdateDto cachorroDto) {
         Optional<AnimalPerdido> animalOpt = animalPerdidoRepository.findById(id);
         if (animalOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Animal não encontrado");
         }
         AnimalPerdido animal = animalOpt.get();
 
-        Optional<Ong> ongOpt = ongRepository.findById(cachorroDto.getOngId());
-        if (ongOpt.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ONG não encontrada");
-        }
-        Ong ong = ongOpt.get();
+
 
         CachorroPerdido cachorro = (CachorroPerdido) animal;
         cachorro.setApelido(cachorroDto.getApelido());
@@ -110,24 +107,20 @@ public class AnimalPerdidoService {
         cachorro.setDescricao(cachorroDto.getDescricao());
         cachorro.setIsVisible(cachorroDto.getIsVisible());
         cachorro.setPorte(cachorroDto.getPorte());
-        cachorro.setOng(ong);
+        cachorro.setRaca(cachorroDto.getRaca());
+
 
         return animalPerdidoRepository.save(cachorro);
     }
 
     @Transactional
-    public GatoPerdido atualizarGatoPerdido(Long id, GatoPerdidoCreateDto gatoDto) {
+    public GatoPerdido atualizarGatoPerdido(Long id, AnimalPerdidoUpdateDto gatoDto) {
         Optional<AnimalPerdido> animalOpt = animalPerdidoRepository.findById(id);
         if (animalOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Animal não encontrado");
         }
         AnimalPerdido animal = animalOpt.get();
 
-        Optional<Ong> ongOpt = ongRepository.findById(gatoDto.getOngId());
-        if (ongOpt.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ONG não encontrada");
-        }
-        Ong ong = ongOpt.get();
 
         GatoPerdido gato = (GatoPerdido) animal;
         gato.setApelido(gatoDto.getApelido());
@@ -137,7 +130,8 @@ public class AnimalPerdidoService {
         gato.setDescricao(gatoDto.getDescricao());
         gato.setIsVisible(gatoDto.getIsVisible());
         gato.setPorte(gatoDto.getPorte());
-        gato.setOng(ong);
+        gato.setRaca(gatoDto.getRaca());
+
 
         return animalPerdidoRepository.save(gato);
     }

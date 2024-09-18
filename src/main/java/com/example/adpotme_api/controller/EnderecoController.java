@@ -1,5 +1,6 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.endereco.Endereco;
 import com.example.adpotme_api.dto.endereco.EnderecoDto;
 import com.example.adpotme_api.entity.ong.Ong;
@@ -19,27 +20,27 @@ public class EnderecoController {
     @Autowired
     private EnderecoService enderecoService;
 
-    @PostMapping("cadastrar-endereco-ong/{idOng}")
-    @Operation(summary = "Associa um endereço a uma ONG", description = """
-      # Associa o endereço da ONG a partir da API externa ViaCep
+    @PutMapping("endereco-ong/{idOng}")
+    @Operation(summary = "Atualiza o endereço de uma ONG", description = """
+      # Atualiza o endereço da ONG a partir da API externa ViaCep
       --- 
-      Cadastra o endereço da ONG
+      Atualiza o endereço da ONG
       """)
     @ApiResponse(responseCode = "200", description = "Dados de endereço")
-    public ResponseEntity<Ong> cadastrarEnderecoParaOng(@RequestParam String cep, @PathVariable Long idOng) {
-        Ong ong = enderecoService.cadastrarEnderecoParaOng(cep, idOng);
-        return ResponseEntity.ok(ong);
+    public ResponseEntity<Endereco> atualizarEnderecoParaOng(@RequestParam String cep, @PathVariable Long idOng) {
+        Endereco endereco = enderecoService.atualizarEnderecoParaOng(cep, idOng);
+        return ResponseEntity.ok(endereco);
     }
 
-    @PostMapping("cadastrar-endereco-adotante/{idAdotante}")
-    @Operation(summary = "Associa um endereço a um adotante", description = """
-      # Associa o endereço do adotante a partir da API externa ViaCep
+    @PutMapping("endereco-adotante/{idAdotante}")
+    @Operation(summary = "Atualiza o endereço de um adotante", description = """
+      # Atualiza o endereço do adotante a partir da API externa ViaCep
       --- 
-      Cadastra o endereço do adotante
+    Atualiza o endereço do adotante
       """)
     @ApiResponse(responseCode = "200", description = "Dados de endereço")
-    public ResponseEntity<Endereco> cadastrarEnderecoParaAdotante(@RequestParam String cep, @PathVariable Long idAdotante) {
-        Endereco endereco = enderecoService.cadastrarEnderecoParaAdotante(cep, idAdotante);
+    public ResponseEntity<Endereco> atualizarEnderecoParaAdotante(@RequestParam String cep, @PathVariable Long idAdotante) {
+        Endereco endereco = enderecoService.atualizarEnderecoParaAdotante(cep, idAdotante);
         return ResponseEntity.ok(endereco);
     }
 

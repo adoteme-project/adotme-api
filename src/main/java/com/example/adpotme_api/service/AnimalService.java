@@ -1,5 +1,6 @@
 package com.example.adpotme_api.service;
 
+import com.example.adpotme_api.dto.animal.AnimalUpdateDto;
 import com.example.adpotme_api.dto.animal.CachorroCreateDto;
 import com.example.adpotme_api.dto.animal.GatoCreateDto;
 import com.example.adpotme_api.entity.animal.*;
@@ -65,35 +66,54 @@ public class AnimalService {
     }
 
     @Transactional
-    public Animal atualizarCachorro(Long id, CachorroCreateDto cachorroAtualizado) {
+    public Animal atualizarCachorro(Long id, AnimalUpdateDto cachorroAtualizado) {
         Optional<Animal> animalOpt = animalRepository.findById(id);
         if (animalOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cachorro não encontrado");
         }
         Cachorro cachorro = (Cachorro) animalOpt.get();
 
-        if (!ongRepository.existsById(cachorroAtualizado.getOngId())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
-        }
 
-        atualizarDadosCachorro(cachorro, cachorroAtualizado);
+        cachorro.setEspecie(cachorroAtualizado.getEspecie());
+        cachorro.setNome(cachorroAtualizado.getNome());
+        cachorro.setAnoNascimento(cachorroAtualizado.getAnoNascimento());
+        cachorro.setSexo(cachorroAtualizado.getSexo());
+        cachorro.setDataAbrigo(cachorroAtualizado.getDataAbrigo());
+        cachorro.setRaca(cachorroAtualizado.getRaca());
+        cachorro.setIsCastrado(cachorroAtualizado.getIsCastrado());
+        cachorro.setDescricao(cachorroAtualizado.getDescricao());
+        cachorro.setIsVisible(cachorroAtualizado.getIsVisible());
+        cachorro.setIsAdotado(cachorroAtualizado.getIsAdotado());
+        cachorro.setPorte(cachorroAtualizado.getPorte());
+        cachorro.setIsVermifugado(cachorroAtualizado.getIsVermifugado());
+        cachorro.setTaxaAdocao(cachorroAtualizado.getTaxaAdocao());
+        cachorro.setIsDestaque(cachorroAtualizado.getIsDestaque());
 
         return animalRepository.save(cachorro);
     }
 
     @Transactional
-    public Animal atualizarGato(Long id, GatoCreateDto gatoAtualizado) {
+    public Animal atualizarGato(Long id, AnimalUpdateDto gatoAtualizado) {
         Optional<Animal> animalOpt = animalRepository.findById(id);
         if (animalOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Gato não encontrado");
         }
         Gato gato = (Gato) animalOpt.get();
+        gato.setEspecie(gatoAtualizado.getEspecie());
+        gato.setNome(gatoAtualizado.getNome());
+        gato.setAnoNascimento(gatoAtualizado.getAnoNascimento());
+        gato.setSexo(gatoAtualizado.getSexo());
+        gato.setDataAbrigo(gatoAtualizado.getDataAbrigo());
+        gato.setRaca(gatoAtualizado.getRaca());
+        gato.setIsCastrado(gatoAtualizado.getIsCastrado());
+        gato.setDescricao(gatoAtualizado.getDescricao());
+        gato.setIsVisible(gatoAtualizado.getIsVisible());
+        gato.setIsAdotado(gatoAtualizado.getIsAdotado());
+        gato.setPorte(gatoAtualizado.getPorte());
+        gato.setIsVermifugado(gatoAtualizado.getIsVermifugado());
+        gato.setTaxaAdocao(gatoAtualizado.getTaxaAdocao());
+        gato.setIsDestaque(gatoAtualizado.getIsDestaque());
 
-        if (!ongRepository.existsById(gatoAtualizado.getOngId())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
-        }
-
-        atualizarDadosGato(gato, gatoAtualizado);
 
         return animalRepository.save(gato);
     }
@@ -106,58 +126,7 @@ public class AnimalService {
         animalRepository.deleteById(id);
     }
 
-    private void atualizarDadosCachorro(Cachorro cachorro, CachorroCreateDto dto) {
-        cachorro.setNome(dto.getNome());
-        cachorro.setAnoNascimento(dto.getAnoNascimento());
-        cachorro.setSexo(dto.getSexo());
-        cachorro.setDataAbrigo(dto.getDataAbrigo());
-        cachorro.setEspecie(dto.getEspecie());
-        cachorro.setRaca(dto.getRaca());
-        cachorro.setIsCastrado(dto.getIsCastrado());
-        cachorro.setDescricao(dto.getDescricao());
-        cachorro.setIsVisible(dto.getIsVisible());
-        cachorro.setIsAdotado(dto.getIsAdotado());
-        cachorro.setIsDestaque(dto.getIsDestaque());
-        cachorro.setPorte(dto.getPorte());
-        cachorro.setIsVermifugado(dto.getIsVermifugado());
 
-        if (dto.getTaxaAdocao() != null) {
-            cachorro.setTaxaAdocao(dto.getTaxaAdocao());
-        } else {
-            cachorro.calcularTaxaAdocao();
-        }
 
-        Optional<Ong> ongOpt = ongRepository.findById(dto.getOngId());
-        if (ongOpt.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
-        }
-        cachorro.setOng(ongOpt.get());
-    }
 
-    private void atualizarDadosGato(Gato gato, GatoCreateDto dto) {
-        gato.setNome(dto.getNome());
-        gato.setAnoNascimento(dto.getAnoNascimento());
-        gato.setDataAbrigo(dto.getDataAbrigo());
-        gato.setSexo(dto.getSexo());
-        gato.setEspecie(dto.getEspecie());
-        gato.setRaca(dto.getRaca());
-        gato.setIsDestaque(dto.getIsDestaque());
-        gato.setIsCastrado(dto.getIsCastrado());
-        gato.setDescricao(dto.getDescricao());
-        gato.setIsVisible(dto.getIsVisible());
-        gato.setIsAdotado(dto.getIsAdotado());
-        gato.setIsVermifugado(dto.getIsVermifugado());
-
-        if (dto.getTaxaAdocao() != null) {
-            gato.setTaxaAdocao(dto.getTaxaAdocao());
-        } else {
-            gato.calcularTaxaAdocao();
-        }
-
-        Optional<Ong> ongOpt = ongRepository.findById(dto.getOngId());
-        if (ongOpt.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
-        }
-        gato.setOng(ongOpt.get());
-    }
 }
