@@ -19,6 +19,7 @@ import com.example.adpotme_api.repository.OngUserRepository;
 import com.example.adpotme_api.repository.RequisicaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -40,6 +41,8 @@ public class OngUserService {
     private FormularioRepository formularioRepository;
     @Autowired
     private AdotanteRepository adotanteRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public OngUser createOngUser(OngUserCreateDto dto) {
         Optional<Ong> ongOpt = ongRepository.findById(dto.getOngId());
@@ -54,6 +57,9 @@ public class OngUserService {
         ongUser.setFuncao(dto.getFuncao());
         ongUser.setOng(ong);
         ongUser.setCadastro(dto.getCadastro());
+        ongUser.setEmail(dto.getEmail());
+        ongUser.setSenha(dto.getSenha());
+        ongUser.setSenha(passwordEncoder.encode(dto.getSenha()));
 
         return ongUserRepository.save(ongUser);
     }
@@ -81,6 +87,8 @@ public class OngUserService {
         ongUser.setNome(ongUserAtualizada.getNome());
         ongUser.setCpf(ongUserAtualizada.getCpf());
         ongUser.setFuncao(ongUserAtualizada.getFuncao());
+        ongUser.setEmail(ongUserAtualizada.getEmail());
+        ongUser.setSenha(ongUserAtualizada.getSenha());
 
         return ongUserRepository.save(ongUser);
     }
@@ -110,44 +118,8 @@ public class OngUserService {
     }
 
     public Adotante adotarAnimal(Long idAdotante, Long idAnimal) {
-        Optional<Adotante> adotanteOpt = adotanteRepository.findById(idAdotante);
-        if (!adotanteOpt.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
-        }
-
-        Adotante adotante = adotanteOpt.get();
-        Optional<Animal> animalOpt = animalRepository.findById(idAnimal);
-        if (!animalOpt.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Animal não encontrado");
-        }
-
-        Animal animal = animalOpt.get();
-        if (animal instanceof Cachorro || animal instanceof Gato) {
-            List<Formulario> formularios = formularioRepository.findByAdotanteId(adotante.getId());
-
-            Formulario formularioEncontrado = null;
-            for (Formulario formulario : formularios) {
-                if (formulario.getAnimal().equals(animal)) {
-                    formularioEncontrado = formulario;
-                    break;
-                }
-            }
-
-            if (formularioEncontrado != null) {
-                Requisicao requisicao = formularioEncontrado.getRequisicao();
-                requisicao.setStatus(Status.ADOTADO);
-
-                animal.setIsAdotado(true);
-                adotante.adotarAnimal(animal);
-
-                adotanteRepository.save(adotante);
-                return adotante;
-            } else {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Formulário não encontrado para o animal");
-            }
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Animal não pode ser adotado");
-        }
+        return null;
     }
+
 
 }

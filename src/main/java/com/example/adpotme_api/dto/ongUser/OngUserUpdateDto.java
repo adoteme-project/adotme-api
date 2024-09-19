@@ -20,5 +20,9 @@ public class OngUserUpdateDto {
 
     @NotBlank(message = "Função não pode ser vazia")
     private String funcao;
+    @NotBlank(message = "Email não pode ser vazio")
+    private String email;
+    @NotBlank(message = "Senha não pode ser vazia")
+    private String senha;
 
 }

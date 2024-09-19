@@ -27,8 +27,10 @@ public class Adotante {
     private LocalDate dtNasc;
     @OneToOne
     private Endereco endereco;
+    @Column(unique = true)
     private String cpf;
     private LocalDate cadastro;
+    @Column(unique = true)
     private String email;
     private String senha;
     private String telefone;
