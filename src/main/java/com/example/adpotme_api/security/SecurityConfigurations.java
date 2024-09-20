@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -27,19 +28,25 @@ public class SecurityConfigurations {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Autowired
+    private SecurityFilter securityFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(csrf -> csrf.disable()) // Desabilita CSRF
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless sessions
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers(HttpMethod.POST, "/login/**").permitAll() // aqui é pra liberar todos os endpoints de login
-                        .anyRequest().authenticated() // aqui é pq qualquer outro requer autenticação
+                        .requestMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/login/**").permitAll() // Libera todos os endpoints de login
+                        .anyRequest().authenticated() // Qualquer outro requer autenticação
                 )
-                .authenticationProvider(customAuthenticationProvider);
+                .authenticationProvider(customAuthenticationProvider) // Configura o authenticationProvider personalizado
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro customizado
 
-        return http.build();
+        return http.build(); // Finaliza e retorna a instância de SecurityFilterChain
     }
+
 
     @Bean
     @Primary
