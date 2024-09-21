@@ -21,6 +21,10 @@ public class OngUserCreateDto {
 
     @NotBlank(message = "Função não pode ser vazia")
     private String funcao;
+    @NotBlank(message = "Email não pode ser vazio")
+    private String email;
+    @NotBlank(message = "Senha não pode ser vazia")
+    private String senha;
 
     private LocalDate cadastro = LocalDate.now();
     @NotNull(message = "Ong não pode ser nulo")

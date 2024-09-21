@@ -10,6 +10,7 @@ import com.example.adpotme_api.repository.EnderecoRepository;
 import com.example.adpotme_api.util.Sorting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -28,6 +29,8 @@ public class AdotanteService {
 
     @Autowired
     private ViaCepService viaCepService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Transactional
     public Adotante cadastrarAdotante(AdotanteCreateDto dados) {
@@ -36,7 +39,7 @@ public class AdotanteService {
 
         Adotante adotante = new Adotante(dados);
         adotante.setEndereco(endereco);
-
+        adotante.setSenha(passwordEncoder.encode(dados.getSenha()));
         return adotanteRepository.save(adotante);
     }
 
