@@ -33,18 +33,41 @@ public class SecurityConfigurations {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf(csrf -> csrf.disable()) // Desabilita CSRF
+//                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless sessions
+//                .authorizeHttpRequests(authz -> authz
+//                        .requestMatchers(
+//                                "/v3/api-docs/**",
+//                                "/swagger-resources/**",
+//                                "/swagger-ui/**",
+//                                "/swagger-ui.html",
+//                                "/webjars/**",
+//                                "/adotantes"
+//                        ).permitAll()
+//                        .requestMatchers(HttpMethod.POST, "/login/**").permitAll() // Libera todos os endpoints de login
+//                        .anyRequest().authenticated() // Qualquer outro requer autenticação
+//                )
+//                .authenticationProvider(customAuthenticationProvider) // Configura o authenticationProvider personalizado
+//                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro customizado
+                    // ^
+                    // |
+        // O DE CIMA BLOQUEIA TODOS, EXCETO OS QUE ESTÃO COM .permitAll();
+        // O DE BAIXO LIBERA TODOS OS ENDPOINTS
+                    // |
+                    // V
+
         http
                 .csrf(csrf -> csrf.disable()) // Desabilita CSRF
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless sessions
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/login/**").permitAll() // Libera todos os endpoints de login
-                        .anyRequest().authenticated() // Qualquer outro requer autenticação
+                        .anyRequest().permitAll() // Permite todas as requisições
                 )
                 .authenticationProvider(customAuthenticationProvider) // Configura o authenticationProvider personalizado
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro customizado
 
-        return http.build(); // Finaliza e retorna a instância de SecurityFilterChain
+        return http.build();
+
     }
 
 

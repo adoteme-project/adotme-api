@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.naming.AuthenticationException;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/login")
 public class AutenticacaoController {

@@ -37,22 +37,25 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         try {
 
             user = ongUserService.loadUserByUsername(email);
-            if (passwordEncoder.matches(senha, user.getPassword())) {
+            if (user != null && passwordEncoder.matches(senha, user.getPassword())) {
                 return new UsernamePasswordAuthenticationToken(user, senha, user.getAuthorities());
             }
         } catch (UsernameNotFoundException e) {
 
+            System.out.println("Usuário OngUser não encontrado com o email: " + email);
         }
 
         try {
-            // Tenta autenticar como Adotante
+
             user = adotanteService.loadUserByUsername(email);
-            if (passwordEncoder.matches(senha, user.getPassword())) {
+            if (user != null && passwordEncoder.matches(senha, user.getPassword())) {
                 return new UsernamePasswordAuthenticationToken(user, senha, user.getAuthorities());
             }
         } catch (UsernameNotFoundException e) {
 
+            System.out.println("Usuário Adotante não encontrado com o email: " + email);
         }
+
 
         throw new BadCredentialsException("Credenciais inválidas.");
     }
