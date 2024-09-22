@@ -14,7 +14,6 @@ public class AutenticacaoAdotanteService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return adotanteRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Adotante não encontrado com email: " + username));
+        return adotanteRepository.findByEmail(username);
     }
 }

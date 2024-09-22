@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface AdotanteRepository extends JpaRepository<Adotante, Long> {
 
-    Optional<Adotante> findByEmail(String email);
+    Adotante findByEmail(String email);
 }
