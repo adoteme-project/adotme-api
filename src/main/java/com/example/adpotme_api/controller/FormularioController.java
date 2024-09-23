@@ -4,6 +4,7 @@ import com.example.adpotme_api.entity.formulario.Formulario;
 import com.example.adpotme_api.dto.formulario.FormularioCreateDto;
 import com.example.adpotme_api.entity.requisicao.Status;
 import com.example.adpotme_api.service.FormularioService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/formularios")
 @Tag(name = "Formulario")
+@SecurityRequirement(name = "bearerAuth")
 public class FormularioController {
 
     @Autowired

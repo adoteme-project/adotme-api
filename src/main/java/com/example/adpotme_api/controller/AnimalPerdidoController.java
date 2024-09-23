@@ -5,6 +5,7 @@ import com.example.adpotme_api.dto.animalPerdido.CachorroPerdidoCreateDto;
 import com.example.adpotme_api.dto.animalPerdido.GatoPerdidoCreateDto;
 import com.example.adpotme_api.entity.animalPerdido.*;
 import com.example.adpotme_api.service.AnimalPerdidoService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/animais-perdidos")
 @Tag(name = "AnimalPerdido")
+@SecurityRequirement(name = "bearerAuth")
 public class AnimalPerdidoController {
 
     @Autowired

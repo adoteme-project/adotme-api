@@ -5,6 +5,7 @@ import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.ongUser.OngUser;
 import com.example.adpotme_api.dto.ongUser.OngUserCreateDto;
 import com.example.adpotme_api.service.OngUserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -18,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/ongusers")
 @Tag(name = "OngUser")
+@SecurityRequirement(name = "bearerAuth")
 public class OngUserController {
 
     @Autowired

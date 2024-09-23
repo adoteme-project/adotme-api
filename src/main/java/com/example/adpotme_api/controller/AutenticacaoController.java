@@ -9,6 +9,7 @@ import com.example.adpotme_api.entity.ongUser.OngUser;
 import com.example.adpotme_api.security.adotante.AutenticacaoAdotanteService;
 import com.example.adpotme_api.security.ongUser.AutenticacaoOngUserService;
 import com.example.adpotme_api.security.TokenService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 @RequestMapping("/login")
+@SecurityRequirement(name = "bearerAuth")
 public class AutenticacaoController {
 
 
