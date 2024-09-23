@@ -4,6 +4,7 @@ import com.example.adpotme_api.dto.adotante.AdotanteUpdateDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
 import com.example.adpotme_api.service.AdotanteService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/adotantes")
 @Tag(name = "Adotante")
+@SecurityRequirement(name = "bearerAuth")
 public class AdotanteController {
 
     @Autowired
