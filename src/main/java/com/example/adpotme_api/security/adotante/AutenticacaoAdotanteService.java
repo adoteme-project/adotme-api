@@ -1,6 +1,5 @@
-package com.example.adpotme_api.security;
+package com.example.adpotme_api.security.adotante;
 
-import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.repository.AdotanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.*;

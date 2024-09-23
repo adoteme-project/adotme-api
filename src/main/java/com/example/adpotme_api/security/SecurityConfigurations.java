@@ -1,5 +1,7 @@
 package com.example.adpotme_api.security;
 
+import com.example.adpotme_api.security.adotante.AdotanteAuthenticationFilter;
+import com.example.adpotme_api.security.ongUser.OngUserAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,9 +31,10 @@ public class SecurityConfigurations {
     }
 
     @Autowired
-    private SecurityFilter securityFilter;
+    private OngUserAuthenticationFilter ongUserAuthenticationFilter;
 
-
+    @Autowired
+    private AdotanteAuthenticationFilter adotanteAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -39,6 +42,7 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable()) // Desabilita CSRF
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless sessions
                 .authorizeHttpRequests(authz -> authz
+                        // Libera todos os endpoints de documentação e login
                         .requestMatchers(
                                 "/v3/api-docs/**",
                                 "/swagger-resources/**",
@@ -47,18 +51,21 @@ public class SecurityConfigurations {
                                 "/webjars/**",
                                 "/adotantes"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/login/**").permitAll() // Libera todos os endpoints de login
+                        .requestMatchers(HttpMethod.POST, "/login/**").permitAll() // Libera o endpoint de login
+                        // Restringe o acesso com base nos filtros
+                        .requestMatchers("/onguser/**").authenticated() // Apenas OngUsers podem acessar esses endpoints
                         .anyRequest().authenticated() // Qualquer outro requer autenticação
                 )
                 .authenticationProvider(customAuthenticationProvider) // Configura o authenticationProvider personalizado
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro customizado
+                .addFilterBefore(ongUserAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // Adiciona o filtro para OngUsers
+                .addFilterBefore(adotanteAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro para Adotantes
 
-                    // ^
-                    // |
+        // ^
+        // |
         // O DE CIMA BLOQUEIA TODOS, EXCETO OS QUE ESTÃO COM .permitAll();
         // O DE BAIXO LIBERA TODOS OS ENDPOINTS
-                    // |
-                    // V
+        // |
+        // V
 
       /*  http
                 .csrf(csrf -> csrf.disable()) // Desabilita CSRF
@@ -70,9 +77,7 @@ public class SecurityConfigurations {
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // Adiciona o filtro customizado
                 */
         return http.build();
-
     }
-
 
     @Bean
     @Primary

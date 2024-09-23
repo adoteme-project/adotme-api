@@ -9,6 +9,7 @@ import com.example.adpotme_api.entity.formulario.Formulario;
 import com.example.adpotme_api.entity.ong.Ong;
 import com.example.adpotme_api.entity.ongUser.OngUser;
 import com.example.adpotme_api.dto.ongUser.OngUserCreateDto;
+import com.example.adpotme_api.entity.ongUser.Role;
 import com.example.adpotme_api.entity.requisicao.Requisicao;
 import com.example.adpotme_api.entity.requisicao.Status;
 import com.example.adpotme_api.repository.AdotanteRepository;
@@ -54,7 +55,7 @@ public class OngUserService {
         OngUser ongUser = new OngUser();
         ongUser.setNome(dto.getNome());
         ongUser.setCpf(dto.getCpf());
-        ongUser.setFuncao(dto.getFuncao());
+        ongUser.setRole(Role.valueOf(dto.getRole()));
         ongUser.setOng(ong);
         ongUser.setCadastro(dto.getCadastro());
         ongUser.setEmail(dto.getEmail());
@@ -86,7 +87,7 @@ public class OngUserService {
         OngUser ongUser = ongUserOpt.get();
         ongUser.setNome(ongUserAtualizada.getNome());
         ongUser.setCpf(ongUserAtualizada.getCpf());
-        ongUser.setFuncao(ongUserAtualizada.getFuncao());
+        ongUser.setRole(Role.valueOf(ongUserAtualizada.getFuncao()));
         ongUser.setEmail(ongUserAtualizada.getEmail());
         ongUser.setSenha(ongUserAtualizada.getSenha());
 

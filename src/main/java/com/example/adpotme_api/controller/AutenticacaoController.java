@@ -6,18 +6,15 @@ import com.example.adpotme_api.dto.ongUser.OngUserLoginDto;
 import com.example.adpotme_api.dto.ongUser.OngUserTokenDtoJWT;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.ongUser.OngUser;
-import com.example.adpotme_api.security.AutenticacaoAdotanteService;
-import com.example.adpotme_api.security.AutenticacaoOngUserService;
+import com.example.adpotme_api.security.adotante.AutenticacaoAdotanteService;
+import com.example.adpotme_api.security.ongUser.AutenticacaoOngUserService;
 import com.example.adpotme_api.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
-
-import javax.naming.AuthenticationException;
 
 @CrossOrigin
 @RestController

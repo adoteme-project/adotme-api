@@ -1,7 +1,7 @@
-package com.example.adpotme_api.security;
+package com.example.adpotme_api.security.ongUser;
 
-import com.example.adpotme_api.repository.AdotanteRepository;
 import com.example.adpotme_api.repository.OngUserRepository;
+import com.example.adpotme_api.security.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,15 +15,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
-public class SecurityFilter extends OncePerRequestFilter {
+public class OngUserAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private TokenService tokenService;
     @Autowired
     private OngUserRepository ongUserRepository;
-
-    @Autowired
-    private AdotanteRepository adotanteRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -33,23 +30,11 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (tokenJWT != null) {
             var subject = tokenService.getSubject(tokenJWT);
 
-            // Tente encontrar o usuário no OngUserRepository
+            // Procurar o usuário no OngUserRepository
             var ongUser = ongUserRepository.findByEmail(subject);
             if (ongUser != null) {
-
                 var authentication = new UsernamePasswordAuthenticationToken(ongUser, null, ongUser.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            } else {
-                // Se não encontrado no OngUserRepository, tente no AdotanteRepository
-                var adotante = adotanteRepository.findByEmail(subject);
-                if (adotante != null) {
-
-                    var authentication = new UsernamePasswordAuthenticationToken(adotante, null, adotante.getAuthorities());
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                } else {
-                    // Opcional: Registrar um aviso ou tomar alguma ação quando o usuário não for encontrado em nenhum repositório
-                    logger.warn("Usuário não encontrado para o email: " + subject);
-                }
             }
         }
 
@@ -61,7 +46,6 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (authorizationHeader != null) {
             return authorizationHeader.replace("Bearer ", "");
         }
-
         return null;
     }
 }
