@@ -41,7 +41,8 @@ public class AutenticacaoController {
             var tokenJWT = tokenService.gerarTokenOngUser((OngUser) authentication.getPrincipal());
             var ongUserId = ((OngUser) authentication.getPrincipal()).getId();
             var ongId = ((OngUser) authentication.getPrincipal()).getOngId();
-            return ResponseEntity.ok(new OngUserTokenDtoJWT(tokenJWT, ongUserId, ongId));
+            var role = ((OngUser) authentication.getPrincipal()).getRole();
+            return ResponseEntity.ok(new OngUserTokenDtoJWT(tokenJWT, ongUserId, ongId, role));
 
     }
 

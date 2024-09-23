@@ -53,7 +53,8 @@ public class SecurityConfigurations {
                         ).permitAll()
                         .requestMatchers(HttpMethod.POST, "/login/**").permitAll() // Libera o endpoint de login
                         // Restringe o acesso com base nos filtros
-                        .requestMatchers("/onguser/**").authenticated() // Apenas OngUsers podem acessar esses endpoints
+                        .requestMatchers("/animais-perdidos/cachorro").hasRole("ADMIN") // Apenas OngUsers ADMIN podem acessar esses endpoints
+                        .requestMatchers("/ongusers").hasRole("ADMIN")
                         .anyRequest().authenticated() // Qualquer outro requer autenticação
                 )
                 .authenticationProvider(customAuthenticationProvider) // Configura o authenticationProvider personalizado
