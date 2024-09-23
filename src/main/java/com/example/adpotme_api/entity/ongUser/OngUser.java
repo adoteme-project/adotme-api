@@ -30,11 +30,13 @@ public class OngUser implements UserDetails {
     private String nome;
     @Column(unique = true)
     private String cpf;
-    private String funcao;
     @Column(unique = true)
     private String email;
     private String senha;
     private LocalDate cadastro;
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
 
     @ManyToOne
     @JoinColumn(name = "ong_id")
@@ -54,7 +56,7 @@ public class OngUser implements UserDetails {
 
     public OngUser(OngUserCreateDto dto) {
         this.nome = dto.getNome();
-        this.funcao = dto.getFuncao();
+        this.role = Role.valueOf(dto.getRole());
         this.cpf = dto.getCpf();
         this.cadastro = dto.getCadastro();
     }
@@ -70,7 +72,7 @@ public class OngUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_ONG_USER"));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
     }
 
     @Override

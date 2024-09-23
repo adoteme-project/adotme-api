@@ -1,7 +1,7 @@
 package com.example.adpotme_api.security;
 
-import com.example.adpotme_api.entity.adotante.Adotante;
-import com.example.adpotme_api.entity.ongUser.OngUser;
+import com.example.adpotme_api.security.adotante.AutenticacaoAdotanteService;
+import com.example.adpotme_api.security.ongUser.AutenticacaoOngUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;

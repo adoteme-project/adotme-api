@@ -1,6 +1,5 @@
-package com.example.adpotme_api.security;
+package com.example.adpotme_api.security.ongUser;
 
-import com.example.adpotme_api.entity.ongUser.OngUser;
 import com.example.adpotme_api.repository.OngUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.*;
