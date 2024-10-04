@@ -27,17 +27,17 @@ public class Adotante implements UserDetails {
     private Long id;
 
     private String nome;
-    private String sobrenome;
+    // private String sobrenome;
     private LocalDate dtNasc;
     @OneToOne
     private Endereco endereco;
     @Column(unique = true)
-    private String cpf;
+    //private String cpf;
     private LocalDate cadastro;
     @Column(unique = true)
     private String email;
     private String senha;
-    private String telefone;
+    private String celular;
     @OneToMany(mappedBy = "adotante", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Formulario> formulario;
@@ -46,13 +46,13 @@ public class Adotante implements UserDetails {
 
     public Adotante(AdotanteCreateDto adotanteCreateDto) {
         this.nome = adotanteCreateDto.getNome();
-        this.sobrenome = adotanteCreateDto.getSobrenome();
+        // this.sobrenome = adotanteCreateDto.getSobrenome();
         this.dtNasc = adotanteCreateDto.getDtNasc();
-        this.cpf = adotanteCreateDto.getCpf();
+        // this.cpf = adotanteCreateDto.getCpf();
         this.cadastro = adotanteCreateDto.getCadastro();
         this.email = adotanteCreateDto.getEmail();
         this.senha = adotanteCreateDto.getSenha();
-        this.telefone = adotanteCreateDto.getTelefone();
+        this.celular = adotanteCreateDto.getTelefone();
 
     }
 

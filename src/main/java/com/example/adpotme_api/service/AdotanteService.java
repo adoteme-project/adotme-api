@@ -68,11 +68,11 @@ public class AdotanteService {
             Adotante adotanteAtualizado = adotanteOpt.get();
             adotanteAtualizado.setNome(adotante.getNome());
             adotanteAtualizado.setEmail(adotante.getEmail());
-            adotanteAtualizado.setCpf(adotante.getCpf());
-            adotanteAtualizado.setSobrenome(adotante.getSobrenome());
+            // adotanteAtualizado.setCpf(adotante.getCpf());
+            // adotanteAtualizado.setSobrenome(adotante.getSobrenome());
             adotanteAtualizado.setSenha(adotante.getSenha());
             adotanteAtualizado.setDtNasc(adotante.getDtNasc());
-            adotanteAtualizado.setTelefone(adotante.getTelefone());
+            // adotanteAtualizado.setTelefone(adotante.getTelefone());
 
             return adotanteRepository.save(adotanteAtualizado);
         }
