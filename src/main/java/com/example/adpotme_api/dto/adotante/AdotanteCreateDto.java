@@ -11,14 +11,13 @@ import java.time.LocalDate;
 public class AdotanteCreateDto {
 
     private String nome;
-    private String sobrenome;
     private LocalDate dtNasc;
-    private String cpf;
     private String cep;
     private LocalDate cadastro = LocalDate.now();
     @Email
     private String email;
     private String senha;
-    private String telefone;
+    private String celular;
+    private String numero;
 
 }

@@ -42,8 +42,10 @@ public class EnderecoController {
     Atualiza o endereço do adotante
       """)
     @ApiResponse(responseCode = "200", description = "Dados de endereço")
-    public ResponseEntity<Endereco> atualizarEnderecoParaAdotante(@RequestParam String cep, @PathVariable Long idAdotante) {
-        Endereco endereco = enderecoService.atualizarEnderecoParaAdotante(cep, idAdotante);
+    public ResponseEntity<Endereco> atualizarEnderecoParaAdotante(
+            @RequestParam String cep, @RequestParam String numero, @PathVariable Long idAdotante
+    ) {
+        Endereco endereco = enderecoService.atualizarEnderecoParaAdotante(cep, numero, idAdotante);
         return ResponseEntity.ok(endereco);
     }
 

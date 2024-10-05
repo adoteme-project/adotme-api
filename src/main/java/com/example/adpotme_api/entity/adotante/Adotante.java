@@ -5,8 +5,12 @@ import com.example.adpotme_api.dto.adotante.AdotanteUpdateDto;
 import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.endereco.Endereco;
 import com.example.adpotme_api.entity.formulario.Formulario;
+import com.example.adpotme_api.entity.image.Image;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,45 +30,47 @@ public class Adotante implements UserDetails {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Size(min=3, max=150)
     private String nome;
-    // private String sobrenome;
+
+    @Future
     private LocalDate dtNasc;
+
     @OneToOne
     private Endereco endereco;
-    @Column(unique = true)
-    //private String cpf;
     private LocalDate cadastro;
+
     @Column(unique = true)
     private String email;
+
+    @Size(min=8)
     private String senha;
     private String celular;
+
     @OneToMany(mappedBy = "adotante", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Formulario> formulario;
+
     @OneToMany(mappedBy = "adotante") // O nome aqui deve corresponder ao nome da propriedade na classe Animal
     private List<Animal> adotados;
 
+    @OneToOne
+    private Image fotoPerfil;
+
     public Adotante(AdotanteCreateDto adotanteCreateDto) {
         this.nome = adotanteCreateDto.getNome();
-        // this.sobrenome = adotanteCreateDto.getSobrenome();
         this.dtNasc = adotanteCreateDto.getDtNasc();
-        // this.cpf = adotanteCreateDto.getCpf();
         this.cadastro = adotanteCreateDto.getCadastro();
         this.email = adotanteCreateDto.getEmail();
         this.senha = adotanteCreateDto.getSenha();
-        this.celular = adotanteCreateDto.getTelefone();
-
+        this.celular = adotanteCreateDto.getCelular();
     }
 
-    public Adotante() {
-
-    }
-
+    public Adotante() {}
 
     public void adotarAnimal(Animal animal) {
         animal.setAdotante(this);
         this.adotados.add(animal);
-
     }
 
     @Override

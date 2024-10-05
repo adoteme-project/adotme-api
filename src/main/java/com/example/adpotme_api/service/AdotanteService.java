@@ -35,6 +35,7 @@ public class AdotanteService {
     @Transactional
     public Adotante cadastrarAdotante(AdotanteCreateDto dados) {
         Endereco endereco = viaCepService.obterEnderecoPorCep(dados.getCep());
+        endereco.setNumero(dados.getNumero());
         enderecoRepository.save(endereco);
 
         Adotante adotante = new Adotante(dados);
@@ -68,11 +69,9 @@ public class AdotanteService {
             Adotante adotanteAtualizado = adotanteOpt.get();
             adotanteAtualizado.setNome(adotante.getNome());
             adotanteAtualizado.setEmail(adotante.getEmail());
-            // adotanteAtualizado.setCpf(adotante.getCpf());
-            // adotanteAtualizado.setSobrenome(adotante.getSobrenome());
             adotanteAtualizado.setSenha(adotante.getSenha());
             adotanteAtualizado.setDtNasc(adotante.getDtNasc());
-            // adotanteAtualizado.setTelefone(adotante.getTelefone());
+            adotanteAtualizado.setCelular(adotante.getCelular());
 
             return adotanteRepository.save(adotanteAtualizado);
         }

@@ -23,6 +23,9 @@ public class Endereco {
 
     @JsonProperty(value = "logradouro")
     private String rua;
+
+    private String numero;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,14 +36,12 @@ public class Endereco {
         this.cidade = dto.getCidade();
         this.bairro = dto.getBairro();
         this.rua = dto.getRua();
-
+        this.numero = dto.getNumero();
     }
 
     public Endereco(){
 
     }
-
-
 
     @Override
     public String toString() {
