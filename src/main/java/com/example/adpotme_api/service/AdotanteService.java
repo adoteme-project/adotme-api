@@ -5,16 +5,22 @@ import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
 import com.example.adpotme_api.entity.endereco.Endereco;
 import com.example.adpotme_api.entity.endereco.ViaCepService;
+import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.repository.AdotanteRepository;
 import com.example.adpotme_api.repository.EnderecoRepository;
+import com.example.adpotme_api.service.CloudinaryService;
 import com.example.adpotme_api.util.Sorting;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.transaction.Transactional;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,15 +38,33 @@ public class AdotanteService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    CloudinaryService cloudinaryService;
+
     @Transactional
-    public Adotante cadastrarAdotante(AdotanteCreateDto dados) {
+    public Adotante cadastrarAdotante(AdotanteCreateDto dados, MultipartFile fotoPerfil) {
+
         Endereco endereco = viaCepService.obterEnderecoPorCep(dados.getCep());
         endereco.setNumero(dados.getNumero());
         enderecoRepository.save(endereco);
 
-        Adotante adotante = new Adotante(dados);
+        Adotante adotante = new Adotante();
+        adotante.setNome(dados.getNome());
+        adotante.setDtNasc(dados.getDtNasc());
+        adotante.setEmail(dados.getEmail());
+        adotante.setCelular(dados.getCelular());
         adotante.setEndereco(endereco);
+
+        if(fotoPerfil != null && !fotoPerfil.isEmpty()) {
+            try {
+                Image image = cloudinaryService.upload(fotoPerfil);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         adotante.setSenha(passwordEncoder.encode(dados.getSenha()));
+
         return adotanteRepository.save(adotante);
     }
 
