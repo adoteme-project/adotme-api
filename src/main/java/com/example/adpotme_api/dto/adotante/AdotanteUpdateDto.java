@@ -9,11 +9,10 @@ import java.time.LocalDate;
 @Setter
 public class AdotanteUpdateDto {
     private String nome;
-    private String sobrenome;
     private LocalDate dtNasc;
-    private String cpf;
     private String email;
     private String senha;
-    private String telefone;
+    private String celular;
+    private String numero;
 
 }

@@ -73,7 +73,7 @@ public class EnderecoService {
     }
 
     @Transactional
-    public Endereco atualizarEnderecoParaAdotante(String cep, Long idAdotante) {
+    public Endereco atualizarEnderecoParaAdotante(String cep, String numero,Long idAdotante) {
         Endereco endereco = buscarEnderecoViaCep(cep);
 
         Optional<Adotante> adotanteOpt = adotanteRepository.findById(idAdotante);
@@ -87,6 +87,7 @@ public class EnderecoService {
         novoEndereco.setCidade(endereco.getCidade());
         novoEndereco.setEstado(endereco.getEstado());
         novoEndereco.setRua(endereco.getRua());
+        novoEndereco.setNumero(numero);
         enderecoRepository.save(novoEndereco);
 
         adotante.setEndereco(novoEndereco);

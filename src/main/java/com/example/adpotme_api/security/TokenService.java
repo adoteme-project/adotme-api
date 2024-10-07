@@ -27,13 +27,12 @@ public class TokenService {
                     .withIssuer("API AdoteMe")
                     .withSubject(ongUser.getEmail())
                     .withClaim("id", ongUser.getId())
-                    .withExpiresAt(dataExpiracao())
+                    .withExpiresAt(dataExpiracao(2))
                     .sign(algoritmo);
         } catch (JWTCreationException exception){
             throw new RuntimeException("Erro ao gerar token JWT", exception);
         }
     }
-
 
     public String gerarTokenAdotante(Adotante adotante) {
         try {
@@ -42,12 +41,36 @@ public class TokenService {
                     .withIssuer("API AdoteMe")
                     .withSubject(adotante.getEmail())
                     .withClaim("id", adotante.getId())
-                    .withExpiresAt(dataExpiracao())
+                    .withExpiresAt(dataExpiracao(1))  // Access token expira em 1 hora
                     .sign(algoritmo);
-        } catch (JWTCreationException exception){
-            throw new RuntimeException("Erro ao gerar token JWT", exception);
+        } catch (JWTCreationException exception) {
+            throw new RuntimeException("Erro ao gerar access token JWT", exception);
         }
     }
+
+    public String gerarRefreshToken(Adotante adotante) {
+        try {
+            var algoritmo = Algorithm.HMAC256(secret);
+            return JWT.create()
+                    .withIssuer("API AdoteMe")
+                    .withSubject(adotante.getEmail())
+                    .withClaim("id", adotante.getId())
+                    .withExpiresAt(dataExpiracao(48))  // Refresh token expira em 48 horas
+                    .sign(algoritmo);
+        } catch (JWTCreationException exception) {
+            throw new RuntimeException("Erro ao gerar refresh token JWT", exception);
+        }
+    }
+
+    public boolean validateRefreshToken(String refreshToken, Adotante adotante) {
+        try {
+            String email = getSubject(refreshToken);
+            return email.equals(adotante.getEmail());
+        } catch (JWTVerificationException exception) {
+            return false;
+        }
+    }
+
 
     public String getSubject(String tokenJWT) {
         try {
@@ -63,7 +86,7 @@ public class TokenService {
     }
 
 
-    private Instant dataExpiracao() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+    private Instant dataExpiracao(int horas) {
+        return LocalDateTime.now().plusHours(horas).toInstant(ZoneOffset.of("-03:00"));
     }
 }

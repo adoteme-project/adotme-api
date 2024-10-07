@@ -23,7 +23,7 @@ public class CloudinaryController {
     }
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Image> uploadImage(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Image> uploadImage(@RequestPart("file") MultipartFile file) {
         try {
             Image image = cloudinaryService.upload(file);
             return new ResponseEntity<>(image, HttpStatus.OK);
