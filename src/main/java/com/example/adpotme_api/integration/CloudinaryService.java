@@ -30,7 +30,6 @@ public class CloudinaryService {
 
         // Cria uma nova instância da entidade Image e salva no banco
         Image image = new Image();
-        image.setId(UUID.randomUUID());
         image.setName(file.getOriginalFilename()); // Nome original do arquivo
         image.setUrl(uploadResult.get("secure_url").toString()); // URL segura do Cloudinary
         image.setPublicId(uploadResult.get("public_id").toString()); // Salva o public_id

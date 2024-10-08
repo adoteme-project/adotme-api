@@ -56,6 +56,7 @@ public class Adotante implements UserDetails {
     private List<Animal> adotados;
 
     @OneToOne
+    @JoinColumn(name = "foto_perfil_id")
     private Image fotoPerfil;
 
     public Adotante(AdotanteCreateDto adotanteCreateDto) {

@@ -58,6 +58,8 @@ public class AdotanteService {
         if(fotoPerfil != null && !fotoPerfil.isEmpty()) {
             try {
                 Image image = cloudinaryService.upload(fotoPerfil);
+                adotante.setFotoPerfil(image);
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

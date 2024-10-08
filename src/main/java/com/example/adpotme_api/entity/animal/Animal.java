@@ -4,6 +4,7 @@ import com.example.adpotme_api.dto.animal.AnimalCreateDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.animal.strategy.TaxaAdocaoStrategy;
 import com.example.adpotme_api.entity.formulario.Formulario;
+import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.entity.ong.Ong;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -58,7 +59,9 @@ public abstract class Animal {
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     protected List<Formulario> formulario;
-
+    @OneToOne
+    @JoinColumn(name = "foto_perfil_id")
+    private Image fotoPerfil;
 
     public Long getOngId() {
         return ong != null ? ong.getId() : null;

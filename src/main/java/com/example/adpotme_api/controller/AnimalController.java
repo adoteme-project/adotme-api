@@ -1,16 +1,24 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
 import com.example.adpotme_api.dto.animal.AnimalUpdateDto;
 import com.example.adpotme_api.dto.animal.CachorroCreateDto;
 import com.example.adpotme_api.dto.animal.GatoCreateDto;
+import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.animal.*;
 import com.example.adpotme_api.service.AnimalService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,10 +31,21 @@ public class AnimalController {
 
     @Autowired
     private AnimalService animalService;
+    ObjectMapper objectMapper = new ObjectMapper();
 
-    @PostMapping("/cachorro")
-    public ResponseEntity<Animal> cadastrarCachorro(@RequestBody @Valid CachorroCreateDto cachorroDto) {
-        Animal cachorro = animalService.cadastrarCachorro(cachorroDto);
+    @PostMapping(value = "/cachorro", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<Animal> cadastrarCachorro(
+            @RequestPart("cachorro") String cachorroJson,
+            @RequestPart(value = "fotoPerfil", required = false) MultipartFile fotoPerfil
+    ) throws JsonProcessingException {
+
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);  // Desabilitar timestamps para LocalDate
+
+        // Desserializar JSON para DTO
+        CachorroCreateDto dados = objectMapper.readValue(cachorroJson, CachorroCreateDto.class);
+
+        Animal cachorro = animalService.cadastrarCachorro(dados, fotoPerfil);
         return ResponseEntity.status(201).body(cachorro);
     }
 
