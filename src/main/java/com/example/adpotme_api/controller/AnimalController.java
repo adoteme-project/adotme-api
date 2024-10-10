@@ -1,5 +1,6 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.dto.animal.AnimalQuantidadeDto;
 import com.example.adpotme_api.dto.animal.AnimalUpdateDto;
 import com.example.adpotme_api.dto.animal.CachorroCreateDto;
 import com.example.adpotme_api.dto.animal.GatoCreateDto;
@@ -33,6 +34,7 @@ public class AnimalController {
 
     @Autowired
     private AnimalService animalService;
+
     ObjectMapper objectMapper = new ObjectMapper();
 
     @PostMapping(value = "/cachorro", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
@@ -78,6 +80,18 @@ public class AnimalController {
         if (animais.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
+        return ResponseEntity.ok(animais);
+    }
+
+    @GetMapping("/ong/quantidade/{ongId}")
+    @Operation(summary = "Retorna a quantidade de animais por ong", description = "Recupera a quantidade de animais por ong.")
+    @ApiResponse(responseCode = "200", description = "A lista de animais foi recuperada com sucesso.")
+    public ResponseEntity<AnimalQuantidadeDto> recuperarQuantidadeAnimaisOng(@PathVariable Long ongId) {
+        Integer quantidadeAnimaisPorOng = animalService.recuperarQuantidadeAnimaisPorOng(ongId);
+
+        AnimalQuantidadeDto animais = new AnimalQuantidadeDto();
+
+        animais.setQuantidade(quantidadeAnimaisPorOng);
         return ResponseEntity.ok(animais);
     }
 

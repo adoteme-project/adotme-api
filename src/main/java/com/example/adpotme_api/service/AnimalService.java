@@ -9,6 +9,7 @@ import com.example.adpotme_api.entity.ong.Ong;
 import com.example.adpotme_api.integration.CloudinaryService;
 import com.example.adpotme_api.repository.AnimalRepository;
 import com.example.adpotme_api.repository.OngRepository;
+import com.example.adpotme_api.util.Recursao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class AnimalService {
 
     @Autowired
     private OngRepository ongRepository;
+
 
     @Transactional
     public Animal cadastrarCachorro(CachorroCreateDto cachorroDto, MultipartFile fotoPerfil) {
@@ -152,6 +154,17 @@ public class AnimalService {
     }
 
 
+    public Integer recuperarQuantidadeAnimaisPorOng(Long ongId) {
+        Optional<Ong> ongOpt = ongRepository.findById(ongId);
+        if (ongOpt.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
+        }
+        Ong ong = ongOpt.get();
+        List<Animal> animalOpt = animalRepository.findByOng(ong);
 
 
+        return Recursao.buscarQuantidade(animalOpt, 0);
+
+
+    }
 }
