@@ -1,18 +1,26 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.dto.animal.CachorroCreateDto;
 import com.example.adpotme_api.dto.animalPerdido.AnimalPerdidoUpdateDto;
 import com.example.adpotme_api.dto.animalPerdido.CachorroPerdidoCreateDto;
 import com.example.adpotme_api.dto.animalPerdido.GatoPerdidoCreateDto;
+import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.animalPerdido.*;
 import com.example.adpotme_api.service.AnimalPerdidoService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -25,25 +33,38 @@ public class AnimalPerdidoController {
 
     @Autowired
     private AnimalPerdidoService animalPerdidoService;
+    ObjectMapper objectMapper = new ObjectMapper();
 
-    @PostMapping("/cachorro")
+    @PostMapping(value="/cachorro", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     @Operation(summary = "Cadastrar cachorro perdido", description = "Cadastra um novo cachorro perdido no sistema com os dados fornecidos no corpo da requisição.")
     @ApiResponse(responseCode = "201", description = "Cachorro perdido cadastrado com sucesso.")
     public ResponseEntity<AnimalPerdido> cadastrarCachorroPerdido(
-            @RequestBody @Valid CachorroPerdidoCreateDto cachorroDto) {
+            @RequestPart("cachorro") String cachorroPerdidoJson,
+            @RequestPart(value = "fotoPerfil", required = false) MultipartFile fotoPerfil
+    ) throws JsonProcessingException {
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-        AnimalPerdido cachorro = animalPerdidoService.cadastrarCachorroPerdido(cachorroDto);
+        CachorroPerdidoCreateDto cachorroDto = objectMapper.readValue(cachorroPerdidoJson, CachorroPerdidoCreateDto.class);
+
+        AnimalPerdido cachorro = animalPerdidoService.cadastrarCachorroPerdido(cachorroDto, fotoPerfil);
         return ResponseEntity.status(201).body(cachorro);
     }
 
-    @PostMapping("/gato")
+    @PostMapping(value="/gato", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     @Operation(summary = "Cadastrar gato perdido", description = "Cadastra um novo gato perdido no sistema com os dados fornecidos no corpo da requisição.")
     @ApiResponse(responseCode = "201", description = "Gato perdido cadastrado com sucesso.")
     public ResponseEntity<AnimalPerdido> cadastrarGatoPerdido(
-            @RequestBody @Valid GatoPerdidoCreateDto gatoDto) {
+            @RequestPart("gato") String gatoPerdidoJson,
+            @RequestPart(value = "fotoPerfil", required = false) MultipartFile fotoPerfil
+    ) throws JsonProcessingException {
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-        AnimalPerdido gato = animalPerdidoService.cadastrarGatoPerdido(gatoDto);
-        return ResponseEntity.status(201).body(gato);
+        GatoPerdidoCreateDto gatoDto = objectMapper.readValue(gatoPerdidoJson, GatoPerdidoCreateDto.class);
+
+        AnimalPerdido cachorro = animalPerdidoService.cadastrarGatoPerdido(gatoDto, fotoPerfil);
+        return ResponseEntity.status(201).body(cachorro);
     }
 
     @GetMapping

@@ -1,4 +1,4 @@
-package com.example.adpotme_api.service;
+package com.example.adpotme_api.integration;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.api.ApiResponse;

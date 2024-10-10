@@ -52,11 +52,20 @@ public class AnimalController {
         return ResponseEntity.status(201).body(cachorro);
     }
 
-    @PostMapping("/gato")
+    @PostMapping(value="/gato", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     @Operation(summary = "Cadastra um gato", description = "Cadastra um novo gato no sistema com os dados fornecidos.")
     @ApiResponse(responseCode = "201", description = "O gato foi cadastrado com sucesso no sistema.")
-    public ResponseEntity<Animal> cadastrarGato(@RequestBody @Valid GatoCreateDto gatoDto) {
-        Animal gato = animalService.cadastrarGato(gatoDto);
+    public ResponseEntity<Animal> cadastrarGato(
+            @RequestPart("gato") String gatoJson,
+            @RequestPart(value = "fotoPerfil", required = false) MultipartFile fotoPerfil
+    ) throws JsonProcessingException {
+
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        GatoCreateDto dados = objectMapper.readValue(gatoJson, GatoCreateDto.class);
+
+        Animal gato = animalService.cadastrarGato(dados, fotoPerfil);
         return ResponseEntity.status(201).body(gato);
     }
 

@@ -2,6 +2,7 @@ package com.example.adpotme_api.entity.animalPerdido;
 
 import com.example.adpotme_api.dto.animalPerdido.AnimalPerdidoCreateDto;
 import com.example.adpotme_api.entity.endereco.Endereco;
+import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.entity.ong.Ong;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -38,6 +39,10 @@ public abstract class AnimalPerdido {
     @JoinColumn(name = "ong_id")
     @JsonBackReference
     protected Ong ong;
+    @OneToOne
+    @JoinColumn(name = "foto_perfil_id")
+    private Image fotoPerfil;
+
 
     public Long getOngId() {
         return ong != null ? ong.getId() : null;

@@ -6,6 +6,7 @@ import com.example.adpotme_api.dto.animal.GatoCreateDto;
 import com.example.adpotme_api.entity.animal.*;
 import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.entity.ong.Ong;
+import com.example.adpotme_api.integration.CloudinaryService;
 import com.example.adpotme_api.repository.AnimalRepository;
 import com.example.adpotme_api.repository.OngRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-import com.example.adpotme_api.service.CloudinaryService;
 
 import jakarta.transaction.Transactional;
 
@@ -44,13 +44,9 @@ public class AnimalService {
             try {
                 Image image = cloudinaryService.upload(fotoPerfil);
                 Ong ong = ongOpt.get();
-
-
                 cachorro.setOng(ong);
                 cachorro.setFotoPerfil(image);
                 cachorro.calcularTaxaAdocao();
-
-
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -60,16 +56,25 @@ public class AnimalService {
     }
 
     @Transactional
-    public Animal cadastrarGato(GatoCreateDto gatoDto) {
+    public Animal cadastrarGato(GatoCreateDto gatoDto, MultipartFile fotoPerfil) {
         Optional<Ong> ongOpt = ongRepository.findById(gatoDto.getOngId());
         if (ongOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
         }
-        Ong ong = ongOpt.get();
-
         Gato gato = new Gato(gatoDto);
-        gato.setOng(ong);
-        gato.calcularTaxaAdocao();
+
+        if(fotoPerfil != null && !fotoPerfil.isEmpty()) {
+            try {
+                Image image = cloudinaryService.upload(fotoPerfil);
+                Ong ong = ongOpt.get();
+                gato.setOng(ong);
+                gato.setFotoPerfil(image);
+                gato.calcularTaxaAdocao();
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         return animalRepository.save(gato);
     }
 

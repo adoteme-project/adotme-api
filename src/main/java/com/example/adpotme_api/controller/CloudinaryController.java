@@ -2,7 +2,7 @@ package com.example.adpotme_api.controller;
 
 import com.cloudinary.api.ApiResponse;
 import com.example.adpotme_api.entity.image.Image;
-import com.example.adpotme_api.service.CloudinaryService;
+import com.example.adpotme_api.integration.CloudinaryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
