@@ -10,9 +10,9 @@ import java.util.UUID;
 @Table(name = "images")
 public class Image {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private UUID id;
+    private Integer id;
 
     @Column(name = "name_image")
     private String name;

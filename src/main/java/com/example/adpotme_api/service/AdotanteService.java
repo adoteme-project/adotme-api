@@ -8,7 +8,7 @@ import com.example.adpotme_api.entity.endereco.ViaCepService;
 import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.repository.AdotanteRepository;
 import com.example.adpotme_api.repository.EnderecoRepository;
-import com.example.adpotme_api.service.CloudinaryService;
+import com.example.adpotme_api.integration.CloudinaryService;
 import com.example.adpotme_api.util.Sorting;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +58,8 @@ public class AdotanteService {
         if(fotoPerfil != null && !fotoPerfil.isEmpty()) {
             try {
                 Image image = cloudinaryService.upload(fotoPerfil);
+                adotante.setFotoPerfil(image);
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
