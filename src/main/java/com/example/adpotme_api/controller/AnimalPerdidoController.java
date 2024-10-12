@@ -1,10 +1,7 @@
 package com.example.adpotme_api.controller;
 
 import com.example.adpotme_api.dto.animal.CachorroCreateDto;
-import com.example.adpotme_api.dto.animalPerdido.AnimalPerdidoAchadoPerdidoDto;
-import com.example.adpotme_api.dto.animalPerdido.AnimalPerdidoUpdateDto;
-import com.example.adpotme_api.dto.animalPerdido.CachorroPerdidoCreateDto;
-import com.example.adpotme_api.dto.animalPerdido.GatoPerdidoCreateDto;
+import com.example.adpotme_api.dto.animalPerdido.*;
 import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.animalPerdido.*;
 import com.example.adpotme_api.mapper.AnimalPerdidoMapper;
@@ -143,6 +140,20 @@ public class AnimalPerdidoController {
             @PathVariable Long ongId) {
 
         List<AnimalPerdidoAchadoPerdidoDto> animais = animalPerdidoService.recuperarAnimaisPerdidosEAchados(ongId);
+        if(animais.isEmpty()){
+            return ResponseEntity.status(204).build();
+        }
+
+        return ResponseEntity.status(200).body(animais);
+    }
+
+    @GetMapping("/animal-perdido-achados-perdidos-card/{ongId}")
+    @Operation(summary = "Recuperar animais perdidos e achados", description = "Retorna uma lista de animais perdidos e achados cadastrados no sistema com base no ID da ONG fornecido.")
+    @ApiResponse(responseCode = "200", description = "Lista de animais perdidos e achados recuperada com sucesso.")
+    public ResponseEntity <List<AnimalPerdidoCardDto>> recuperarAnimaisPerdidosEAchadosCard(
+            @PathVariable Long ongId) {
+
+        List<AnimalPerdidoCardDto> animais = animalPerdidoService.recuperarAnimaisPerdidosCard(ongId);
         if(animais.isEmpty()){
             return ResponseEntity.status(204).build();
         }

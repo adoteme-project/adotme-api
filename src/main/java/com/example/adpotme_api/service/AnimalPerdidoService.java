@@ -1,9 +1,6 @@
 package com.example.adpotme_api.service;
 
-import com.example.adpotme_api.dto.animalPerdido.AnimalPerdidoAchadoPerdidoDto;
-import com.example.adpotme_api.dto.animalPerdido.AnimalPerdidoUpdateDto;
-import com.example.adpotme_api.dto.animalPerdido.CachorroPerdidoCreateDto;
-import com.example.adpotme_api.dto.animalPerdido.GatoPerdidoCreateDto;
+import com.example.adpotme_api.dto.animalPerdido.*;
 import com.example.adpotme_api.entity.animalPerdido.*;
 import com.example.adpotme_api.entity.endereco.Endereco;
 import com.example.adpotme_api.entity.endereco.ViaCepService;
@@ -183,6 +180,22 @@ public class AnimalPerdidoService {
         List<AnimalPerdidoAchadoPerdidoDto> animaisDto = new ArrayList<>();
         for (AnimalPerdido animal : animais) {
             AnimalPerdidoAchadoPerdidoDto animalDto = AnimalPerdidoMapper.toAnimalPerdidoAchadoPerdidoDto(animal);
+            animaisDto.add(animalDto);
+
+        }
+        return animaisDto;
+    }
+
+    public List<AnimalPerdidoCardDto> recuperarAnimaisPerdidosCard(Long ongId) {
+        Optional<Ong> ongOpt = ongRepository.findById(ongId);
+        if (ongOpt.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
+        }
+        Ong ong = ongOpt.get();
+        List<AnimalPerdido> animais = animalPerdidoRepository.findByOng(ong);
+        List<AnimalPerdidoCardDto> animaisDto = new ArrayList<>();
+        for (AnimalPerdido animal : animais) {
+            AnimalPerdidoCardDto animalDto = AnimalPerdidoMapper.toAnimalPerdidoCardDto(animal);
             animaisDto.add(animalDto);
 
         }
