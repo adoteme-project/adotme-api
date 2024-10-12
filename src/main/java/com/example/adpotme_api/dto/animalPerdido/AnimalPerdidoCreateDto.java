@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
@@ -19,6 +20,8 @@ public abstract class AnimalPerdidoCreateDto {
     protected String cep;
     protected LocalDate cadastro = LocalDate.now();
     protected String especie;
+    protected Double latitude;
+    protected Double longitude;
     protected String raca;
     protected String descricao;
     protected Boolean isVisible;

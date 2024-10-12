@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Table(name = "animalperdido")
@@ -26,6 +27,8 @@ public abstract class AnimalPerdido {
     protected Long id;
     protected String apelido;
     protected String sexo;
+    protected Double latitude;
+    protected Double longitude;
     @OneToOne
     protected Endereco enderecoPerdido;
     protected String especie;
@@ -58,6 +61,8 @@ public abstract class AnimalPerdido {
         this.porte = animal.getPorte();
         this.cadastro = animal.getCadastro();
         this.raca = animal.getRaca();
+        this.latitude = animal.getLatitude();
+        this.longitude = animal.getLongitude();
 
     }
 
