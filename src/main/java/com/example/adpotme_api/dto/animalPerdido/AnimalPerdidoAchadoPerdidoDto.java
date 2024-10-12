@@ -22,6 +22,10 @@ public class AnimalPerdidoAchadoPerdidoDto {
     private LocalDate dataResgate;
     private String descricao;
     private String nomeOng;
+    private String ruaPerdido;
+    private String bairroPerdido;
+    private String cidadePerdido;
+    private String estadoPerdido;
     private String rua;
     private String bairro;
     private String cidade;
