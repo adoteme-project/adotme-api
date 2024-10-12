@@ -1,5 +1,6 @@
 package com.example.adpotme_api.service;
 
+import com.example.adpotme_api.dto.animalPerdido.AnimalPerdidoAchadoPerdidoDto;
 import com.example.adpotme_api.dto.animalPerdido.AnimalPerdidoUpdateDto;
 import com.example.adpotme_api.dto.animalPerdido.CachorroPerdidoCreateDto;
 import com.example.adpotme_api.dto.animalPerdido.GatoPerdidoCreateDto;
@@ -9,6 +10,7 @@ import com.example.adpotme_api.entity.endereco.ViaCepService;
 import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.entity.ong.Ong;
 import com.example.adpotme_api.integration.CloudinaryService;
+import com.example.adpotme_api.mapper.AnimalPerdidoMapper;
 import com.example.adpotme_api.repository.AnimalPerdidoRepository;
 import com.example.adpotme_api.repository.EnderecoRepository;
 import com.example.adpotme_api.repository.OngRepository;
@@ -22,6 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 import jakarta.transaction.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -168,5 +171,21 @@ public class AnimalPerdidoService {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Animal não encontrado");
         }
+    }
+
+    public List<AnimalPerdidoAchadoPerdidoDto> recuperarAnimaisPerdidosEAchados(Long ongId) {
+        Optional<Ong> ongOpt = ongRepository.findById(ongId);
+        if (ongOpt.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
+        }
+        Ong ong = ongOpt.get();
+        List<AnimalPerdido> animais = animalPerdidoRepository.findByOng(ong);
+        List<AnimalPerdidoAchadoPerdidoDto> animaisDto = new ArrayList<>();
+        for (AnimalPerdido animal : animais) {
+            AnimalPerdidoAchadoPerdidoDto animalDto = AnimalPerdidoMapper.toAnimalPerdidoAchadoPerdidoDto(animal);
+            animaisDto.add(animalDto);
+
+        }
+        return animaisDto;
     }
 }
