@@ -9,6 +9,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Table(name = "formulario")
@@ -24,17 +26,11 @@ public class Formulario {
     private Boolean moraEmCasa;
     private Boolean isTelado;
     private Boolean casaPortaoAlto;
-    @ManyToOne
-    @JoinColumn(name = "adotante_id")
-    @JsonBackReference
+    @OneToOne
     private Adotante adotante;
-    @ManyToOne
-    @JoinColumn(name = "animal_id")
-    @JsonBackReference
-    private Animal animal;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
 
-    private Requisicao requisicao;
+    private List<Requisicao> requisicao;
 
 
     public Formulario(FormularioCreateDto dto) {

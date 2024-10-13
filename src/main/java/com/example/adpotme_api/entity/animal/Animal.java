@@ -56,9 +56,6 @@ public abstract class Animal {
     @JoinColumn(name = "ong_id")
     @JsonBackReference
     protected Ong ong;
-    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    protected List<Formulario> formulario;
     @OneToOne
     @JoinColumn(name = "foto_perfil_id")
     private Image fotoPerfil;

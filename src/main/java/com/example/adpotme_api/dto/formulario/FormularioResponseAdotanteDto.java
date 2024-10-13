@@ -1,12 +1,11 @@
 package com.example.adpotme_api.dto.formulario;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class FormularioCreateDto {
+public class FormularioResponseAdotanteDto {
     private Boolean temCrianca;
     private Boolean moradoresConcordam;
     private Boolean temPet;
@@ -14,7 +13,4 @@ public class FormularioCreateDto {
     private Boolean moraEmCasa;
     private Boolean isTelado;
     private Boolean casaPortaoAlto;
-
-
 }
-
