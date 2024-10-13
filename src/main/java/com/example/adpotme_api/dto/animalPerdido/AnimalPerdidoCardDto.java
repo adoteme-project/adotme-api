@@ -24,4 +24,9 @@ public class AnimalPerdidoCardDto {
     private String bairroPerdido;
     private String cidadePerdido;
     private String estadoPerdido;
+    private String rua;
+    private String bairro;
+    private String cidade;
+    private String estado;
+    private String descricao;
 }
