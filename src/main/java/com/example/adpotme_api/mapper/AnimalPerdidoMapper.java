@@ -25,6 +25,11 @@ public class AnimalPerdidoMapper {
                 .latitude(animalPerdido.getLatitude())
                 .longitude(animalPerdido.getLongitude())
                 .raca(animalPerdido.getRaca())
+                .descricao(animalPerdido.getDescricao())
+                .rua(animalPerdido.getOng().getEndereco().getRua())
+                .bairro(animalPerdido.getOng().getEndereco().getBairro())
+                .cidade(animalPerdido.getOng().getEndereco().getCidade())
+                .estado(animalPerdido.getOng().getEndereco().getEstado())
                 .build();
     }
 
