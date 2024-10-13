@@ -170,7 +170,19 @@ public class AnimalPerdidoService {
         }
     }
 
-    public List<AnimalPerdidoAchadoPerdidoDto> recuperarAnimaisPerdidosEAchados(Long ongId) {
+    public List<AnimalPerdidoAchadoPerdidoDto> recuperarAnimaisPerdidosEAchados() {
+
+        List<AnimalPerdido> animais = animalPerdidoRepository.findAll();
+        List<AnimalPerdidoAchadoPerdidoDto> animaisDto = new ArrayList<>();
+        for (AnimalPerdido animal : animais) {
+            AnimalPerdidoAchadoPerdidoDto animalDto = AnimalPerdidoMapper.toAnimalPerdidoAchadoPerdidoDto(animal);
+            animaisDto.add(animalDto);
+
+        }
+        return animaisDto;
+    }
+
+    public List<AnimalPerdidoAchadoPerdidoDto> recuperarAnimaisPerdidosPorOng(Long ongId) {
         Optional<Ong> ongOpt = ongRepository.findById(ongId);
         if (ongOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
@@ -186,19 +198,12 @@ public class AnimalPerdidoService {
         return animaisDto;
     }
 
-    public List<AnimalPerdidoCardDto> recuperarAnimaisPerdidosCard(Long ongId) {
-        Optional<Ong> ongOpt = ongRepository.findById(ongId);
-        if (ongOpt.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
+    public AnimalPerdidoCardDto recuperarAnimalPerdidoCardPorId(Long idAnimalPerdido) {
+        Optional<AnimalPerdido> animalOpt = animalPerdidoRepository.findById(idAnimalPerdido);
+        if (animalOpt.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Animal não encontrado");
         }
-        Ong ong = ongOpt.get();
-        List<AnimalPerdido> animais = animalPerdidoRepository.findByOng(ong);
-        List<AnimalPerdidoCardDto> animaisDto = new ArrayList<>();
-        for (AnimalPerdido animal : animais) {
-            AnimalPerdidoCardDto animalDto = AnimalPerdidoMapper.toAnimalPerdidoCardDto(animal);
-            animaisDto.add(animalDto);
-
-        }
-        return animaisDto;
+        AnimalPerdido animal = animalOpt.get();
+        return AnimalPerdidoMapper.toAnimalPerdidoCardDto(animal);
     }
 }

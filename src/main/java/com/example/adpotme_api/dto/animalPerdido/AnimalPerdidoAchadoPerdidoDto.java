@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Getter
 public class AnimalPerdidoAchadoPerdidoDto {
     private String apelido;
-    private String genero;
+    private String sexo;
     private Long id;
     private String raca;
     private String especie;
