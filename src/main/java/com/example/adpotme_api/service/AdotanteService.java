@@ -1,11 +1,13 @@
 package com.example.adpotme_api.service;
 
+import com.example.adpotme_api.dto.adotante.AdotanteResponseDto;
 import com.example.adpotme_api.dto.adotante.AdotanteUpdateDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
 import com.example.adpotme_api.entity.endereco.Endereco;
 import com.example.adpotme_api.entity.endereco.ViaCepService;
 import com.example.adpotme_api.entity.image.Image;
+import com.example.adpotme_api.mapper.AdotanteMapper;
 import com.example.adpotme_api.repository.AdotanteRepository;
 import com.example.adpotme_api.repository.EnderecoRepository;
 import com.example.adpotme_api.integration.CloudinaryService;
@@ -21,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 import jakarta.transaction.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,6 +57,7 @@ public class AdotanteService {
         adotante.setEmail(dados.getEmail());
         adotante.setCelular(dados.getCelular());
         adotante.setEndereco(endereco);
+        adotante.setCadastro(dados.getCadastro());
 
         if(fotoPerfil != null && !fotoPerfil.isEmpty()) {
             try {
@@ -70,8 +74,15 @@ public class AdotanteService {
         return adotanteRepository.save(adotante);
     }
 
-    public List<Adotante> recuperarAdotantes() {
-        return adotanteRepository.findAll();
+    public List<AdotanteResponseDto> recuperarAdotantes() {
+        List<Adotante> adotantes =  adotanteRepository.findAll();
+        List<AdotanteResponseDto> adotantesResponse = new ArrayList<>();
+        for (Adotante adotante : adotantes) {
+           AdotanteResponseDto adotanteDaVez =  AdotanteMapper.toResponseDto(adotante);
+            adotantesResponse.add(adotanteDaVez);
+
+        }
+        return adotantesResponse;
     }
 
     public Adotante recuperarAdotantePorId(Long id) {

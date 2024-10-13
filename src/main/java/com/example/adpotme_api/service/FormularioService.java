@@ -1,15 +1,18 @@
 package com.example.adpotme_api.service;
 
+import com.example.adpotme_api.dto.adotante.AdotanteResponseDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.formulario.Formulario;
 import com.example.adpotme_api.dto.formulario.FormularioCreateDto;
 import com.example.adpotme_api.entity.requisicao.Requisicao;
 import com.example.adpotme_api.entity.requisicao.Status;
+import com.example.adpotme_api.mapper.AdotanteMapper;
 import com.example.adpotme_api.repository.AdotanteRepository;
 import com.example.adpotme_api.repository.AnimalRepository;
 import com.example.adpotme_api.repository.FormularioRepository;
 import com.example.adpotme_api.repository.RequisicaoRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -34,29 +37,18 @@ public class FormularioService {
     private AnimalRepository animalRepository;
 
     @Transactional
-    public Formulario preencherFormulario(FormularioCreateDto dados) {
+    public Formulario preencherFormulario(FormularioCreateDto dados, Long idAdotante) {
         Formulario formulario = new Formulario(dados);
 
-        Adotante adotante = adotanteRepository.findById(dados.getAdotanteId()).orElse(null);
+        Adotante adotante = adotanteRepository.findById(idAdotante).orElse(null);
         if (adotante == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
         }
         formulario.setAdotante(adotante);
 
-        Animal animal = animalRepository.findById(dados.getAnimalId()).orElse(null);
-        if (animal == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Animal não encontrado");
-        }
-        formulario.setAnimal(animal);
-
-        Requisicao requisicao = new Requisicao();
-        requisicao.setStatus(Status.INICIO_DA_APLICACAO);
-        requisicao.setFormulario(formulario);
-
-        formulario.setRequisicao(requisicao);
 
         formularioRepository.save(formulario);
-        requisicaoRepository.save(requisicao);
+
 
         return formulario;
     }
@@ -72,5 +64,35 @@ public class FormularioService {
 
     public List<Formulario> listarFormulariosPorAdotante(Long id) {
         return formularioRepository.findByAdotanteId(id);
+    }
+
+    public AdotanteResponseDto atualizarFormulario(@Valid FormularioCreateDto dados, Long id) {
+        Adotante adotante = adotanteRepository.findById(id).orElse(null);
+        if (adotante == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
+        }
+
+        Formulario formulario = adotante.getFormulario();
+
+
+        formulario.setTemCrianca(dados.getTemCrianca() != null ? dados.getTemCrianca() : formulario.getTemCrianca());
+        formulario.setMoradoresConcordam(dados.getMoradoresConcordam() != null ? dados.getMoradoresConcordam() : formulario.getMoradoresConcordam());
+        formulario.setTemPet(dados.getTemPet() != null ? dados.getTemPet() : formulario.getTemPet());
+        formulario.setSeraResponsavel(dados.getSeraResponsavel() != null ? dados.getSeraResponsavel() : formulario.getSeraResponsavel());
+        formulario.setMoraEmCasa(dados.getMoraEmCasa() != null ? dados.getMoraEmCasa() : formulario.getMoraEmCasa());
+        formulario.setIsTelado(dados.getIsTelado() != null ? dados.getIsTelado() : formulario.getIsTelado());
+        formulario.setCasaPortaoAlto(dados.getCasaPortaoAlto() != null ? dados.getCasaPortaoAlto() : formulario.getCasaPortaoAlto());
+
+
+
+
+
+        adotante.setFormulario(formulario);
+        adotanteRepository.save(adotante);
+
+        formularioRepository.save(formulario);
+
+
+        return AdotanteMapper.toResponseDto(adotante);
     }
 }

@@ -25,17 +25,8 @@ public class FormularioController {
     @Autowired
     private FormularioService formularioService;
 
-    @PostMapping
-    @Operation(
-            summary = "Preenche um novo formulário.",
-            description = "Este endpoint permite que um usuário preencha um novo formulário, " +
-                    "enviando os dados necessários para a criação e recebendo o formulário preenchido como resposta."
-    )
-    @ApiResponse(responseCode = "201", description = "Formulário preenchido com sucesso.")
-    public ResponseEntity<Formulario> preencherFormulario(@RequestBody @Valid FormularioCreateDto dados) {
-        Formulario formulario = formularioService.preencherFormulario(dados);
-        return ResponseEntity.status(201).body(formulario);
-    }
+
+
 
     @GetMapping
     @Operation(

@@ -48,9 +48,9 @@ public class Adotante implements UserDetails {
     private String senha;
     private String celular;
 
-    @OneToMany(mappedBy = "adotante", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "adotante")
     @JsonManagedReference
-    private List<Formulario> formulario;
+    private Formulario formulario;
 
     @OneToMany(mappedBy = "adotante") // O nome aqui deve corresponder ao nome da propriedade na classe Animal
     private List<Animal> adotados;

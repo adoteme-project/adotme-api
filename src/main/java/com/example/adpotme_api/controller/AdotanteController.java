@@ -1,9 +1,16 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.dto.adotante.AdotanteResponseDto;
 import com.example.adpotme_api.dto.adotante.AdotanteUpdateDto;
+import com.example.adpotme_api.dto.formulario.FormularioCreateDto;
+import com.example.adpotme_api.dto.formulario.FormularioResponseAdotanteDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
+import com.example.adpotme_api.entity.formulario.Formulario;
+import com.example.adpotme_api.mapper.AdotanteMapper;
+import com.example.adpotme_api.mapper.FormularioMapper;
 import com.example.adpotme_api.service.AdotanteService;
+import com.example.adpotme_api.service.FormularioService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -12,6 +19,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +37,14 @@ public class AdotanteController {
 
     @Autowired
     private AdotanteService adotanteService;
+    @Autowired
+    private FormularioService formularioService;
 
     @PostMapping(value = "/cadastrar", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     @Operation(summary = "Cadastra um adotante", description = "Cadastra um novo adotante no sistema com os dados fornecidos.")
     @ApiResponse(responseCode = "201", description = "O adotante foi cadastrado com sucesso no sistema.")
 
-    public ResponseEntity<Adotante> cadastrarAdotante(
+    public ResponseEntity<AdotanteResponseDto> cadastrarAdotante(
             @RequestPart("adotante") String adotanteJson,
             @RequestPart(value = "fotoPerfil", required = false) MultipartFile fotoPerfil
     ) throws JsonProcessingException {
@@ -46,14 +56,28 @@ public class AdotanteController {
         AdotanteCreateDto dados = objectMapper.readValue(adotanteJson, AdotanteCreateDto.class);
 
         Adotante adotante = adotanteService.cadastrarAdotante(dados, fotoPerfil);
-        return ResponseEntity.status(201).body(adotante);
+        AdotanteResponseDto adotanteResponseDto =  AdotanteMapper.toResponseDto(adotante);
+
+        return ResponseEntity.status(201).body(adotanteResponseDto);
+    }
+    @PostMapping("preencher-formulario/{idAdotante}")
+    @Operation(
+            summary = "Preenche um novo formulário.",
+            description = "Este endpoint permite que um usuário preencha um novo formulário, " +
+                    "enviando os dados necessários para a criação e recebendo o formulário preenchido como resposta."
+    )
+    @ApiResponse(responseCode = "201", description = "Formulário preenchido com sucesso.")
+    public ResponseEntity<FormularioResponseAdotanteDto> preencherFormulario(@RequestBody @Valid FormularioCreateDto dados, @PathVariable Long idAdotante) {
+        Formulario formulario = formularioService.preencherFormulario(dados, idAdotante);
+        FormularioResponseAdotanteDto formularioResponse = FormularioMapper.toResponseDto(formulario);
+        return ResponseEntity.status(201).body(formularioResponse);
     }
 
     @GetMapping
     @Operation(summary = "Retorna todos os adotantes", description = "Recupera uma lista de todos os adotantes cadastrados no sistema.")
     @ApiResponse(responseCode = "200", description = "A lista de adotantes foi recuperada com sucesso.")
-    public ResponseEntity<List<Adotante>> recuperarAdotantes() {
-        List<Adotante> adotantes = adotanteService.recuperarAdotantes();
+    public ResponseEntity<List<AdotanteResponseDto>> recuperarAdotantes() {
+        List<AdotanteResponseDto> adotantes = adotanteService.recuperarAdotantes();
         if (adotantes.isEmpty()) {
             return ResponseEntity.status(204).build();
         }
@@ -79,9 +103,21 @@ public class AdotanteController {
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza um adotante", description = "Atualiza as informações de um adotante existente com base no ID fornecido.")
     @ApiResponse(responseCode = "200", description = "Os dados do adotante foram atualizados com sucesso.")
-    public ResponseEntity<Adotante> atualizarAdotante(@PathVariable Long id, @RequestBody AdotanteUpdateDto adotante) {
+    public ResponseEntity<AdotanteResponseDto> atualizarAdotante(@PathVariable Long id, @RequestBody AdotanteUpdateDto adotante) {
         Adotante atualizado = adotanteService.atualizarAdotante(id, adotante);
-        return ResponseEntity.ok(atualizado);
+        AdotanteResponseDto adotanteResponse = AdotanteMapper.toResponseDto(atualizado);
+        return ResponseEntity.ok(adotanteResponse);
+    }
+    @PutMapping("atualizacao-formulario/{id}/")
+    @Operation(
+            summary = "Atualiza um formulário.",
+            description = "Este endpoint permite que um usuário atualize um formulário, " +
+                    "enviando os dados necessários para a atualização e recebendo o formulário atualizado como resposta."
+    )
+    @ApiResponse(responseCode = "201", description = "Formulário atualizado com sucesso.")
+    public ResponseEntity<AdotanteResponseDto> atualizarFormulario(@RequestBody @Valid FormularioCreateDto dados, @PathVariable Long id) {
+        AdotanteResponseDto adotante = formularioService.atualizarFormulario(dados, id);
+        return ResponseEntity.status(201).body(adotante);
     }
 
     @DeleteMapping("/{id}")
