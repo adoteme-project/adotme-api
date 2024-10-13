@@ -30,8 +30,9 @@ public class OngService {
     private ViaCepService viaCepService;
 
     @Transactional
-    public Ong cadastrarOng(OngCreateDto dados) {
+    public Ong cadastrarOng(OngCreateDto dados, String numero) {
         Endereco endereco = viaCepService.obterEnderecoPorCep(dados.getCep());
+        endereco.setNumero(numero);
         enderecoRepository.save(endereco);
 
         Ong ong = new Ong(dados);

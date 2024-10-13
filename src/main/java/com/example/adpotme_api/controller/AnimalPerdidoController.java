@@ -133,13 +133,13 @@ public class AnimalPerdidoController {
         return ResponseEntity.status(204).build();
     }
 
-    @GetMapping("/animal-perdido-achados-perdidos/{ongId}")
-    @Operation(summary = "Recuperar animais perdidos e achados", description = "Retorna uma lista de animais perdidos e achados cadastrados no sistema com base no ID da ONG fornecido.")
+    @GetMapping("/animal-perdido-achados-perdidos/")
+    @Operation(summary = "Recuperar animais perdidos e achados", description = "Retorna uma lista de animais perdidos e achados cadastrados no sistema.")
     @ApiResponse(responseCode = "200", description = "Lista de animais perdidos e achados recuperada com sucesso.")
     public ResponseEntity <List<AnimalPerdidoAchadoPerdidoDto>> recuperarAnimaisPerdidosEAchados(
-            @PathVariable Long ongId) {
+          ) {
 
-        List<AnimalPerdidoAchadoPerdidoDto> animais = animalPerdidoService.recuperarAnimaisPerdidosEAchados(ongId);
+        List<AnimalPerdidoAchadoPerdidoDto> animais = animalPerdidoService.recuperarAnimaisPerdidosEAchados();
         if(animais.isEmpty()){
             return ResponseEntity.status(204).build();
         }
@@ -147,16 +147,28 @@ public class AnimalPerdidoController {
         return ResponseEntity.status(200).body(animais);
     }
 
-    @GetMapping("/animal-perdido-achados-perdidos-card/{ongId}")
+    @GetMapping("/animal-perdido-achados-perdidos-por-ong/{idOng}")
     @Operation(summary = "Recuperar animais perdidos e achados", description = "Retorna uma lista de animais perdidos e achados cadastrados no sistema com base no ID da ONG fornecido.")
     @ApiResponse(responseCode = "200", description = "Lista de animais perdidos e achados recuperada com sucesso.")
-    public ResponseEntity <List<AnimalPerdidoCardDto>> recuperarAnimaisPerdidosEAchadosCard(
-            @PathVariable Long ongId) {
+    public ResponseEntity <List<AnimalPerdidoAchadoPerdidoDto>> recuperarAnimaisPerdidosEAchadosPorOng(
+            @PathVariable Long idOng) {
 
-        List<AnimalPerdidoCardDto> animais = animalPerdidoService.recuperarAnimaisPerdidosCard(ongId);
+        List<AnimalPerdidoAchadoPerdidoDto> animais = animalPerdidoService.recuperarAnimaisPerdidosPorOng(idOng);
         if(animais.isEmpty()){
             return ResponseEntity.status(204).build();
         }
+
+        return ResponseEntity.status(200).body(animais);
+    }
+
+    @GetMapping("/animal-perdido-achados-perdidos-card/{idAnimalPerdido}")
+    @Operation(summary = "Recuperar animais perdidos e achados", description = "Retorna uma lista de animais perdidos e achados cadastrados no sistema com base no Id do animal.")
+    @ApiResponse(responseCode = "200", description = "Animal perdido recuperado com sucesso.")
+    public ResponseEntity <AnimalPerdidoCardDto> recuperarAnimalPerdidoCardPorId(
+            @PathVariable Long idAnimalPerdido) {
+
+        AnimalPerdidoCardDto animais = animalPerdidoService.recuperarAnimalPerdidoCardPorId(idAnimalPerdido);
+
 
         return ResponseEntity.status(200).body(animais);
     }

@@ -35,8 +35,8 @@ public class OngController {
             @ApiResponse(responseCode = "201", description = "ONG cadastrada com sucesso."),
             @ApiResponse(responseCode = "400", description = "Erro na validação dos dados fornecidos.")
     })
-    public ResponseEntity<Ong> cadastrarOng(@RequestBody @Valid OngCreateDto dados) {
-        Ong ong = ongService.cadastrarOng(dados);
+    public ResponseEntity<Ong> cadastrarOng(@RequestBody @Valid OngCreateDto dados, @RequestParam String numero) {
+        Ong ong = ongService.cadastrarOng(dados, numero);
         return ResponseEntity.status(201).body(ong);
     }
 

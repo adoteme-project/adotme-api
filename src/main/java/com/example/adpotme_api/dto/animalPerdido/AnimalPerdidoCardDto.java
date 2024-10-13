@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Builder
 public class AnimalPerdidoCardDto {
     private String apelido;
-    private String genero;
+    private String sexo;
     private Long id;
     private String raca;
     private String especie;
