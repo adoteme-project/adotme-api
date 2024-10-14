@@ -13,6 +13,7 @@ import com.example.adpotme_api.repository.AnimalRepository;
 import com.example.adpotme_api.repository.OngRepository;
 import com.example.adpotme_api.repository.PersonalidadeRepository;
 import com.example.adpotme_api.util.Recursao;
+import com.example.adpotme_api.util.Sorting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -176,5 +177,10 @@ public class AnimalService {
         return Recursao.buscarQuantidade(animalOpt, 0);
 
 
+    }
+
+    public Animal[] recuperarAnimaisPorPersonalidade(String personalidade) {
+        List<Animal> animais = animalRepository.findAll();
+        return Sorting.selectionSortPetPorPersonalidade(animais, personalidade);
     }
 }
