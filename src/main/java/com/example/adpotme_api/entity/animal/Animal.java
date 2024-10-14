@@ -6,6 +6,7 @@ import com.example.adpotme_api.entity.animal.strategy.TaxaAdocaoStrategy;
 import com.example.adpotme_api.entity.formulario.Formulario;
 import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.entity.ong.Ong;
+import com.example.adpotme_api.entity.personalidade.Personalidade;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -59,6 +60,9 @@ public abstract class Animal {
     @OneToOne
     @JoinColumn(name = "foto_perfil_id")
     private Image fotoPerfil;
+    @OneToOne
+    @JoinColumn(name = "personalidade_id")
+    private Personalidade personalidade;
 
     public Long getOngId() {
         return ong != null ? ong.getId() : null;

@@ -6,9 +6,12 @@ import com.example.adpotme_api.dto.animal.GatoCreateDto;
 import com.example.adpotme_api.entity.animal.*;
 import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.entity.ong.Ong;
+import com.example.adpotme_api.entity.personalidade.Personalidade;
 import com.example.adpotme_api.integration.CloudinaryService;
+import com.example.adpotme_api.mapper.PersonalidadeMapper;
 import com.example.adpotme_api.repository.AnimalRepository;
 import com.example.adpotme_api.repository.OngRepository;
+import com.example.adpotme_api.repository.PersonalidadeRepository;
 import com.example.adpotme_api.util.Recursao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +35,8 @@ public class AnimalService {
 
     @Autowired
     private OngRepository ongRepository;
-
+    @Autowired
+    private PersonalidadeRepository personalidadeRepository;
 
     @Transactional
     public Animal cadastrarCachorro(CachorroCreateDto cachorroDto, MultipartFile fotoPerfil) {
@@ -41,6 +45,10 @@ public class AnimalService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
         }
         Cachorro cachorro = new Cachorro(cachorroDto);
+
+        Personalidade personalidade = PersonalidadeMapper.toEntity(cachorroDto.getPersonalidade());
+
+        cachorro.setPersonalidade(personalidade);
 
         if(fotoPerfil != null && !fotoPerfil.isEmpty()) {
             try {
@@ -54,6 +62,8 @@ public class AnimalService {
                 throw new RuntimeException(e);
             }
         }
+        personalidadeRepository.save(personalidade);
+
         return animalRepository.save(cachorro);
     }
 
