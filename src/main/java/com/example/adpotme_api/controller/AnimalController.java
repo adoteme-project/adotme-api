@@ -70,6 +70,13 @@ public class AnimalController {
         Animal gato = animalService.cadastrarGato(dados, fotoPerfil);
         return ResponseEntity.status(201).body(gato);
     }
+    @GetMapping("/por-personalidade")
+    @Operation(summary = "Retorna animais por personalidade", description = "Recupera uma lista de animais com base na personalidade fornecida.")
+    @ApiResponse(responseCode = "200", description = "A lista de animais foi recuperada com sucesso.")
+    public ResponseEntity<Animal[]> recuperarAnimaisPorPersonalidade(@RequestParam String personalidade) {
+        Animal[] animais = animalService.recuperarAnimaisPorPersonalidade(personalidade);
+        return ResponseEntity.ok(animais);
+    }
 
     @GetMapping
     @Operation(summary = "Retorna todos os animais", description = "Recupera uma lista de todos os animais cadastrados no sistema.")
