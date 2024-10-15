@@ -38,44 +38,45 @@ public class SecurityConfigurations {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(csrf -> csrf.disable()) // Desabilita CSRF
-//                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless sessions
-//                .authorizeHttpRequests(authz -> authz
-//                        // Libera todos os endpoints de documentação e login
-//                        .requestMatchers(
-//                                "/v3/api-docs/**",
-//                                "/swagger-resources/**",
-//                                "/swagger-ui/**",
-//                                "/swagger-ui.html",
-//                                "/webjars/**",
-//                                "/adotantes"
-//                        ).permitAll()
-//                        .requestMatchers(HttpMethod.POST, "/login/**").permitAll() // Libera o endpoint de login
-//                        // Restringe o acesso com base nos filtros
-//                        .requestMatchers("/animais-perdidos/cachorro").hasRole("ADMIN") // Apenas OngUsers ADMIN podem acessar esses endpoints
-//                        .requestMatchers("/ongusers").hasRole("ADMIN")
-//                        .anyRequest().authenticated() // Qualquer outro requer autenticação
-//                )
-//                .authenticationProvider(customAuthenticationProvider) // Configura o authenticationProvider personalizado
-//                .addFilterBefore(ongUserAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // Adiciona o filtro para OngUsers
-//                .addFilterBefore(adotanteAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro para Adotantes
+        http
+                .csrf(csrf -> csrf.disable()) // Desabilita CSRF
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless sessions
+                .authorizeHttpRequests(authz -> authz
+                        // Libera todos os endpoints de documentação e login
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/webjars/**",
+                                "/adotantes",
+                                "/adotantes/cadastrar"
+                        ).permitAll()
+                        .requestMatchers(HttpMethod.POST, "/login/**").permitAll() // Libera o endpoint de login
+                        // Restringe o acesso com base nos filtros
+                        .requestMatchers("/animais-perdidos/cachorro").hasRole("ADMIN") // Apenas OngUsers ADMIN podem acessar esses endpoints
+                        .requestMatchers("/ongusers").hasRole("ADMIN")
+                        .anyRequest().authenticated() // Qualquer outro requer autenticação
+                )
+                .authenticationProvider(customAuthenticationProvider) // Configura o authenticationProvider personalizado
+                .addFilterBefore(ongUserAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // Adiciona o filtro para OngUsers
+                .addFilterBefore(adotanteAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // classAdiciona o filtro para Adotantes
 
         // ^
         // |
         // O DE CIMA BLOQUEIA TODOS, EXCETO OS QUE ESTÃO COM .permitAll();
         // O DE BAIXO LIBERA TODOS OS ENDPOINTS
         // |
-        // V
-        http
-                .csrf(csrf -> csrf.disable()) // Desabilita CSRF
-                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless sessions
-                .authorizeHttpRequests(authz -> authz
-                        .anyRequest().permitAll() // Permite todas as requisições
-                )
-                .authenticationProvider(customAuthenticationProvider) // Configura o authenticationProvider personalizado
-                .addFilterBefore(ongUserAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(adotanteAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+//        // V
+//        http
+//                .csrf(csrf -> csrf.disable()) // Desabilita CSRF
+//                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless sessions
+//                .authorizeHttpRequests(authz -> authz
+//                        .anyRequest().permitAll() // Permite todas as requisições
+//                )
+//                .authenticationProvider(customAuthenticationProvider) // Configura o authenticationProvider personalizado
+//                .addFilterBefore(ongUserAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(adotanteAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

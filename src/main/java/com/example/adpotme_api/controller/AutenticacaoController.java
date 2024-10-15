@@ -69,8 +69,8 @@ public class AutenticacaoController {
         var authToken = new UsernamePasswordAuthenticationToken(adotanteLogin.email(), adotanteLogin.senha());
         var authentication = authenticationManager.authenticate(authToken);
         var tokenJWT = tokenService.gerarTokenAdotante((Adotante) authentication.getPrincipal());
-        var adotanteId = ((Adotante) authentication.getPrincipal()).getId();
-        return ResponseEntity.ok(new AdotanteTokenDtoJWT(tokenJWT, adotanteId));
+        var idUser = ((Adotante) authentication.getPrincipal()).getId();
+        return ResponseEntity.ok(new AdotanteTokenDtoJWT(tokenJWT, idUser));
     }
 
     @PostMapping("/refresh")
