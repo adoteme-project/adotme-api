@@ -15,7 +15,7 @@ public class AdotanteMapper {
         adotanteResponseDto.setEmail(adotante.getEmail());
         adotanteResponseDto.setSenha(adotante.getSenha());
         adotanteResponseDto.setCelular(adotante.getCelular());
-        adotanteResponseDto.setFotoPerfil(adotante.getFotoPerfil().getUrl());
+        adotanteResponseDto.setFotoPerfil(adotante.getFotoPerfil().getUrl() != null ? adotante.getFotoPerfil().getUrl() : null);
         adotanteResponseDto.setFormulario(adotante.getFormulario() != null ? FormularioMapper.toResponseDto(adotante.getFormulario()) : null);
         return adotanteResponseDto;
     }
