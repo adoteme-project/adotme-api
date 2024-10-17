@@ -25,6 +25,8 @@ public class Ong {
     @Column(unique = true)
     private String email;
     private String telefone;
+    protected Double latitude;
+    protected Double longitude;
     @OneToOne
     private Endereco endereco;
     private String cnpj;
@@ -40,6 +42,8 @@ public class Ong {
         this.email = dto.getEmail();
         this.telefone = dto.getTelefone();
         this.cnpj = dto.getCnpj();
+        this.latitude = Double.valueOf(dto.getLatitude());
+        this.longitude = Double.valueOf(dto.getLongitude());
     }
 
     public Ong(OngUpdateDto ongAtualizada) {

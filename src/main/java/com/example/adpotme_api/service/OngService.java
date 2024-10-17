@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.transaction.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +46,7 @@ public class OngService {
         return ongRepository.save(ong);
     }
 
-    public List<OngResponseDto> recuperarOngs() {
+    public List<OngResponseDto> recuperarOngs() throws IOException {
         List<Ong> ongs = ongRepository.findAll();
 
         List<OngResponseDto> ongsDto = new ArrayList<>();

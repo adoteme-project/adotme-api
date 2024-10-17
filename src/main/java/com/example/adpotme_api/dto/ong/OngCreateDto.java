@@ -22,6 +22,8 @@ public class OngCreateDto {
     @NotBlank(message = "O CNPJ não pode estar em branco")
     private String cnpj;
     private String cep;
+    private String latitude;
+    private String longitude;
 
 
 

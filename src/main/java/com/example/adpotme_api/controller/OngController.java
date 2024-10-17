@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin
@@ -47,7 +48,7 @@ public class OngController {
             @ApiResponse(responseCode = "200", description = "Lista de ONGs retornada com sucesso."),
             @ApiResponse(responseCode = "204", description = "Nenhuma ONG encontrada.")
     })
-    public ResponseEntity<List<OngResponseDto>> recuperarOngs() {
+    public ResponseEntity<List<OngResponseDto>> recuperarOngs() throws IOException {
         List<OngResponseDto> ongs = ongService.recuperarOngs();
         if (ongs.isEmpty()) {
             return ResponseEntity.status(204).build();
