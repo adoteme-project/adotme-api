@@ -14,4 +14,15 @@ public class PersonalidadeMapper {
         personalidade.setInteligencia(personalidadeCreateDto.getInteligencia());
         return personalidade;
     }
+
+    public static PersonalidadeCreateDto toDto (Personalidade personalidade) {
+        PersonalidadeCreateDto personalidadeCreateDto = new PersonalidadeCreateDto();
+        personalidadeCreateDto.setEnergia(personalidade.getEnergia());
+        personalidadeCreateDto.setSociabilidade(personalidade.getSociabilidade());
+        personalidadeCreateDto.setTolerante(personalidade.getTolerante());
+        personalidadeCreateDto.setObediente(personalidade.getObediente());
+        personalidadeCreateDto.setTerritorial(personalidade.getTerritorial());
+        personalidadeCreateDto.setInteligencia(personalidade.getInteligencia());
+        return personalidadeCreateDto;
+    }
 }
