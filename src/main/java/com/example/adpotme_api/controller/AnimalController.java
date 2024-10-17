@@ -90,6 +90,7 @@ public class AnimalController {
         return ResponseEntity.ok(animais);
     }
 
+
     @GetMapping("/ong/quantidade/{ongId}")
     @Operation(summary = "Retorna a quantidade de animais por ong", description = "Recupera a quantidade de animais por ong.")
     @ApiResponse(responseCode = "200", description = "A lista de animais foi recuperada com sucesso.")

@@ -1,5 +1,6 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.dto.ong.OngResponseDto;
 import com.example.adpotme_api.dto.ong.OngUpdateDto;
 import com.example.adpotme_api.entity.ong.Ong;
 import com.example.adpotme_api.dto.ong.OngCreateDto;
@@ -46,8 +47,8 @@ public class OngController {
             @ApiResponse(responseCode = "200", description = "Lista de ONGs retornada com sucesso."),
             @ApiResponse(responseCode = "204", description = "Nenhuma ONG encontrada.")
     })
-    public ResponseEntity<List<Ong>> recuperarOngs() {
-        List<Ong> ongs = ongService.recuperarOngs();
+    public ResponseEntity<List<OngResponseDto>> recuperarOngs() {
+        List<OngResponseDto> ongs = ongService.recuperarOngs();
         if (ongs.isEmpty()) {
             return ResponseEntity.status(204).build();
         } else {
