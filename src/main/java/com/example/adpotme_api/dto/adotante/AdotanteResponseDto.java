@@ -3,13 +3,15 @@ package com.example.adpotme_api.dto.adotante;
 import com.example.adpotme_api.dto.formulario.FormularioResponseAdotanteDto;
 import com.example.adpotme_api.entity.endereco.Endereco;
 import jakarta.validation.constraints.Email;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
+@Builder
 public class AdotanteResponseDto {
         private Long id;
         private String nome;

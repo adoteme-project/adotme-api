@@ -26,20 +26,24 @@ public class AdotanteAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         var tokenJWT = recuperarToken(request);
-
         if (tokenJWT != null) {
-            var subject = tokenService.getSubject(tokenJWT);
-
-            // Procurar o adotante no AdotanteRepository
-            var adotante = adotanteRepository.findByEmail(subject);
-            if (adotante != null) {
-                var authentication = new UsernamePasswordAuthenticationToken(adotante, null, adotante.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+            try {
+                var subject = tokenService.getSubject(tokenJWT);
+                var adotante = adotanteRepository.findByEmail(subject);
+                if (adotante != null) {
+                    var authentication = new UsernamePasswordAuthenticationToken(
+                            adotante, null, adotante.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {
+                    logger.info("No Adotante found for subject: " + subject);
+                }
+            } catch (Exception e) {
+                logger.error("Failed to authenticate user: " + e.getMessage());
             }
         }
-
         filterChain.doFilter(request, response);
     }
+
 
     private String recuperarToken(HttpServletRequest request) {
         var authorizationHeader = request.getHeader("Authorization");

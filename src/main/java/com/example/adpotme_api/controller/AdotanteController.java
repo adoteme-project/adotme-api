@@ -2,6 +2,7 @@ package com.example.adpotme_api.controller;
 
 import com.example.adpotme_api.dto.adotante.AdotanteResponseDto;
 import com.example.adpotme_api.dto.adotante.AdotanteUpdateDto;
+import com.example.adpotme_api.dto.adotante.AdotanteUserDto;
 import com.example.adpotme_api.dto.formulario.FormularioCreateDto;
 import com.example.adpotme_api.dto.formulario.FormularioResponseAdotanteDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
@@ -21,8 +22,13 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -126,5 +132,19 @@ public class AdotanteController {
     public ResponseEntity<Void> deletarAdotante(@PathVariable Long id) {
         adotanteService.deletarAdotante(id);
         return ResponseEntity.status(204).build();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<AdotanteUserDto> adotanteAutenticado() {
+        // Tem como fazer isto com uma anotação @AuthenticationPrincipal
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof Adotante adotanteAtual) {
+            AdotanteUserDto dto = AdotanteMapper.toAdotanteAutenticadoDto(adotanteAtual);
+            return ResponseEntity.ok(dto);
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 }
