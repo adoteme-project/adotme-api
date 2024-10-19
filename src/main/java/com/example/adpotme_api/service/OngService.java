@@ -1,10 +1,12 @@
 package com.example.adpotme_api.service;
 
+import com.example.adpotme_api.dto.ong.OngResponseDto;
 import com.example.adpotme_api.dto.ong.OngUpdateDto;
 import com.example.adpotme_api.entity.endereco.Endereco;
 import com.example.adpotme_api.entity.endereco.ViaCepService;
 import com.example.adpotme_api.entity.ong.Ong;
 import com.example.adpotme_api.dto.ong.OngCreateDto;
+import com.example.adpotme_api.mapper.OngMapper;
 import com.example.adpotme_api.repository.EnderecoRepository;
 import com.example.adpotme_api.repository.OngRepository;
 import com.example.adpotme_api.util.Sorting;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.transaction.Transactional;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,8 +45,18 @@ public class OngService {
         return ongRepository.save(ong);
     }
 
-    public List<Ong> recuperarOngs() {
-        return ongRepository.findAll();
+    public List<OngResponseDto> recuperarOngs() {
+        List<Ong> ongs = ongRepository.findAll();
+
+        List<OngResponseDto> ongsDto = new ArrayList<>();
+
+        for (Ong ong : ongs) {
+          OngResponseDto ongVez =  OngMapper.toOngResponseDto(ong);
+            ongsDto.add(ongVez);
+        }
+
+        return ongsDto;
+
     }
 
     public Ong recuperarOngPorId(Long id) {
