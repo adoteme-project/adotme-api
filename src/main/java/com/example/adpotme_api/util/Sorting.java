@@ -10,6 +10,44 @@ import java.util.List;
 
 public class Sorting {
 
+    public static void quickSortPorNome(List<Ong> ongs) {
+        if (ongs != null && ongs.size() > 1) {
+            quickSortOngPorNome(ongs, 0, ongs.size() - 1);
+        }
+    }
+
+    public static void quickSortOngPorNome(List<Ong> ongs, int low, int high) {
+        if (low < high) {
+            int pivotIndex = partitionOngPorNome(ongs, low, high);
+            quickSortOngPorNome(ongs, low, pivotIndex - 1);
+            quickSortOngPorNome(ongs, pivotIndex + 1, high);
+        }
+    }
+
+    private static int partitionOngPorNome(List<Ong> ongs, int low, int high) {
+        Ong pivot = ongs.get(high);
+        String pivotNome = pivot.getNome();
+        int i = low - 1;
+
+        for (int j = low; j < high; j++) {
+            Ong currentOng = ongs.get(j);
+            String currentNome = currentOng.getNome();
+
+            if (currentNome.compareTo(pivotNome) <= 0) {
+                i++;
+                Ong temp = ongs.get(i);
+                ongs.set(i, ongs.get(j));
+                ongs.set(j, temp);
+            }
+        }
+
+        Ong temp = ongs.get(i + 1);
+        ongs.set(i + 1, ongs.get(high));
+        ongs.set(high, temp);
+
+        return i + 1;
+    }
+
     public static void quickSortAdotante(List<AdotanteResponseDto> adotantes) {
         if (adotantes != null && adotantes.size() > 1) {
             quickSortAdotanteByEstado(adotantes, 0, adotantes.size() - 1);

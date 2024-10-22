@@ -111,6 +111,18 @@ public class OngController {
         return ResponseEntity.ok(ongs);
     }
 
+    @GetMapping("/pesquisa-por-nome")
+    @Operation(summary = "Pesquisar ONG por nome", description = "Retorna uma ONG que possue o nome fornecido.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "ONG encontrada."),
+            @ApiResponse(responseCode = "404", description = "ONG não encontrada.")
+    })
+
+    public ResponseEntity<OngResponseAllDto> pesquisarOngPorNome(@Parameter(description = "Nome da ONG a ser pesquisada", required = true) @RequestParam String nome) {
+        OngResponseAllDto ong = ongService.pesquisarOngPorNome(nome);
+        return ResponseEntity.ok(ong);
+    }
+
     @PutMapping("/{id}")
     @Transactional
     @Operation(summary = "Atualizar ONG", description = "Atualiza os dados de uma ONG específica com base no ID fornecido.")
