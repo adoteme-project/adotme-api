@@ -1,5 +1,7 @@
 package com.example.adpotme_api.dto.ong;
 
+import com.example.adpotme_api.dto.dadosBancarios.DadosBancariosCreateDto;
+import com.example.adpotme_api.dto.formulario.FormularioCreateDto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -22,6 +24,7 @@ public class OngCreateDto {
     @NotBlank(message = "O CNPJ não pode estar em branco")
     private String cnpj;
     private String cep;
+    private DadosBancariosCreateDto dadosBancarios;
 
 
 

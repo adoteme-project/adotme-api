@@ -1,10 +1,15 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.dto.ong.OngResponseAllDto;
 import com.example.adpotme_api.dto.ong.OngResponseDto;
 import com.example.adpotme_api.dto.ong.OngUpdateDto;
 import com.example.adpotme_api.entity.ong.Ong;
 import com.example.adpotme_api.dto.ong.OngCreateDto;
 import com.example.adpotme_api.service.OngService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,8 +19,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -29,22 +36,48 @@ public class OngController {
     @Autowired
     private OngService ongService;
 
-    @PostMapping
+    @PostMapping(value="/cadastrar", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     @Transactional
     @Operation(summary = "Cadastrar uma nova ONG", description = "Cadastra uma ONG no sistema com os dados fornecidos.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "ONG cadastrada com sucesso."),
             @ApiResponse(responseCode = "400", description = "Erro na validação dos dados fornecidos.")
     })
-    public ResponseEntity<Ong> cadastrarOng(@RequestBody @Valid OngCreateDto dados, @RequestParam String numero) {
-        Ong ong = ongService.cadastrarOng(dados, numero);
+    public ResponseEntity<OngResponseAllDto> cadastrarOng(@RequestPart("ong") String ongJson,
+                                            @RequestPart("numero") String numero,
+                                            @RequestPart(value = "qrCode", required = false)
+                                            MultipartFile qrCode
+    ) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        OngCreateDto dados = objectMapper.readValue(ongJson, OngCreateDto.class);
+        OngResponseAllDto ong = ongService.cadastrarOng(dados, numero, qrCode);
+
         return ResponseEntity.status(201).body(ong);
     }
 
-    @GetMapping
-    @Operation(summary = "Recuperar todas as ONGs", description = "Retorna uma lista de todas as ONGs cadastradas.")
+    @GetMapping("/com-dados-bancarios")
+    @Operation(summary = "Recuperar todas as ONGs com dados bancários", description = "Retorna uma lista de todas as ONGs com dados bancários cadastradas.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Lista de ONGs retornada com sucesso."),
+            @ApiResponse(responseCode = "200", description = "Lista de ONGs com dados bancários retornada com sucesso."),
+            @ApiResponse(responseCode = "204", description = "Nenhuma ONG encontrada.")
+    })
+    public ResponseEntity<List<OngResponseAllDto>> recuperarOngsComDadosBancarios() {
+        List<OngResponseAllDto> ongs = ongService.recuperarOngsComDadosBancarios();
+        if (ongs.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        } else {
+            return ResponseEntity.status(200).body(ongs);
+        }
+    }
+
+
+    @GetMapping("/com-animal")
+    @Operation(summary = "Recuperar todas as ONGs", description = "Retorna uma lista de todas as ONGs com animais cadastradas.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de ONGs com animais retornada com sucesso."),
             @ApiResponse(responseCode = "204", description = "Nenhuma ONG encontrada.")
     })
     public ResponseEntity<List<OngResponseDto>> recuperarOngs() {
@@ -55,6 +88,7 @@ public class OngController {
             return ResponseEntity.status(200).body(ongs);
         }
     }
+
 
     @GetMapping("/{id}")
     @Operation(summary = "Recuperar ONG por ID", description = "Retorna uma ONG específica com base no ID fornecido.")
