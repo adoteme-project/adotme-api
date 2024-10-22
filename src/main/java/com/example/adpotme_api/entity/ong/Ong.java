@@ -3,7 +3,9 @@ package com.example.adpotme_api.entity.ong;
 import com.example.adpotme_api.dto.ong.OngCreateDto;
 import com.example.adpotme_api.dto.ong.OngUpdateDto;
 import com.example.adpotme_api.entity.animal.Animal;
+import com.example.adpotme_api.entity.dadosBancarios.DadosBancarios;
 import com.example.adpotme_api.entity.endereco.Endereco;
+import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.entity.ongUser.OngUser;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -34,6 +36,8 @@ public class Ong {
     @JsonManagedReference
     @OneToMany(mappedBy = "ong", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Animal> animal;
+    @OneToOne(mappedBy = "ong", cascade = CascadeType.ALL, orphanRemoval = true)
+    private DadosBancarios dadosBancarios;
 
     public Ong(OngCreateDto dto) {
         this.nome = dto.getNome();

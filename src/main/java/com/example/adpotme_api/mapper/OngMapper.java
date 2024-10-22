@@ -1,6 +1,8 @@
 package com.example.adpotme_api.mapper;
 
 import com.example.adpotme_api.dto.animal.AnimalOngResponseDto;
+import com.example.adpotme_api.dto.ong.OngCreateDto;
+import com.example.adpotme_api.dto.ong.OngResponseAllDto;
 import com.example.adpotme_api.dto.ong.OngResponseDto;
 import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.ong.Ong;
@@ -20,6 +22,28 @@ public class OngMapper {
         ongResponseDto.setEndereco(EnderecoMapper.toEnderecoResponseOngDto(ong.getEndereco()));
         ongResponseDto.setAnimais(toAnimalOngResponseDto(ong.getAnimal()));
         return ongResponseDto;
+
+    }
+
+    public static Ong toEntity(OngCreateDto dto){
+        Ong ong = new Ong();
+        ong.setNome(dto.getNome());
+        ong.setEmail(dto.getEmail());
+        ong.setTelefone(dto.getTelefone());
+        ong.setCnpj(dto.getCnpj());
+        return ong;
+    }
+
+    public static OngResponseAllDto toOngResponseAll (Ong ong){
+        OngResponseAllDto ongResponseAllDto = new OngResponseAllDto();
+        ongResponseAllDto.setId(ong.getId());
+        ongResponseAllDto.setNome(ong.getNome());
+        ongResponseAllDto.setEmail(ong.getEmail());
+        ongResponseAllDto.setTelefone(ong.getTelefone());
+        ongResponseAllDto.setCnpj(ong.getCnpj());
+        ongResponseAllDto.setEndereco(EnderecoMapper.toEnderecoResponseOngDto(ong.getEndereco()));
+        ongResponseAllDto.setDadosBancarios(DadosBancariosMapper.toDto(ong.getDadosBancarios()));
+        return ongResponseAllDto;
 
     }
 
