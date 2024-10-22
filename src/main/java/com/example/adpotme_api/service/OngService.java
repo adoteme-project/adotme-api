@@ -16,6 +16,7 @@ import com.example.adpotme_api.repository.DadosBancariosRepository;
 import com.example.adpotme_api.repository.EnderecoRepository;
 import com.example.adpotme_api.repository.FormularioRepository;
 import com.example.adpotme_api.repository.OngRepository;
+import com.example.adpotme_api.util.PesquisaBinaria;
 import com.example.adpotme_api.util.Sorting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -154,5 +155,22 @@ public class OngService {
         }
 
         return ongsDto;
+    }
+
+    public OngResponseAllDto pesquisarOngPorNome(String nome) {
+        List<Ong> ongs = ongRepository.findAll();
+        Sorting.quickSortPorNome(ongs);
+        OngResponseAllDto[] ongResponseAllDtos = new OngResponseAllDto[ongs.size()];
+        for (int i = 0; i < ongs.size(); i++) {
+            Ong ong = ongs.get(i);
+            OngResponseAllDto ongResponse = OngMapper.toOngResponseAll(ong);
+            ongResponseAllDtos[i] = ongResponse;
+
+        }
+        int indice = PesquisaBinaria.pesquisaBinaria(ongResponseAllDtos, nome);
+        if (indice == -1) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
+        }
+        return ongResponseAllDtos[indice];
     }
 }
