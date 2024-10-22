@@ -1,5 +1,6 @@
 package com.example.adpotme_api.util;
 
+import com.example.adpotme_api.dto.adotante.AdotanteResponseDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.animalPerdido.AnimalPerdido;
@@ -8,24 +9,47 @@ import com.example.adpotme_api.entity.ong.Ong;
 import java.util.List;
 
 public class Sorting {
-    public static void selectionSortAdotanteByEstado(List<Adotante> adotantes) {
-        int n = adotantes.size();
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = i + 1; j < n; j++) {
-                Adotante adotanteI = adotantes.get(i);
-                Adotante adotanteJ = adotantes.get(j);
 
-                String estadoI = (adotanteI.getEndereco() != null) ? adotanteI.getEndereco().getEstado() : "";
-                String estadoJ = (adotanteJ.getEndereco() != null) ? adotanteJ.getEndereco().getEstado() : "";
+    public static void quickSortAdotante(List<AdotanteResponseDto> adotantes) {
+        if (adotantes != null && adotantes.size() > 1) {
+            quickSortAdotanteByEstado(adotantes, 0, adotantes.size() - 1);
+        }
+    }
+    public static void quickSortAdotanteByEstado(List<AdotanteResponseDto> adotantes, int low, int high) {
+        if (low < high) {
 
-                if (estadoI.compareTo(estadoJ) > 0) {
+            int pivotIndex = partition(adotantes, low, high);
 
-                    Adotante temp = adotantes.get(i);
-                    adotantes.set(i, adotantes.get(j));
-                    adotantes.set(j, temp);
-                }
+
+            quickSortAdotanteByEstado(adotantes, low, pivotIndex - 1);
+            quickSortAdotanteByEstado(adotantes, pivotIndex + 1, high);
+        }
+    }
+
+    private static int partition(List<AdotanteResponseDto> adotantes, int low, int high) {
+        AdotanteResponseDto pivot = adotantes.get(high);
+        String pivotEstado = (pivot.getEndereco() != null) ? pivot.getEndereco().getEstado() : "";
+
+        int i = low - 1;
+
+        for (int j = low; j < high; j++) {
+            AdotanteResponseDto currentAdotante = adotantes.get(j);
+            String currentEstado = (currentAdotante.getEndereco() != null) ? currentAdotante.getEndereco().getEstado() : "";
+
+            if (currentEstado.compareTo(pivotEstado) <= 0) {
+                i++;
+
+                AdotanteResponseDto temp = adotantes.get(i);
+                adotantes.set(i, adotantes.get(j));
+                adotantes.set(j, temp);
             }
         }
+
+        AdotanteResponseDto temp = adotantes.get(i + 1);
+        adotantes.set(i + 1, adotantes.get(high));
+        adotantes.set(high, temp);
+
+        return i + 1;
     }
 
     public static Animal[] selectionSortPetPorPersonalidade(List<Animal> animal, String filtro){

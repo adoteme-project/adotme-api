@@ -101,8 +101,8 @@ public class AdotanteController {
     @GetMapping("/ordenados-por-estado")
     @Operation(summary = "Retorna todos os adotantes ordenados por estado", description = "Recupera uma lista de adotantes organizados de acordo com seus estados.")
     @ApiResponse(responseCode = "200", description = "A lista de adotantes ordenados por estado foi recuperada com sucesso.")
-    public ResponseEntity<List<Adotante>> recuperarAdotantesOrdenadosPorEstado() {
-        List<Adotante> adotantes = adotanteService.recuperarAdotantesOrdenadosPorEstado();
+    public ResponseEntity<List<AdotanteResponseDto>> recuperarAdotantesOrdenadosPorEstado() {
+        List<AdotanteResponseDto> adotantes = adotanteService.recuperarAdotantesOrdenadosPorEstado();
         return ResponseEntity.ok(adotantes);
     }
 

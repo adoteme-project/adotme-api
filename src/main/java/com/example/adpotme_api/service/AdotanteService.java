@@ -106,10 +106,17 @@ public class AdotanteService {
         return adotanteOpt.get();
     }
 
-    public List<Adotante> recuperarAdotantesOrdenadosPorEstado() {
+    public List<AdotanteResponseDto> recuperarAdotantesOrdenadosPorEstado() {
         List<Adotante> adotantes = adotanteRepository.findAll();
-        Sorting.selectionSortAdotanteByEstado(adotantes);
-        return adotantes;
+        List<AdotanteResponseDto> adotantesResponse = new ArrayList<>();
+
+        for(Adotante adotante : adotantes){
+            AdotanteResponseDto adotanteResponse = AdotanteMapper.toResponseDto(adotante);
+            adotantesResponse.add(adotanteResponse);
+        }
+
+        Sorting.quickSortAdotante(adotantesResponse);
+        return adotantesResponse;
     }
 
     @Transactional
