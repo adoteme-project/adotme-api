@@ -6,11 +6,14 @@ import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
 import com.example.adpotme_api.entity.endereco.Endereco;
 import com.example.adpotme_api.entity.endereco.ViaCepService;
+import com.example.adpotme_api.entity.formulario.Formulario;
 import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.mapper.AdotanteMapper;
+import com.example.adpotme_api.mapper.FormularioMapper;
 import com.example.adpotme_api.repository.AdotanteRepository;
 import com.example.adpotme_api.repository.EnderecoRepository;
 import com.example.adpotme_api.integration.CloudinaryService;
+import com.example.adpotme_api.repository.FormularioRepository;
 import com.example.adpotme_api.util.Sorting;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +46,12 @@ public class AdotanteService {
 
     @Autowired
     CloudinaryService cloudinaryService;
+    @Autowired
+    private FormularioRepository formularioRepository;
+
 
     @Transactional
-    public Adotante cadastrarAdotante(AdotanteCreateDto dados, MultipartFile fotoPerfil) {
+    public AdotanteResponseDto cadastrarAdotante(AdotanteCreateDto dados, MultipartFile fotoPerfil) {
 
         Endereco endereco = viaCepService.obterEnderecoPorCep(dados.getCep());
         endereco.setNumero(dados.getNumero());
@@ -71,7 +77,14 @@ public class AdotanteService {
 
         adotante.setSenha(passwordEncoder.encode(dados.getSenha()));
 
-        return adotanteRepository.save(adotante);
+        Formulario formulario = FormularioMapper.toFormulario(dados);
+        adotante.setFormulario(formulario);
+
+        formularioRepository.save(formulario);
+        adotanteRepository.save(adotante);
+
+
+        return AdotanteMapper.toResponseDto(adotante);
     }
 
     public List<AdotanteResponseDto> recuperarAdotantes() {

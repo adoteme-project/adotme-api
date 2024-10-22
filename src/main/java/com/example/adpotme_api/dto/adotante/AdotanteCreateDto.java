@@ -1,5 +1,6 @@
 package com.example.adpotme_api.dto.adotante;
 
+import com.example.adpotme_api.dto.formulario.FormularioCreateDto;
 import com.example.adpotme_api.entity.image.Image;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
@@ -20,4 +21,5 @@ public class AdotanteCreateDto {
     private String senha;
     private String celular;
     private String numero;
+    private FormularioCreateDto formulario;
 }

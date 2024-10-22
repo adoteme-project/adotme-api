@@ -48,8 +48,8 @@ public class Adotante implements UserDetails {
     private String senha;
     private String celular;
 
-    @OneToOne(mappedBy = "adotante")
-    @JsonManagedReference
+    @OneToOne
+    @JoinColumn(name = "formulario_id")
     private Formulario formulario;
 
     @OneToMany(mappedBy = "adotante") // O nome aqui deve corresponder ao nome da propriedade na classe Animal
@@ -58,6 +58,7 @@ public class Adotante implements UserDetails {
     @OneToOne
     @JoinColumn(name = "foto_perfil_id")
     private Image fotoPerfil;
+
 
     public Adotante(AdotanteCreateDto adotanteCreateDto) {
         this.nome = adotanteCreateDto.getNome();
