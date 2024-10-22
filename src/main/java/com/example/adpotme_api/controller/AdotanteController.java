@@ -61,10 +61,10 @@ public class AdotanteController {
 
         AdotanteCreateDto dados = objectMapper.readValue(adotanteJson, AdotanteCreateDto.class);
 
-        Adotante adotante = adotanteService.cadastrarAdotante(dados, fotoPerfil);
-        AdotanteResponseDto adotanteResponseDto =  AdotanteMapper.toResponseDto(adotante);
+        AdotanteResponseDto adotante = adotanteService.cadastrarAdotante(dados, fotoPerfil);
 
-        return ResponseEntity.status(201).body(adotanteResponseDto);
+
+        return ResponseEntity.status(201).body(adotante);
     }
     @PostMapping("preencher-formulario/{idAdotante}")
     @Operation(
