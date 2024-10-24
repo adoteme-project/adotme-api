@@ -1,5 +1,6 @@
 package com.example.adpotme_api.service;
 
+import com.example.adpotme_api.dto.animal.AnimalCsvDto;
 import com.example.adpotme_api.dto.animal.AnimalUpdateDto;
 import com.example.adpotme_api.dto.animal.CachorroCreateDto;
 import com.example.adpotme_api.dto.animal.GatoCreateDto;
@@ -8,6 +9,7 @@ import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.entity.ong.Ong;
 import com.example.adpotme_api.entity.personalidade.Personalidade;
 import com.example.adpotme_api.integration.CloudinaryService;
+import com.example.adpotme_api.mapper.AnimalMapper;
 import com.example.adpotme_api.mapper.PersonalidadeMapper;
 import com.example.adpotme_api.repository.AnimalRepository;
 import com.example.adpotme_api.repository.OngRepository;
@@ -22,7 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.transaction.Transactional;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -183,4 +185,41 @@ public class AnimalService {
         List<Animal> animais = animalRepository.findAll();
         return Sorting.selectionSortPetPorPersonalidade(animais, personalidade);
     }
-}
+
+    public void importarAnimais(MultipartFile file) {
+
+
+    }
+
+    public void exportarAnimais(Writer writer, Long id) {
+        Ong ong = ongRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada"));
+        List<Animal> animais = animalRepository.findByOng(ong);
+        try {
+            // Escrevendo cabeçalho
+            writer.write("id;nome;anoNascimento;sexo;especie;raca;dataAbrigo;cadastro;isCastrado;descricao;isVisible;isAdotado;porte;isVermifugado;taxaAdocao;\n");
+
+            // Escrevendo corpo (dados)
+            for (Animal animalEntity : animais) {
+                AnimalCsvDto animal = AnimalMapper.toAnimalCsvDto(animalEntity);
+                writer.write(animal.getId() + ";" +
+                        animal.getNome() + ";" +
+                        animal.getAnoNascimento() + ";" +
+                        animal.getSexo() + ";" +
+                        animal.getEspecie() + ";" +
+                        animal.getRaca() + ";" +
+                        animal.getDataAbrigo() + ";" +
+                        animal.getCadastro() + ";" +
+                        animal.getIsCastrado() + ";" +
+                        animal.getDescricao() + ";" +
+                        animal.getIsVisible() + ";" +
+                        animal.getIsAdotado() + ";" +
+                        animal.getPorte() + ";" +
+                        animal.getIsVermifugado() + ";" +
+                        animal.getTaxaAdocao() + ";" + "\n");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao exportar arquivo CSV: " + e.getMessage());
+        }
+    }
+    }
+
