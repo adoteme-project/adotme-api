@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -23,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin
@@ -133,5 +135,20 @@ public class AnimalController {
     public ResponseEntity<Void> deletarAnimal(@PathVariable Long id) {
         animalService.deletarAnimal(id);
         return ResponseEntity.noContent().build();
+    }
+    @PostMapping(value = "/importar", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    @Operation(summary = "Importa dados de animais a partir de um arquivo CSV", description = "Importa dados de animais no sistema a partir de um arquivo CSV fornecido.")
+    @ApiResponse(responseCode = "200", description = "Os dados foram importados com sucesso.")
+    public ResponseEntity<Void> importarAnimais(@RequestPart("file") MultipartFile file) {
+        animalService.importarAnimais(file);
+        return ResponseEntity.ok().build();
+    }
+    @GetMapping(value = "/exportar/{id}", produces = "text/csv")
+    @Operation(summary = "Exporta dados de animais para um arquivo CSV", description = "Exporta dados de todos os animais cadastrados no sistema para um arquivo CSV.")
+    @ApiResponse(responseCode = "200", description = "Os dados foram exportados com sucesso.")
+    public void exportarAnimais(@PathVariable Long id, HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=animais.csv");
+        animalService.exportarAnimais(response.getWriter(), id);
     }
 }
