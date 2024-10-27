@@ -4,6 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.interfaces.JWTVerifier;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.ongUser.OngUser;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,7 +66,19 @@ public class TokenService {
 
     public boolean validateRefreshToken(String refreshToken, Adotante adotante) {
         try {
-            String email = getSubject(refreshToken);
+            Algorithm algoritmo = Algorithm.HMAC256(secret);
+            JWTVerifier verifier = JWT.require(algoritmo)
+                    .withIssuer("API AdoteMe")
+                    .build();
+
+            DecodedJWT decodedJWT = verifier.verify(refreshToken);
+            String email = decodedJWT.getSubject();
+
+            Date expiration = decodedJWT.getExpiresAt();
+            if (expiration.before(new Date())) {
+                return false;
+            }
+
             return email.equals(adotante.getEmail());
         } catch (JWTVerificationException exception) {
             return false;

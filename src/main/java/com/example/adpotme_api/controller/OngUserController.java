@@ -1,9 +1,11 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.dto.ongUser.OngUserDto;
 import com.example.adpotme_api.dto.ongUser.OngUserUpdateDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.ongUser.OngUser;
 import com.example.adpotme_api.dto.ongUser.OngUserCreateDto;
+import com.example.adpotme_api.mapper.OngUserMapper;
 import com.example.adpotme_api.service.OngUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -14,7 +16,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -106,5 +111,19 @@ public class OngUserController {
                                                  @Parameter(description = "ID do animal a ser adotado", required = true) @PathVariable Long idAnimal) {
         Adotante adotante = ongUserService.adotarAnimal(id, idAnimal);
         return ResponseEntity.ok(adotante);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<OngUserDto> ongUserAutenticado() {
+        // Tem como fazer isto com uma anotação @AuthenticationPrincipal
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof OngUser ongUserAtual) {
+            OngUserDto dto = OngUserMapper.toOngUserAutenticadoDto(ongUserAtual);
+            return ResponseEntity.ok(dto);
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 }
