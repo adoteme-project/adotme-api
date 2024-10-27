@@ -9,6 +9,7 @@ import com.example.adpotme_api.dto.token.TokenResponse;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.ongUser.OngUser;
 import com.example.adpotme_api.repository.AdotanteRepository;
+import com.example.adpotme_api.repository.OngUserRepository;
 import com.example.adpotme_api.security.adotante.AutenticacaoAdotanteService;
 import com.example.adpotme_api.security.ongUser.AutenticacaoOngUserService;
 import com.example.adpotme_api.security.TokenService;
@@ -38,9 +39,6 @@ public class AutenticacaoController {
     private AutenticacaoOngUserService authOngUserService;
 
     @Autowired
-    private AutenticacaoAdotanteService authAdotanteService;
-
-    @Autowired
     private AdotanteRepository adotanteRepository;
 
     @Autowired
@@ -55,10 +53,11 @@ public class AutenticacaoController {
         var authToken = new UsernamePasswordAuthenticationToken(ongUserLogin.email(), ongUserLogin.senha());
         var authentication = authenticationManager.authenticate(authToken);
         var tokenJWT = tokenService.gerarTokenOngUser((OngUser) authentication.getPrincipal());
+        var refreshToken = tokenService.gerarTokenOngUser((OngUser) authentication.getPrincipal());
         var ongUserId = ((OngUser) authentication.getPrincipal()).getId();
         var ongId = ((OngUser) authentication.getPrincipal()).getOngId();
         var role = ((OngUser) authentication.getPrincipal()).getRole();
-        return ResponseEntity.ok(new OngUserTokenDtoJWT(tokenJWT, ongUserId, ongId, role));
+        return ResponseEntity.ok(new OngUserTokenDtoJWT(tokenJWT, refreshToken, ongUserId, ongId, role));
     }
 
     @PostMapping("/adotante")
@@ -69,8 +68,9 @@ public class AutenticacaoController {
         var authToken = new UsernamePasswordAuthenticationToken(adotanteLogin.email(), adotanteLogin.senha());
         var authentication = authenticationManager.authenticate(authToken);
         var tokenJWT = tokenService.gerarTokenAdotante((Adotante) authentication.getPrincipal());
+        var refreshToken = tokenService.gerarRefreshToken((Adotante) authentication.getPrincipal());
         var idUser = ((Adotante) authentication.getPrincipal()).getId();
-        return ResponseEntity.ok(new AdotanteTokenDtoJWT(tokenJWT, idUser));
+        return ResponseEntity.ok(new AdotanteTokenDtoJWT(tokenJWT, refreshToken, idUser));
     }
 
     @PostMapping("/refresh")
@@ -81,22 +81,34 @@ public class AutenticacaoController {
         String refreshToken = request.getRefreshToken();
         try {
             String email = tokenService.getSubject(refreshToken);
+
+            // Tente buscar o adotante pelo e-mail
             Adotante adotante = adotanteRepository.findByEmail(email);
+            if (adotante != null) {
+                if (!tokenService.validateRefreshToken(refreshToken, adotante)) {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh token inválido.");
+                }
 
-            if (adotante == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Adotante não encontrado.");
+                String novoAccessToken = tokenService.gerarTokenAdotante(adotante);
+                String novoRefreshToken = tokenService.gerarRefreshToken(adotante);
+                return ResponseEntity.ok(new TokenResponse(novoAccessToken, novoRefreshToken));
             }
 
-            boolean isValidRefreshToken = tokenService.validateRefreshToken(refreshToken, adotante);
-            if (!isValidRefreshToken) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh token inválido.");
+            OngUser ongUser = (OngUser) authOngUserService.loadUserByUsername(email);
+            if (ongUser != null) {
+                if (!tokenService.validateRefreshToken(refreshToken, ongUser)) {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh token inválido.");
+                }
+
+                String novoAccessToken = tokenService.gerarTokenOngUser(ongUser);
+                String novoRefreshToken = tokenService.gerarRefreshToken(ongUser);
+                return ResponseEntity.ok(new TokenResponse(novoAccessToken, novoRefreshToken));
             }
 
-            String novoAccessToken = tokenService.gerarTokenAdotante(adotante);
-            String novoRefreshToken = tokenService.gerarRefreshToken(adotante);
-            return ResponseEntity.ok(new TokenResponse(novoAccessToken, novoRefreshToken));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não encontrado.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh token inválido ou expirado.");
         }
     }
+
 }

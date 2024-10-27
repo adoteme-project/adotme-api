@@ -50,21 +50,34 @@ public class TokenService {
         }
     }
 
-    public String gerarRefreshToken(Adotante adotante) {
+    public String gerarRefreshToken(Object user) {
         try {
             var algoritmo = Algorithm.HMAC256(secret);
-            return JWT.create()
-                    .withIssuer("API AdoteMe")
-                    .withSubject(adotante.getEmail())
-                    .withClaim("id", adotante.getId())
-                    .withExpiresAt(dataExpiracao(48))  // Refresh token expira em 48 horas
-                    .sign(algoritmo);
+            if (user instanceof Adotante) {
+                Adotante adotante = (Adotante) user;
+                return JWT.create()
+                        .withIssuer("API AdoteMe")
+                        .withSubject(adotante.getEmail())
+                        .withClaim("id", adotante.getId())
+                        .withExpiresAt(dataExpiracao(48))
+                        .sign(algoritmo);
+            } else if (user instanceof OngUser) {
+                OngUser ongUser = (OngUser) user;
+                return JWT.create()
+                        .withIssuer("API AdoteMe")
+                        .withSubject(ongUser.getEmail())
+                        .withClaim("id", ongUser.getId())
+                        .withExpiresAt(dataExpiracao(48))
+                        .sign(algoritmo);
+            } else {
+                throw new IllegalArgumentException("Tipo de usuário não suportado.");
+            }
         } catch (JWTCreationException exception) {
             throw new RuntimeException("Erro ao gerar refresh token JWT", exception);
         }
     }
 
-    public boolean validateRefreshToken(String refreshToken, Adotante adotante) {
+    public boolean validateRefreshToken(String refreshToken, Object user) {
         try {
             Algorithm algoritmo = Algorithm.HMAC256(secret);
             JWTVerifier verifier = JWT.require(algoritmo)
@@ -79,7 +92,13 @@ public class TokenService {
                 return false;
             }
 
-            return email.equals(adotante.getEmail());
+            if (user instanceof Adotante adotante) {
+                return email.equals(adotante.getEmail());
+            } else if (user instanceof OngUser ongUser) {
+                return email.equals(ongUser.getEmail());
+            } else {
+                return false;
+            }
         } catch (JWTVerificationException exception) {
             return false;
         }
