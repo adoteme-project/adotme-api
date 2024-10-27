@@ -28,10 +28,10 @@ public class OngUserCreateDto {
     private Long ongId; // ID da ONG associada
 
 
-    public OngUserCreateDto() {
-    }
-
-
-    public void setId(Long id) {
-    }
+//    public OngUserCreateDto() {
+//    }
+//
+//
+//    public void setId(Long id) {
+//    }
 }
