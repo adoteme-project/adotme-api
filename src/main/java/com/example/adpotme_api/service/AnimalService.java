@@ -77,19 +77,24 @@ public class AnimalService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
         }
         Gato gato = new Gato(gatoDto);
+        Personalidade personalidade = PersonalidadeMapper.toEntity(gatoDto.getPersonalidade());
 
+        Ong ong = ongOpt.get();
+        gato.setPersonalidade(personalidade);
+        gato.setOng(ong);
+        gato.calcularTaxaAdocao();
         if(fotoPerfil != null && !fotoPerfil.isEmpty()) {
             try {
                 Image image = cloudinaryService.upload(fotoPerfil);
-                Ong ong = ongOpt.get();
-                gato.setOng(ong);
+
                 gato.setFotoPerfil(image);
-                gato.calcularTaxaAdocao();
+
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
+        personalidadeRepository.save(personalidade);
         return animalRepository.save(gato);
     }
 
