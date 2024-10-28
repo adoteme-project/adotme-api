@@ -1,6 +1,7 @@
 package com.example.adpotme_api.mapper;
 
 import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
+import com.example.adpotme_api.dto.adotante.AdotanteFormularioDto;
 import com.example.adpotme_api.dto.adotante.AdotanteResponseDto;
 import com.example.adpotme_api.dto.adotante.AdotanteUserDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
@@ -35,5 +36,16 @@ public class AdotanteMapper {
                 .build();
 
         return dto;
+    }
+
+    public static AdotanteFormularioDto toAdontanteFormularioDto(Adotante adotante) {
+        return AdotanteFormularioDto.builder()
+                .nome(adotante.getNome())
+                .email(adotante.getEmail())
+                .dataNascimento(adotante.getDtNasc())
+                .telefone(adotante.getCelular())
+                .endereco(adotante.getEndereco() != null ? EnderecoMapper.toEnderecoResponseOngDto(adotante.getEndereco()) : null)
+                .formulario(adotante.getFormulario() != null ? FormularioMapper.toResponseDto(adotante.getFormulario()) : null)
+                .build();
     }
 }

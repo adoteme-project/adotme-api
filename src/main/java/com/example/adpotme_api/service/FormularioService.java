@@ -1,5 +1,6 @@
 package com.example.adpotme_api.service;
 
+import com.example.adpotme_api.dto.adotante.AdotanteFormularioDto;
 import com.example.adpotme_api.dto.adotante.AdotanteResponseDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.animal.Animal;
@@ -94,5 +95,16 @@ public class FormularioService {
 
 
         return AdotanteMapper.toResponseDto(adotante);
+    }
+
+    public AdotanteFormularioDto recuperarAdotanteForm(Long id) {
+        Adotante adotante = adotanteRepository.findById(id).orElse(null);
+        if (adotante == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
+        }
+
+        return AdotanteMapper.toAdontanteFormularioDto(adotante);
+
+
     }
 }

@@ -1,12 +1,9 @@
 package com.example.adpotme_api.controller;
 
-import com.example.adpotme_api.dto.adotante.AdotanteResponseDto;
-import com.example.adpotme_api.dto.adotante.AdotanteUpdateDto;
-import com.example.adpotme_api.dto.adotante.AdotanteUserDto;
+import com.example.adpotme_api.dto.adotante.*;
 import com.example.adpotme_api.dto.formulario.FormularioCreateDto;
 import com.example.adpotme_api.dto.formulario.FormularioResponseAdotanteDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
-import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
 import com.example.adpotme_api.entity.formulario.Formulario;
 import com.example.adpotme_api.mapper.AdotanteMapper;
 import com.example.adpotme_api.mapper.FormularioMapper;
@@ -120,10 +117,21 @@ public class AdotanteController {
             description = "Este endpoint permite que um usuário atualize um formulário, " +
                     "enviando os dados necessários para a atualização e recebendo o formulário atualizado como resposta."
     )
-    @ApiResponse(responseCode = "201", description = "Formulário atualizado com sucesso.")
+    @ApiResponse(responseCode = "200", description = "Formulário atualizado com sucesso.")
     public ResponseEntity<AdotanteResponseDto> atualizarFormulario(@RequestBody @Valid FormularioCreateDto dados, @PathVariable Long id) {
         AdotanteResponseDto adotante = formularioService.atualizarFormulario(dados, id);
-        return ResponseEntity.status(201).body(adotante);
+        return ResponseEntity.status(200).body(adotante);
+    }
+    @GetMapping("form-adotante/{id}")
+    @Operation(
+            summary = "Recupera o formulário de um adotante.",
+            description = "Este endpoint permite que um usuário recupere o formulário de um adotante, " +
+                    "enviando o ID do adotante e recebendo o formulário preenchido como resposta."
+    )
+    @ApiResponse(responseCode = "200", description = "Formulário recuperado com sucesso.")
+    public ResponseEntity<AdotanteFormularioDto> recuperarFormularioAdotante(@PathVariable Long id) {
+        AdotanteFormularioDto adotanteForm = formularioService.recuperarAdotanteForm(id);
+        return ResponseEntity.ok(adotanteForm);
     }
 
     @DeleteMapping("/{id}")
