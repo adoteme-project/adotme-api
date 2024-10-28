@@ -50,21 +50,21 @@ public class AnimalService {
         Cachorro cachorro = new Cachorro(cachorroDto);
 
         Personalidade personalidade = PersonalidadeMapper.toEntity(cachorroDto.getPersonalidade());
-
+        Ong ong = ongOpt.get();
+        cachorro.setOng(ong);
+        cachorro.calcularTaxaAdocao();
         cachorro.setPersonalidade(personalidade);
 
         if(fotoPerfil != null && !fotoPerfil.isEmpty()) {
             try {
                 Image image = cloudinaryService.upload(fotoPerfil);
-                Ong ong = ongOpt.get();
-                cachorro.setOng(ong);
                 cachorro.setFotoPerfil(image);
-                cachorro.calcularTaxaAdocao();
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
+
         personalidadeRepository.save(personalidade);
 
         return animalRepository.save(cachorro);
