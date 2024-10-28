@@ -1,21 +1,18 @@
 package com.example.adpotme_api.service;
 
-import com.example.adpotme_api.dto.ong.OngResponseAllDto;
-import com.example.adpotme_api.dto.ong.OngResponseDto;
-import com.example.adpotme_api.dto.ong.OngUpdateDto;
+import com.example.adpotme_api.dto.ong.*;
+import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.dadosBancarios.DadosBancarios;
 import com.example.adpotme_api.entity.endereco.Endereco;
 import com.example.adpotme_api.entity.endereco.ViaCepService;
 import com.example.adpotme_api.entity.formulario.Formulario;
 import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.entity.ong.Ong;
-import com.example.adpotme_api.dto.ong.OngCreateDto;
+import com.example.adpotme_api.entity.requisicao.Requisicao;
+import com.example.adpotme_api.entity.requisicao.Status;
 import com.example.adpotme_api.integration.CloudinaryService;
 import com.example.adpotme_api.mapper.OngMapper;
-import com.example.adpotme_api.repository.DadosBancariosRepository;
-import com.example.adpotme_api.repository.EnderecoRepository;
-import com.example.adpotme_api.repository.FormularioRepository;
-import com.example.adpotme_api.repository.OngRepository;
+import com.example.adpotme_api.repository.*;
 import com.example.adpotme_api.util.PesquisaBinaria;
 import com.example.adpotme_api.util.Sorting;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +46,8 @@ public class OngService {
 
     @Autowired
     private DadosBancariosRepository dadosBancariosRepository;
+    @Autowired
+    private RequisicaoRepository requisicaoRepository;
 
 
     @Transactional
@@ -172,5 +171,44 @@ public class OngService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
         }
         return ongResponseAllDtos[indice];
+    }
+
+    public List<OngAnimaisDto> listagemAnimaisOng(Long id) {
+        Optional<Ong> optOng = ongRepository.findById(id);
+        if (optOng.isPresent()) {
+            Ong ong = optOng.get();
+            List<OngAnimaisDto> animais = new ArrayList<>();
+            List<Animal> animaisOng = ong.getAnimal();
+            for(Animal animalOng : animaisOng) {
+                OngAnimaisDto animal = OngMapper.toOngAnimal(animalOng);
+
+                List<Requisicao> requisicoes = requisicaoRepository.findByAnimal(animalOng);
+
+                if(requisicoes.isEmpty()){
+                    animal.setSituacao("Sem aplicação");
+                }
+                else{
+                for(Requisicao requisicao : requisicoes) {
+                    if (requisicao.getStatus() == Status.REPROVADO) {
+                        animal.setSituacao("Sem aplicação");
+                    } else if (requisicao.getStatus() == Status.REVISAO || requisicao.getStatus() == Status.INICIO_DA_APLICACAO) {
+                        animal.setSituacao("Revisão");
+                    } else if (requisicao.getStatus() == Status.DOCUMENTACAO) {
+                        animal.setSituacao("Documentação");
+                    } else if (requisicao.getStatus() == Status.APROVADO) {
+                        animal.setSituacao("Aprovado");
+                    } else if (requisicao.getStatus() == Status.ADOTADO) {
+                        animal.setSituacao("Adotado");
+                    }
+                }
+
+                }
+
+            animais.add(animal);
+            }
+            return animais;
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
+        }
     }
 }

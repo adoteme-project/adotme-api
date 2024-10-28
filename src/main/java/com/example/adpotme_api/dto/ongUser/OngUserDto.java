@@ -11,4 +11,5 @@ public class OngUserDto {
     private String nome;
     private String email;
     private Role role;
+    private Long ongId;
 }

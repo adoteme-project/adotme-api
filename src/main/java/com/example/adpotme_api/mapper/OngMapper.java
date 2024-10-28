@@ -1,6 +1,7 @@
 package com.example.adpotme_api.mapper;
 
 import com.example.adpotme_api.dto.animal.AnimalOngResponseDto;
+import com.example.adpotme_api.dto.ong.OngAnimaisDto;
 import com.example.adpotme_api.dto.ong.OngCreateDto;
 import com.example.adpotme_api.dto.ong.OngResponseAllDto;
 import com.example.adpotme_api.dto.ong.OngResponseDto;
@@ -54,5 +55,17 @@ public class OngMapper {
         }
 
         return animaisResposta;
+    }
+
+    public static OngAnimaisDto toOngAnimal(Animal animal){
+        OngAnimaisDto ongAnimaisDto = new OngAnimaisDto();
+        ongAnimaisDto.setId(animal.getId());
+        ongAnimaisDto.setNome(animal.getNome());
+        ongAnimaisDto.setEspecie(animal.getEspecie());
+        ongAnimaisDto.setRaca(animal.getRaca());
+        ongAnimaisDto.setTaxaAdocao(animal.getTaxaAdocao());
+        ongAnimaisDto.setDataEntrada(animal.getDataAbrigo());
+        ongAnimaisDto.setVisibilidade(animal.getIsVisible());
+        return ongAnimaisDto;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.adpotme_api.entity.requisicao;
 
+import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.formulario.Formulario;
 import com.example.adpotme_api.entity.ongUser.OngUser;
 import com.example.adpotme_api.entity.requisicaoUser.RequisicaoUserResponsavel;
@@ -24,6 +25,10 @@ public class Requisicao {
     @JsonBackReference
     @OneToOne(cascade = CascadeType.ALL)
     private Formulario formulario;
+
+    @OneToOne
+    @JoinColumn(name = "animal_id")
+    private Animal animal;
 
     @Enumerated(EnumType.STRING)
     private Status status;
