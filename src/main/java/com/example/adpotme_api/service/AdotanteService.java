@@ -79,6 +79,7 @@ public class AdotanteService {
 
         Formulario formulario = FormularioMapper.toFormulario(dados);
         adotante.setFormulario(formulario);
+        formulario.setAdotante(adotante);
 
         formularioRepository.save(formulario);
         adotanteRepository.save(adotante);

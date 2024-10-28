@@ -1,10 +1,7 @@
 package com.example.adpotme_api.controller;
 
-import com.example.adpotme_api.dto.ong.OngResponseAllDto;
-import com.example.adpotme_api.dto.ong.OngResponseDto;
-import com.example.adpotme_api.dto.ong.OngUpdateDto;
+import com.example.adpotme_api.dto.ong.*;
 import com.example.adpotme_api.entity.ong.Ong;
-import com.example.adpotme_api.dto.ong.OngCreateDto;
 import com.example.adpotme_api.service.OngService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -143,5 +140,20 @@ public class OngController {
     public ResponseEntity<Void> deletarOng(@Parameter(description = "ID da ONG a ser deletada", required = true) @PathVariable Long id) {
         ongService.deletarOng(id);
         return ResponseEntity.status(204).build();
+    }
+
+    @GetMapping("/listagem-animais-ong/{id}")
+    @Operation(summary = "Listagem de animais por ONG", description = "Retorna uma lista de animais cadastrados por uma ONG específica.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de animais retornada com sucesso."),
+            @ApiResponse(responseCode = "204", description = "Nenhum animal encontrado.")
+    })
+    public ResponseEntity<List<OngAnimaisDto>> listagemAnimaisOng(@Parameter(description = "ID da ONG", required = true) @PathVariable Long id) {
+        List<OngAnimaisDto> animais = ongService.listagemAnimaisOng(id);
+        if (animais.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        } else {
+            return ResponseEntity.status(200).body(animais);
+        }
     }
 }
