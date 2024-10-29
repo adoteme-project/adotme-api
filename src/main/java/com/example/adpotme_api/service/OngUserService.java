@@ -51,6 +51,10 @@ public class OngUserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ONG não encontrada");
         }
 
+        if(adotanteRepository.existsByEmail(dto.getEmail())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email já cadastrado");
+        }
+
         Ong ong = ongOpt.get();
         OngUser ongUser = new OngUser();
         ongUser.setNome(dto.getNome());
