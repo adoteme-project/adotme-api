@@ -14,6 +14,7 @@ import com.example.adpotme_api.repository.AdotanteRepository;
 import com.example.adpotme_api.repository.EnderecoRepository;
 import com.example.adpotme_api.integration.CloudinaryService;
 import com.example.adpotme_api.repository.FormularioRepository;
+import com.example.adpotme_api.repository.OngUserRepository;
 import com.example.adpotme_api.util.Sorting;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,8 @@ public class AdotanteService {
     CloudinaryService cloudinaryService;
     @Autowired
     private FormularioRepository formularioRepository;
+    @Autowired
+    private OngUserRepository ongUserRepository;
 
 
     @Transactional
@@ -56,6 +59,10 @@ public class AdotanteService {
         Endereco endereco = viaCepService.obterEnderecoPorCep(dados.getCep());
         endereco.setNumero(dados.getNumero());
         enderecoRepository.save(endereco);
+
+        if(ongUserRepository.existsByEmail(dados.getEmail())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email já cadastrado");
+        }
 
         Adotante adotante = new Adotante();
         adotante.setNome(dados.getNome());
