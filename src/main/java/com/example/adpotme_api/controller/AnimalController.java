@@ -42,6 +42,7 @@ public class AnimalController {
     @PostMapping(value = "/cachorro", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     @Operation(summary = "Cadastra um cachorro", description = "Cadastra um novo cachorro no sistema com os dados fornecidos.")
     @ApiResponse(responseCode = "201", description = "O cachorro foi cadastrado com sucesso no sistema.")
+    @ApiResponse(responseCode = "400", description = "Erro ao cadastrar o cachorro.")
     public ResponseEntity<Animal> cadastrarCachorro(
             @RequestPart("cachorro") String cachorroJson,
             @RequestPart(value = "fotoPerfil", required = false) MultipartFile fotoPerfil
@@ -59,6 +60,7 @@ public class AnimalController {
     @PostMapping(value="/gato", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     @Operation(summary = "Cadastra um gato", description = "Cadastra um novo gato no sistema com os dados fornecidos.")
     @ApiResponse(responseCode = "201", description = "O gato foi cadastrado com sucesso no sistema.")
+    @ApiResponse(responseCode = "400", description = "Erro ao cadastrar o gato.")
     public ResponseEntity<Animal> cadastrarGato(
             @RequestPart("gato") String gatoJson,
             @RequestPart(value = "fotoPerfil", required = false) MultipartFile fotoPerfil
@@ -75,6 +77,7 @@ public class AnimalController {
     @GetMapping("/por-personalidade")
     @Operation(summary = "Retorna animais por personalidade", description = "Recupera uma lista de animais com base na personalidade fornecida.")
     @ApiResponse(responseCode = "200", description = "A lista de animais foi recuperada com sucesso.")
+    @ApiResponse(responseCode = "204", description = "Não há animais com a personalidade fornecida.")
     public ResponseEntity<Animal[]> recuperarAnimaisPorPersonalidade(@RequestParam String personalidade) {
         Animal[] animais = animalService.recuperarAnimaisPorPersonalidade(personalidade);
         return ResponseEntity.ok(animais);
@@ -95,7 +98,8 @@ public class AnimalController {
 
     @GetMapping("/ong/quantidade/{ongId}")
     @Operation(summary = "Retorna a quantidade de animais por ong", description = "Recupera a quantidade de animais por ong.")
-    @ApiResponse(responseCode = "200", description = "A lista de animais foi recuperada com sucesso.")
+    @ApiResponse(responseCode = "200", description = "A quantidade de animais foi recuperada com sucesso.")
+    @ApiResponse(responseCode = "404", description = "ONG não encontrada.")
     public ResponseEntity<AnimalQuantidadeDto> recuperarQuantidadeAnimaisOng(@PathVariable Long ongId) {
         Integer quantidadeAnimaisPorOng = animalService.recuperarQuantidadeAnimaisPorOng(ongId);
 
@@ -108,6 +112,7 @@ public class AnimalController {
     @GetMapping("/{id}")
     @Operation(summary = "Retorna um animal pelo ID", description = "Recupera os detalhes de um animal específico com base no ID fornecido.")
     @ApiResponse(responseCode = "200", description = "O animal foi encontrado e seus detalhes foram retornados.")
+    @ApiResponse(responseCode = "404", description = "Animal não encontrado.")
     public ResponseEntity<Animal> recuperarAnimalPorId(@PathVariable Long id) {
         Animal animal = animalService.recuperarAnimalPorId(id);
         return ResponseEntity.ok(animal);
@@ -116,7 +121,9 @@ public class AnimalController {
     @PutMapping("/cachorro/{id}")
     @Operation(summary = "Atualiza os dados de um cachorro", description = "Atualiza as informações de um cachorro existente com base no ID.")
     @ApiResponse(responseCode = "200", description = "Os dados do cachorro foram atualizados com sucesso.")
-    public ResponseEntity<Cachorro> atualizarCachorro(@PathVariable Long id, @RequestBody AnimalUpdateDto cachorroAtualizado) {
+    @ApiResponse(responseCode = "404", description = "Cachorro não encontrado.")
+    @ApiResponse(responseCode = "400", description = "Erro ao atualizar o cachorro.")
+    public ResponseEntity<Cachorro> atualizarCachorro(@PathVariable Long id, @RequestBody @Valid AnimalUpdateDto cachorroAtualizado) {
         Cachorro atualizado = (Cachorro) animalService.atualizarCachorro(id, cachorroAtualizado);
         return ResponseEntity.ok(atualizado);
     }
@@ -124,7 +131,9 @@ public class AnimalController {
     @PutMapping("/gato/{id}")
     @Operation(summary = "Atualiza os dados de um gato", description = "Atualiza as informações de um gato existente com base no ID.")
     @ApiResponse(responseCode = "200", description = "Os dados do gato foram atualizados com sucesso.")
-    public ResponseEntity<Gato> atualizarGato(@PathVariable Long id, @RequestBody AnimalUpdateDto gatoAtualizado) {
+    @ApiResponse(responseCode = "404", description = "Gato não encontrado.")
+    @ApiResponse(responseCode = "400", description = "Erro ao atualizar o gato.")
+    public ResponseEntity<Gato> atualizarGato(@PathVariable Long id, @RequestBody @Valid AnimalUpdateDto gatoAtualizado) {
         Gato atualizado = (Gato) animalService.atualizarGato(id, gatoAtualizado);
         return ResponseEntity.ok(atualizado);
     }
@@ -146,6 +155,7 @@ public class AnimalController {
     @GetMapping(value = "/exportar/{id}", produces = "text/csv")
     @Operation(summary = "Exporta dados de animais para um arquivo CSV", description = "Exporta dados de todos os animais cadastrados no sistema para um arquivo CSV.")
     @ApiResponse(responseCode = "200", description = "Os dados foram exportados com sucesso.")
+    @ApiResponse(responseCode = "404", description = "Ong não encontrada.")
     public void exportarAnimais(@PathVariable Long id, HttpServletResponse response) throws IOException {
         response.setContentType("text/csv");
         response.setHeader("Content-Disposition", "attachment; filename=animais.csv");

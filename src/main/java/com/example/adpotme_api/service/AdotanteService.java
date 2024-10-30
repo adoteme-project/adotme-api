@@ -18,8 +18,11 @@ import com.example.adpotme_api.repository.FormularioRepository;
 import com.example.adpotme_api.repository.OngUserRepository;
 import com.example.adpotme_api.util.Sorting;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +34,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AdotanteService {
@@ -52,11 +56,20 @@ public class AdotanteService {
     private FormularioRepository formularioRepository;
     @Autowired
     private OngUserRepository ongUserRepository;
+    @Autowired
+    private Validator validator;
 
 
     @Transactional
     public AdotanteResponseDto cadastrarAdotante(AdotanteCreateDto dados, MultipartFile fotoPerfil) {
-
+        Set<ConstraintViolation<AdotanteCreateDto>> violations = validator.validate(dados);
+        if (!violations.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            for (ConstraintViolation<AdotanteCreateDto> violation : violations) {
+                sb.append(violation.getMessage()).append("\n");
+            }
+             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, sb.toString());
+        }
         Endereco endereco = viaCepService.obterEnderecoPorCep(dados.getCep());
         endereco.setNumero(dados.getNumero());
         enderecoRepository.save(endereco);
@@ -64,6 +77,7 @@ public class AdotanteService {
         if(ongUserRepository.existsByEmail(dados.getEmail())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email já cadastrado");
         }
+
 
         Adotante adotante = new Adotante();
         adotante.setNome(dados.getNome());

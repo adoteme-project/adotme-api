@@ -3,7 +3,7 @@ package com.example.adpotme_api.dto.animal;
 import com.example.adpotme_api.dto.personalidade.PersonalidadeCreateDto;
 import com.example.adpotme_api.entity.animal.Especie;
 import com.example.adpotme_api.entity.personalidade.Personalidade;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +20,7 @@ public abstract class AnimalCreateDto {
     protected String nome;
     protected Integer anoNascimento;
     protected String sexo;
+    @PastOrPresent
     protected LocalDate dataAbrigo;
     protected LocalDate cadastro = LocalDate.now();
     protected Especie especie;
@@ -30,6 +31,7 @@ public abstract class AnimalCreateDto {
     protected Boolean isAdotado;
     protected String porte;
     protected Boolean isVermifugado;
+    @PositiveOrZero
     protected Double taxaAdocao;
     protected Boolean isDestaque;
     protected PersonalidadeCreateDto personalidade;
