@@ -7,6 +7,7 @@ import com.example.adpotme_api.entity.dadosBancarios.DadosBancarios;
 public class DadosBancariosMapper {
     public static DadosBancariosDto toDto(DadosBancarios dadosBancarios) {
         DadosBancariosDto dto = new DadosBancariosDto();
+        dto.setId(dadosBancarios.getId());
         dto.setBanco(dadosBancarios.getBanco());
         dto.setAgencia(dadosBancarios.getAgencia());
         dto.setConta(dadosBancarios.getConta());
