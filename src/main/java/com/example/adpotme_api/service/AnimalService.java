@@ -1,10 +1,7 @@
 package com.example.adpotme_api.service;
 
 import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
-import com.example.adpotme_api.dto.animal.AnimalCsvDto;
-import com.example.adpotme_api.dto.animal.AnimalUpdateDto;
-import com.example.adpotme_api.dto.animal.CachorroCreateDto;
-import com.example.adpotme_api.dto.animal.GatoCreateDto;
+import com.example.adpotme_api.dto.animal.*;
 import com.example.adpotme_api.entity.animal.*;
 import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.entity.ong.Ong;
@@ -28,6 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 import jakarta.transaction.Transactional;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -248,5 +246,15 @@ public class AnimalService {
             throw new RuntimeException("Erro ao exportar arquivo CSV: " + e.getMessage());
         }
     }
+
+    public List<AnimalOngResponseDto> recuperarAnimaisComPersonalidade() {
+        List<Animal> animais = animalRepository.findAll();
+        List<AnimalOngResponseDto> animaisDto = new ArrayList<>();
+        for(Animal animal : animais) {
+            AnimalOngResponseDto animalDaVez = AnimalMapper.toAnimalOngResponseDto(animal);
+            animaisDto.add(animalDaVez);
+        }
+        return animaisDto;
     }
+}
 

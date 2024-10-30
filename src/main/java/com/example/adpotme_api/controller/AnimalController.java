@@ -1,9 +1,6 @@
 package com.example.adpotme_api.controller;
 
-import com.example.adpotme_api.dto.animal.AnimalQuantidadeDto;
-import com.example.adpotme_api.dto.animal.AnimalUpdateDto;
-import com.example.adpotme_api.dto.animal.CachorroCreateDto;
-import com.example.adpotme_api.dto.animal.GatoCreateDto;
+import com.example.adpotme_api.dto.animal.*;
 import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.animal.Cachorro;
 import com.example.adpotme_api.entity.animal.Gato;
@@ -160,5 +157,16 @@ public class AnimalController {
         response.setContentType("text/csv");
         response.setHeader("Content-Disposition", "attachment; filename=animais.csv");
         animalService.exportarAnimais(response.getWriter(), id);
+    }
+    @GetMapping("/todos-animais-com-personalidade/")
+    @Operation(summary = "Retorna todos os animais com personalidade", description = "Recupera uma lista de todos os animais cadastrados no sistema com personalidade.")
+    @ApiResponse(responseCode = "200", description = "A lista de animais foi recuperada com sucesso.")
+    @ApiResponse(responseCode = "204", description = "Não há animais cadastrados no sistema.")
+    public ResponseEntity<List<AnimalOngResponseDto>> recuperarAnimaisComPersonalidade() {
+        List<AnimalOngResponseDto> animais = animalService.recuperarAnimaisComPersonalidade();
+        if (animais.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(animais);
     }
 }

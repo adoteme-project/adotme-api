@@ -29,7 +29,7 @@ public class TokenService {
                     .withIssuer("API AdoteMe")
                     .withSubject(ongUser.getEmail())
                     .withClaim("id", ongUser.getId())
-                    .withExpiresAt(dataExpiracao(2))
+                    .withExpiresAt(dataExpiracao(45))
                     .sign(algoritmo);
         } catch (JWTCreationException exception){
             throw new RuntimeException("Erro ao gerar token JWT", exception);
@@ -43,7 +43,7 @@ public class TokenService {
                     .withIssuer("API AdoteMe")
                     .withSubject(adotante.getEmail())
                     .withClaim("id", adotante.getId())
-                    .withExpiresAt(dataExpiracao(1))  // Access token expira em 1 hora
+                    .withExpiresAt(dataExpiracao(45))  // Access token expira em 1 hora
                     .sign(algoritmo);
         } catch (JWTCreationException exception) {
             throw new RuntimeException("Erro ao gerar access token JWT", exception);
