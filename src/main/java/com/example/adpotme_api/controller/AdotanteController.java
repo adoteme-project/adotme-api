@@ -1,5 +1,9 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.adapter.AdotanteAdapter;
+import com.example.adpotme_api.adapter.AdotanteAdapterImp;
+import com.example.adpotme_api.adapter.AdotanteAdapterTarget;
+import com.example.adpotme_api.adapter.AdotanteTarget;
 import com.example.adpotme_api.dto.adotante.*;
 import com.example.adpotme_api.dto.formulario.FormularioCreateDto;
 import com.example.adpotme_api.dto.formulario.FormularioResponseAdotanteDto;
@@ -51,15 +55,10 @@ public class AdotanteController {
             @RequestPart("adotante") String adotanteJson,
             @RequestPart(value = "fotoPerfil", required = false) MultipartFile fotoPerfil
     ) throws JsonProcessingException {
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-
-        AdotanteCreateDto dados = objectMapper.readValue(adotanteJson, AdotanteCreateDto.class);
+        AdotanteTarget adotanteTarget = new AdotanteAdapterTarget(new AdotanteAdapterImp());
+        AdotanteCreateDto dados = adotanteTarget.request(adotanteJson);
 
         AdotanteResponseDto adotante = adotanteService.cadastrarAdotante(dados, fotoPerfil);
-
 
         return ResponseEntity.status(201).body(adotante);
     }
