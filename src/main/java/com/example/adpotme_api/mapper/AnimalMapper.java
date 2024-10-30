@@ -1,10 +1,12 @@
 package com.example.adpotme_api.mapper;
 
 import com.example.adpotme_api.dto.animal.AnimalCsvDto;
+import com.example.adpotme_api.dto.animal.AnimalOngDto;
 import com.example.adpotme_api.dto.animal.AnimalOngResponseDto;
 import com.example.adpotme_api.entity.animal.Animal;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class AnimalMapper {
     public static AnimalOngResponseDto toAnimalOngResponseDto(Animal animal) {
@@ -38,5 +40,16 @@ public class AnimalMapper {
         animalCsvDto.setIsVermifugado(animal.getIsVermifugado());
         animalCsvDto.setTaxaAdocao(animal.getTaxaAdocao());
         return animalCsvDto;
+    }
+
+    public static AnimalOngDto toAnimalOngDto(Animal animal) {
+        AnimalOngDto animalOngDto = new AnimalOngDto();
+        animalOngDto.setId(animal.getId());
+        animalOngDto.setImagem(animal.getFotoPerfil().getUrl() != null ? animal.getFotoPerfil().getUrl() : null);
+        animalOngDto.setNome(animal.getNome());
+        animalOngDto.setPorte(animal.getPorte());
+        animalOngDto.setEspecie(animal.getEspecie().getEspecie());
+        animalOngDto.setIdade(LocalDate.now().getYear() - animal.getAnoNascimento());
+        return animalOngDto;
     }
 }
