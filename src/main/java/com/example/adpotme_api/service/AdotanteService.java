@@ -1,5 +1,6 @@
 package com.example.adpotme_api.service;
 
+import com.example.adpotme_api.dto.adotante.AdotanteDadosFoto;
 import com.example.adpotme_api.dto.adotante.AdotanteResponseDto;
 import com.example.adpotme_api.dto.adotante.AdotanteUpdateDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
@@ -151,5 +152,14 @@ public class AdotanteService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
         }
         adotanteRepository.deleteById(id);
+    }
+
+    public AdotanteDadosFoto recuperarAdotanteDadosFoto(Long id) {
+        Optional<Adotante> adotanteOpt = adotanteRepository.findById(id);
+        if(adotanteOpt.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
+        }
+        Adotante adotante = adotanteOpt.get();
+        return AdotanteMapper.toAdotanteDadosFoto(adotante);
     }
 }
