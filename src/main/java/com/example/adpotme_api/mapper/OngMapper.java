@@ -1,10 +1,8 @@
 package com.example.adpotme_api.mapper;
 
+import com.example.adpotme_api.dto.animal.AnimalOngDto;
 import com.example.adpotme_api.dto.animal.AnimalOngResponseDto;
-import com.example.adpotme_api.dto.ong.OngAnimaisDto;
-import com.example.adpotme_api.dto.ong.OngCreateDto;
-import com.example.adpotme_api.dto.ong.OngResponseAllDto;
-import com.example.adpotme_api.dto.ong.OngResponseDto;
+import com.example.adpotme_api.dto.ong.*;
 import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.ong.Ong;
 
@@ -67,5 +65,30 @@ public class OngMapper {
         ongAnimaisDto.setDataEntrada(animal.getDataAbrigo());
         ongAnimaisDto.setVisibilidade(animal.getIsVisible());
         return ongAnimaisDto;
+    }
+
+    public static OngDadosBancariosAnimalDto toOngDadosBancariosAnimal(Ong ong) {
+        List<Animal> animais = ong.getAnimal();
+        List<AnimalOngDto> animaisDto = new ArrayList<>();
+        for (Animal animal : animais) {
+            AnimalOngDto animalDto = AnimalMapper.toAnimalOngDto(animal);
+            animaisDto.add(animalDto);
+        }
+        OngDadosBancariosAnimalDto ongDadosBancariosAnimalDto = new OngDadosBancariosAnimalDto();
+        ongDadosBancariosAnimalDto.setId(ong.getId());
+        ongDadosBancariosAnimalDto.setNome(ong.getNome());
+        ongDadosBancariosAnimalDto.setEmail(ong.getEmail());
+        ongDadosBancariosAnimalDto.setTelefone(ong.getTelefone());
+        ongDadosBancariosAnimalDto.setCnpj(ong.getCnpj());
+        ongDadosBancariosAnimalDto.setBanco(ong.getDadosBancarios().getBanco());
+        ongDadosBancariosAnimalDto.setAgencia(ong.getDadosBancarios().getAgencia());
+        ongDadosBancariosAnimalDto.setConta(ong.getDadosBancarios().getConta());
+        ongDadosBancariosAnimalDto.setTipoConta(ong.getDadosBancarios().getTipoConta());
+        ongDadosBancariosAnimalDto.setChavePix(ong.getDadosBancarios().getChavePix());
+        ongDadosBancariosAnimalDto.setNomeTitular(ong.getDadosBancarios().getNomeTitular());
+        ongDadosBancariosAnimalDto.setQrCode(ong.getDadosBancarios().getQrCode().getUrl());
+        ongDadosBancariosAnimalDto.setEndereco(EnderecoMapper.toEnderecoResponseOngDto(ong.getEndereco()));
+        ongDadosBancariosAnimalDto.setAnimais(animaisDto);
+        return ongDadosBancariosAnimalDto;
     }
 }

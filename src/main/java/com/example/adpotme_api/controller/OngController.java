@@ -165,4 +165,19 @@ public class OngController {
             return ResponseEntity.status(200).body(animais);
         }
     }
+
+    @GetMapping("/listagem-ongs-com-animais-dados-bancarios")
+    @Operation(summary = "Listagem de ONGs com animais e dados bancários", description = "Retorna uma lista de ONGs com animais e dados bancários cadastrados.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de ONGs retornada com sucesso."),
+            @ApiResponse(responseCode = "204", description = "Nenhuma ONG encontrada.")
+    })
+    public ResponseEntity<List<OngDadosBancariosAnimalDto>> listagemOngsComAnimaisDadosBancarios() {
+        List<OngDadosBancariosAnimalDto> ongs = ongService.listagemOngsComAnimaisDadosBancarios();
+        if (ongs.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        } else {
+            return ResponseEntity.status(200).body(ongs);
+        }
+    }
 }

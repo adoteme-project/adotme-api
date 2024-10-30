@@ -225,4 +225,16 @@ public class OngService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
         }
     }
+
+    public List<OngDadosBancariosAnimalDto> listagemOngsComAnimaisDadosBancarios() {
+        List<Ong> ongs = ongRepository.findAll();
+        List<OngDadosBancariosAnimalDto> ongsDto = new ArrayList<>();
+
+        for (Ong ong : ongs) {
+            OngDadosBancariosAnimalDto ongVez = OngMapper.toOngDadosBancariosAnimal(ong);
+            ongsDto.add(ongVez);
+        }
+
+        return ongsDto;
+    }
 }
