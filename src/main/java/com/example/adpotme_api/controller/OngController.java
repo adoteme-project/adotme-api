@@ -91,6 +91,7 @@ public class OngController {
     @Operation(summary = "Recuperar ONG por ID", description = "Retorna uma ONG específica com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "ONG encontrada."),
+            @ApiResponse(responseCode = "404", description = "ONG não encontrada.")
     })
     public ResponseEntity<Ong> recuperarOngPorId(@Parameter(description = "ID da ONG a ser recuperada", required = true) @PathVariable Long id) {
         Ong ong = ongService.recuperarOngPorId(id);
@@ -103,8 +104,13 @@ public class OngController {
     @GetMapping("/ordenados-por-estado")
     @Operation(summary = "Recuperar ONGs ordenadas por estado", description = "Retorna uma lista de ONGs ordenadas por estado.")
     @ApiResponse(responseCode = "200", description = "Lista de ONGs ordenada retornada com sucesso.")
+    @ApiResponse(responseCode = "204", description = "Nenhuma ONG encontrada.")
+
     public ResponseEntity<List<Ong>> recuperarOngsOrdenadoPorEstado() {
         List<Ong> ongs = ongService.recuperarOngsOrdenadoPorEstado();
+        if(ongs.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
         return ResponseEntity.ok(ongs);
     }
 
@@ -125,9 +131,11 @@ public class OngController {
     @Operation(summary = "Atualizar ONG", description = "Atualiza os dados de uma ONG específica com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "ONG atualizada com sucesso."),
+            @ApiResponse(responseCode = "404", description = "ONG não encontrada."),
+            @ApiResponse(responseCode = "400", description = "Erro ao atualizar a ONG.")
     })
     public ResponseEntity<Ong> atualizar(@Parameter(description = "ID da ONG a ser atualizada", required = true) @PathVariable Long id,
-                                         @RequestBody OngUpdateDto ongAtualizada) {
+                                         @RequestBody @Valid OngUpdateDto ongAtualizada) {
         Ong updatedOng = ongService.atualizar(id, ongAtualizada);
         return ResponseEntity.status(200).body(updatedOng);
     }
@@ -136,6 +144,7 @@ public class OngController {
     @Operation(summary = "Deletar ONG", description = "Deleta uma ONG específica com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "ONG deletada com sucesso."),
+            @ApiResponse(responseCode = "404", description = "ONG não encontrada.")
     })
     public ResponseEntity<Void> deletarOng(@Parameter(description = "ID da ONG a ser deletada", required = true) @PathVariable Long id) {
         ongService.deletarOng(id);

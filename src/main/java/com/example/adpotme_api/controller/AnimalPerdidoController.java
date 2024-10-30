@@ -38,6 +38,8 @@ public class AnimalPerdidoController {
     @PostMapping(value="/cachorro", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     @Operation(summary = "Cadastrar cachorro perdido", description = "Cadastra um novo cachorro perdido no sistema com os dados fornecidos no corpo da requisição.")
     @ApiResponse(responseCode = "201", description = "Cachorro perdido cadastrado com sucesso.")
+    @ApiResponse(responseCode = "400", description = "Erro ao cadastrar o cachorro perdido.")
+    @ApiResponse(responseCode = "404", description = "Ong não encontrada.")
     public ResponseEntity<AnimalPerdido> cadastrarCachorroPerdido(
             @RequestPart("cachorro") String cachorroPerdidoJson,
             @RequestPart(value = "fotoPerfil", required = false) MultipartFile fotoPerfil
@@ -54,6 +56,8 @@ public class AnimalPerdidoController {
     @PostMapping(value="/gato", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     @Operation(summary = "Cadastrar gato perdido", description = "Cadastra um novo gato perdido no sistema com os dados fornecidos no corpo da requisição.")
     @ApiResponse(responseCode = "201", description = "Gato perdido cadastrado com sucesso.")
+    @ApiResponse(responseCode="400", description = "Erro ao cadastrar o gato perdido.")
+    @ApiResponse(responseCode="404", description = "Ong não encontrada.")
     public ResponseEntity<AnimalPerdido> cadastrarGatoPerdido(
             @RequestPart("gato") String gatoPerdidoJson,
             @RequestPart(value = "fotoPerfil", required = false) MultipartFile fotoPerfil
@@ -93,6 +97,7 @@ public class AnimalPerdidoController {
     @GetMapping("/ordenados-por-estado")
     @Operation(summary = "Recuperar animais perdidos ordenados por estado", description = "Retorna uma lista de animais perdidos cadastrados no sistema, ordenados por estado.")
     @ApiResponse(responseCode = "200", description = "Lista de animais perdidos ordenados por estado recuperada com sucesso.")
+    @ApiResponse(responseCode = "204", description = "Nenhum animal perdido encontrado.")
     public ResponseEntity<List<AnimalPerdido>> recuperarAnimaisOrdenadosPorEstado() {
         List<AnimalPerdido> animais = animalPerdidoService.recuperarAnimaisOrdenadosPorEstado();
         return ResponseEntity.status(200).body(animais);
@@ -136,6 +141,7 @@ public class AnimalPerdidoController {
     @GetMapping("/animal-perdido-achados-perdidos/")
     @Operation(summary = "Recuperar animais perdidos e achados", description = "Retorna uma lista de animais perdidos e achados cadastrados no sistema.")
     @ApiResponse(responseCode = "200", description = "Lista de animais perdidos e achados recuperada com sucesso.")
+    @ApiResponse(responseCode = "204", description = "Nenhum animal perdido ou achado encontrado.")
     public ResponseEntity <List<AnimalPerdidoAchadoPerdidoDto>> recuperarAnimaisPerdidosEAchados(
           ) {
 
@@ -150,6 +156,7 @@ public class AnimalPerdidoController {
     @GetMapping("/animal-perdido-achados-perdidos-por-ong/{idOng}")
     @Operation(summary = "Recuperar animais perdidos e achados", description = "Retorna uma lista de animais perdidos e achados cadastrados no sistema com base no ID da ONG fornecido.")
     @ApiResponse(responseCode = "200", description = "Lista de animais perdidos e achados recuperada com sucesso.")
+    @ApiResponse(responseCode = "204", description = "Nenhum animal perdido ou achado encontrado.")
     public ResponseEntity <List<AnimalPerdidoAchadoPerdidoDto>> recuperarAnimaisPerdidosEAchadosPorOng(
             @PathVariable Long idOng) {
 
@@ -164,6 +171,7 @@ public class AnimalPerdidoController {
     @GetMapping("/animal-perdido-achados-perdidos-card/{idAnimalPerdido}")
     @Operation(summary = "Recuperar animais perdidos e achados", description = "Retorna uma lista de animais perdidos e achados cadastrados no sistema com base no Id do animal.")
     @ApiResponse(responseCode = "200", description = "Animal perdido recuperado com sucesso.")
+    @ApiResponse(responseCode = "204", description = "Nenhum animal perdido ou achado encontrado.")
     public ResponseEntity <AnimalPerdidoCardDto> recuperarAnimalPerdidoCardPorId(
             @PathVariable Long idAnimalPerdido) {
 

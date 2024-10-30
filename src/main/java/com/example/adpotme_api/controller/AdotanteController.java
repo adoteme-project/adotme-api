@@ -50,9 +50,10 @@ public class AdotanteController {
     @PostMapping(value = "/cadastrar", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     @Operation(summary = "Cadastra um adotante", description = "Cadastra um novo adotante no sistema com os dados fornecidos.")
     @ApiResponse(responseCode = "201", description = "O adotante foi cadastrado com sucesso no sistema.")
+    @ApiResponse(responseCode = "400", description = "Erro de validação.")
 
     public ResponseEntity<AdotanteResponseDto> cadastrarAdotante(
-            @RequestPart("adotante") String adotanteJson,
+            @RequestPart("adotante") @Valid String adotanteJson,
             @RequestPart(value = "fotoPerfil", required = false) MultipartFile fotoPerfil
     ) throws JsonProcessingException {
         AdotanteTarget adotanteTarget = new AdotanteAdapterTarget(new AdotanteAdapterImp());
@@ -69,6 +70,7 @@ public class AdotanteController {
                     "enviando os dados necessários para a criação e recebendo o formulário preenchido como resposta."
     )
     @ApiResponse(responseCode = "201", description = "Formulário preenchido com sucesso.")
+    @ApiResponse(responseCode = "400", description = "Erro de validação.")
     public ResponseEntity<FormularioResponseAdotanteDto> preencherFormulario(@RequestBody @Valid FormularioCreateDto dados, @PathVariable Long idAdotante) {
         Formulario formulario = formularioService.preencherFormulario(dados, idAdotante);
         FormularioResponseAdotanteDto formularioResponse = FormularioMapper.toResponseDto(formulario);
@@ -78,6 +80,7 @@ public class AdotanteController {
     @GetMapping
     @Operation(summary = "Retorna todos os adotantes", description = "Recupera uma lista de todos os adotantes cadastrados no sistema.")
     @ApiResponse(responseCode = "200", description = "A lista de adotantes foi recuperada com sucesso.")
+    @ApiResponse(responseCode = "204", description = "Nenhum adotante foi encontrado.")
     public ResponseEntity<List<AdotanteResponseDto>> recuperarAdotantes() {
         List<AdotanteResponseDto> adotantes = adotanteService.recuperarAdotantes();
         if (adotantes.isEmpty()) {
@@ -89,6 +92,7 @@ public class AdotanteController {
     @GetMapping("/{id}")
     @Operation(summary = "Retorna um adotante pelo ID", description = "Recupera os detalhes de um adotante específico com base no ID fornecido.")
     @ApiResponse(responseCode = "200", description = "O adotante foi encontrado e seus detalhes foram retornados.")
+    @ApiResponse(responseCode = "404", description = "Adotante não encontrado.")
     public ResponseEntity<Adotante> recuperarAdotantePorId(@PathVariable Long id) {
         Adotante adotante = adotanteService.recuperarAdotantePorId(id);
         return ResponseEntity.ok(adotante);
@@ -97,6 +101,7 @@ public class AdotanteController {
     @GetMapping("/ordenados-por-estado")
     @Operation(summary = "Retorna todos os adotantes ordenados por estado", description = "Recupera uma lista de adotantes organizados de acordo com seus estados.")
     @ApiResponse(responseCode = "200", description = "A lista de adotantes ordenados por estado foi recuperada com sucesso.")
+    @ApiResponse(responseCode = "204", description = "Nenhum adotante foi encontrado.")
     public ResponseEntity<List<AdotanteResponseDto>> recuperarAdotantesOrdenadosPorEstado() {
         List<AdotanteResponseDto> adotantes = adotanteService.recuperarAdotantesOrdenadosPorEstado();
         return ResponseEntity.ok(adotantes);
@@ -105,7 +110,10 @@ public class AdotanteController {
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza um adotante", description = "Atualiza as informações de um adotante existente com base no ID fornecido.")
     @ApiResponse(responseCode = "200", description = "Os dados do adotante foram atualizados com sucesso.")
-    public ResponseEntity<AdotanteResponseDto> atualizarAdotante(@PathVariable Long id, @RequestBody AdotanteUpdateDto adotante) {
+    @ApiResponse(responseCode = "404", description = "Adotante não encontrado.")
+    @ApiResponse(responseCode = "400", description = "Erro de validação.")
+
+    public ResponseEntity<AdotanteResponseDto> atualizarAdotante(@PathVariable Long id, @RequestBody @Valid AdotanteUpdateDto adotante) {
         Adotante atualizado = adotanteService.atualizarAdotante(id, adotante);
         AdotanteResponseDto adotanteResponse = AdotanteMapper.toResponseDto(atualizado);
         return ResponseEntity.ok(adotanteResponse);
@@ -117,6 +125,8 @@ public class AdotanteController {
                     "enviando os dados necessários para a atualização e recebendo o formulário atualizado como resposta."
     )
     @ApiResponse(responseCode = "200", description = "Formulário atualizado com sucesso.")
+    @ApiResponse(responseCode = "404", description = "Adotante não encontrado.")
+    @ApiResponse(responseCode = "400", description = "Erro de validação.")
     public ResponseEntity<AdotanteResponseDto> atualizarFormulario(@RequestBody @Valid FormularioCreateDto dados, @PathVariable Long id) {
         AdotanteResponseDto adotante = formularioService.atualizarFormulario(dados, id);
         return ResponseEntity.status(200).body(adotante);
@@ -128,6 +138,7 @@ public class AdotanteController {
                     "enviando o ID do adotante e recebendo o formulário preenchido como resposta."
     )
     @ApiResponse(responseCode = "200", description = "Formulário recuperado com sucesso.")
+    @ApiResponse(responseCode = "404", description = "Adotante não encontrado.")
     public ResponseEntity<AdotanteFormularioDto> recuperarFormularioAdotante(@PathVariable Long id) {
         AdotanteFormularioDto adotanteForm = formularioService.recuperarAdotanteForm(id);
         return ResponseEntity.ok(adotanteForm);
@@ -136,6 +147,7 @@ public class AdotanteController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Deleta um adotante", description = "Remove um adotante específico do sistema com base no ID fornecido.")
     @ApiResponse(responseCode = "204", description = "O adotante foi removido do sistema com sucesso.")
+    @ApiResponse(responseCode = "404", description = "Adotante não encontrado.")
     public ResponseEntity<Void> deletarAdotante(@PathVariable Long id) {
         adotanteService.deletarAdotante(id);
         return ResponseEntity.status(204).build();

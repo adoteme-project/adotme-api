@@ -1,5 +1,6 @@
 package com.example.adpotme_api.service;
 
+import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
 import com.example.adpotme_api.dto.animalPerdido.*;
 import com.example.adpotme_api.entity.animalPerdido.*;
 import com.example.adpotme_api.entity.endereco.Endereco;
@@ -12,6 +13,8 @@ import com.example.adpotme_api.repository.AnimalPerdidoRepository;
 import com.example.adpotme_api.repository.EnderecoRepository;
 import com.example.adpotme_api.repository.OngRepository;
 import com.example.adpotme_api.util.Sorting;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AnimalPerdidoService {
@@ -41,9 +45,20 @@ public class AnimalPerdidoService {
     private ViaCepService viaCepService;
     @Autowired
     private CloudinaryService cloudinaryService;
+    @Autowired
+    private Validator validator;
 
     @Transactional
     public AnimalPerdido cadastrarCachorroPerdido(CachorroPerdidoCreateDto cachorroDto, MultipartFile fotoPerfil) {
+        Set<ConstraintViolation<CachorroPerdidoCreateDto>> violations = validator.validate(cachorroDto);
+        if (!violations.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            for (ConstraintViolation<CachorroPerdidoCreateDto> violation : violations) {
+                sb.append(violation.getMessage()).append("\n");
+            }
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, sb.toString());
+        }
+
         Optional<Ong> ongOpt = ongRepository.findById(cachorroDto.getOngId());
         if (ongOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ONG não encontrada");
@@ -72,6 +87,14 @@ public class AnimalPerdidoService {
 
     @Transactional
     public AnimalPerdido cadastrarGatoPerdido(GatoPerdidoCreateDto gatoDto, MultipartFile fotoPerfil) {
+        Set<ConstraintViolation<GatoPerdidoCreateDto>> violations = validator.validate(gatoDto);
+        if (!violations.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            for (ConstraintViolation<GatoPerdidoCreateDto> violation : violations) {
+                sb.append(violation.getMessage()).append("\n");
+            }
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, sb.toString());
+        }
         Optional<Ong> ongOpt = ongRepository.findById(gatoDto.getOngId());
         if (ongOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ONG não encontrada");

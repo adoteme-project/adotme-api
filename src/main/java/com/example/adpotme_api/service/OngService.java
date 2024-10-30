@@ -1,5 +1,6 @@
 package com.example.adpotme_api.service;
 
+import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
 import com.example.adpotme_api.dto.ong.*;
 import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.dadosBancarios.DadosBancarios;
@@ -15,6 +16,8 @@ import com.example.adpotme_api.mapper.OngMapper;
 import com.example.adpotme_api.repository.*;
 import com.example.adpotme_api.util.PesquisaBinaria;
 import com.example.adpotme_api.util.Sorting;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class OngService {
@@ -48,10 +52,20 @@ public class OngService {
     private DadosBancariosRepository dadosBancariosRepository;
     @Autowired
     private RequisicaoRepository requisicaoRepository;
+    @Autowired
+    private Validator validator;
 
 
     @Transactional
     public OngResponseAllDto cadastrarOng(OngCreateDto dados, String numero, MultipartFile qrCode) {
+        Set<ConstraintViolation<OngCreateDto>> violations = validator.validate(dados);
+        if (!violations.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            for (ConstraintViolation<OngCreateDto> violation : violations) {
+                sb.append(violation.getMessage()).append("\n");
+            }
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, sb.toString());
+        }
         Endereco endereco = viaCepService.obterEnderecoPorCep(dados.getCep());
         endereco.setNumero(numero);
         enderecoRepository.save(endereco);
