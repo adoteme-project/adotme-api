@@ -140,6 +140,32 @@ public class AdotanteController {
         adotanteService.deletarAdotante(id);
         return ResponseEntity.status(204).build();
     }
+    @GetMapping("formulario-adotante/{id}")
+    @Operation(
+            summary = "Recupera o formulário de um adotante.",
+            description = "Este endpoint permite que um usuário recupere o formulário de um adotante, " +
+                    "enviando o ID do adotante e recebendo o formulário preenchido como resposta."
+    )
+    @ApiResponse(responseCode = "200", description = "Formulário recuperado com sucesso.")
+    @ApiResponse(responseCode = "404", description = "Adotante não encontrado.")
+    public ResponseEntity<FormularioResponseAdotanteDto> recuperarFormularioAdotanteUser(@PathVariable Long id) {
+        FormularioResponseAdotanteDto formulario = formularioService.recuperarFormularioAdotante(id);
+        return ResponseEntity.ok(formulario);
+    }
+
+    @GetMapping("dados-foto-adotante/{id}")
+    @Operation(
+            summary = "Recupera os dados de um adotante com a URL da foto de perfil.",
+            description = "Este endpoint permite que um usuário recupere os dados de um adotante, " +
+                    "enviando o ID do adotante e recebendo os dados com a URL da foto de perfil."
+    )
+    @ApiResponse(responseCode = "200", description = "Dados do adotante recuperados com sucesso.")
+    @ApiResponse(responseCode = "404", description = "Adotante não encontrado.")
+    public ResponseEntity<AdotanteDadosFoto> recuperarAdotanteDadosFoto(@PathVariable Long id) {
+        AdotanteDadosFoto adotante = adotanteService.recuperarAdotanteDadosFoto(id);
+        return ResponseEntity.ok(adotante);
+    }
+
 
     @GetMapping("/me")
     public ResponseEntity<AdotanteUserDto> adotanteAutenticado() {

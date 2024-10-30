@@ -2,6 +2,7 @@ package com.example.adpotme_api.service;
 
 import com.example.adpotme_api.dto.adotante.AdotanteFormularioDto;
 import com.example.adpotme_api.dto.adotante.AdotanteResponseDto;
+import com.example.adpotme_api.dto.formulario.FormularioResponseAdotanteDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.formulario.Formulario;
@@ -9,6 +10,7 @@ import com.example.adpotme_api.dto.formulario.FormularioCreateDto;
 import com.example.adpotme_api.entity.requisicao.Requisicao;
 import com.example.adpotme_api.entity.requisicao.Status;
 import com.example.adpotme_api.mapper.AdotanteMapper;
+import com.example.adpotme_api.mapper.FormularioMapper;
 import com.example.adpotme_api.repository.AdotanteRepository;
 import com.example.adpotme_api.repository.AnimalRepository;
 import com.example.adpotme_api.repository.FormularioRepository;
@@ -106,5 +108,19 @@ public class FormularioService {
         return AdotanteMapper.toAdontanteFormularioDto(adotante);
 
 
+    }
+
+    public FormularioResponseAdotanteDto recuperarFormularioAdotante(Long id) {
+        Adotante adotante = adotanteRepository.findById(id).orElse(null);
+        if (adotante == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
+        }
+
+        Formulario formulario = adotante.getFormulario();
+        if (formulario == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Formulário não encontrado");
+        }
+
+        return FormularioMapper.toResponseDto(formulario);
     }
 }
