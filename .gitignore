@@ -35,3 +35,4 @@ build/
 /src/main/resources/application-local.properties
 /src/main/resources/application-prod.properties
 /src/main/resources/application.properties
+/out/artifacts/adpotme_api_jar/adpotme-api.jar
