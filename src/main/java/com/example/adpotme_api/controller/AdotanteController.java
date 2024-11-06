@@ -178,6 +178,60 @@ public class AdotanteController {
         return ResponseEntity.ok(adotante);
     }
 
+    @GetMapping("animais-favoritos-usuario/{id}")
+    @Operation(
+            summary = "Recupera os animais favoritos de um adotante.",
+            description = "Este endpoint permite que um usuário recupere os animais favoritos de um adotante, " +
+                    "enviando o ID do adotante e recebendo a lista de animais favoritos."
+    )
+    @ApiResponse(responseCode = "200", description = "Animais favoritos recuperados com sucesso.")
+    @ApiResponse(responseCode = "404", description = "Adotante não encontrado.")
+    public ResponseEntity<AnimalFavoritoUsuarioDto> recuperarAnimaisFavoritosAdotante(@PathVariable Long id) {
+        AnimalFavoritoUsuarioDto adotante = adotanteService.recuperarAnimaisFavoritosAdotante(id);
+
+        return ResponseEntity.ok(adotante);
+    }
+    @GetMapping("ong-favoritas-usuario/{id}")
+    @Operation(
+            summary = "Recupera as ONGs favoritas de um adotante.",
+            description = "Este endpoint permite que um usuário recupere as ONGs favoritas de um adotante, " +
+                    "enviando o ID do adotante e recebendo a lista de ONGs favoritas."
+    )
+    @ApiResponse(responseCode = "200", description = "ONGs favoritas recuperadas com sucesso.")
+    @ApiResponse(responseCode = "404", description = "Adotante não encontrado.")
+    public ResponseEntity<AdotanteFavoritoOngDto> recuperarOngsFavoritasAdotante(@PathVariable Long id) {
+        AdotanteFavoritoOngDto adotante = adotanteService.recuperarOngsFavoritasAdotante(id);
+        return ResponseEntity.ok(adotante);
+    }
+
+    @PostMapping("favoritar-animal{idAdotante}/{idAnimal}")
+    @Operation(
+            summary = "Favorita um animal.",
+            description = "Este endpoint permite que um usuário favorita um animal, " +
+                    "enviando o ID do adotante e o ID do animal."
+    )
+    @ApiResponse(responseCode = "201", description = "Animal favoritado com sucesso.")
+    @ApiResponse(responseCode = "404", description = "Adotante ou animal não encontrado.")
+    public ResponseEntity<AnimalFavoritoUsuarioDto> favoritarAnimal(@PathVariable Long idAdotante, @PathVariable Long idAnimal) {
+        Adotante adotante = adotanteService.favoritarAnimal(idAdotante, idAnimal);
+        AnimalFavoritoUsuarioDto adotanteResponse = AdotanteMapper.toAnimalFavoritoUsuarioDto(adotante);
+        return ResponseEntity.status(201).body(adotanteResponse);
+    }
+
+    @PostMapping("favoritar-ong/{idAdotante}/{idOng}")
+    @Operation(
+            summary = "Favorita uma ONG.",
+            description = "Este endpoint permite que um usuário favorita uma ONG, " +
+                    "enviando o ID do adotante e o ID da ONG."
+    )
+    @ApiResponse(responseCode = "201", description = "ONG favoritada com sucesso.")
+    @ApiResponse(responseCode = "404", description = "Adotante ou ONG não encontrado.")
+    public ResponseEntity<AdotanteFavoritoOngDto> favoritarOng(@PathVariable Long idAdotante, @PathVariable Long idOng) {
+        Adotante adotante = adotanteService.favoritarOng(idAdotante, idOng);
+        AdotanteFavoritoOngDto adotanteResponse = AdotanteMapper.toAdotanteFavoritoOngDto(adotante);
+        return ResponseEntity.status(201).body(adotanteResponse);
+    }
+
 
     @GetMapping("/me")
     public ResponseEntity<AdotanteUserDto> adotanteAutenticado() {

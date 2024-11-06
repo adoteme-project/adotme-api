@@ -38,6 +38,8 @@ public class Ong {
     private List<Animal> animal;
     @OneToOne(mappedBy = "ong", cascade = CascadeType.ALL, orphanRemoval = true)
     private DadosBancarios dadosBancarios;
+    @OneToOne
+    private Image imagem;
 
     public Ong(OngCreateDto dto) {
         this.nome = dto.getNome();

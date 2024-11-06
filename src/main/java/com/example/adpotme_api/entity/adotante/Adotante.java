@@ -6,6 +6,7 @@ import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.endereco.Endereco;
 import com.example.adpotme_api.entity.formulario.Formulario;
 import com.example.adpotme_api.entity.image.Image;
+import com.example.adpotme_api.entity.ong.Ong;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -58,6 +59,12 @@ public class Adotante implements UserDetails {
     @OneToOne
     @JoinColumn(name = "foto_perfil_id")
     private Image fotoPerfil;
+
+    @ManyToMany
+    private List<Animal> favoritos;
+
+    @ManyToMany
+    private List<Ong> ongFavoritas;
 
 
     public Adotante(AdotanteCreateDto adotanteCreateDto) {

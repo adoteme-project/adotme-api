@@ -91,4 +91,13 @@ public class OngMapper {
         ongDadosBancariosAnimalDto.setAnimais(animaisDto);
         return ongDadosBancariosAnimalDto;
     }
+
+    public static OngFavoritaDto toOngFavoritaDto(Ong ong) {
+        return OngFavoritaDto.builder()
+                .ongId(ong.getId())
+                .nome(ong.getNome())
+                .imagem(ong.getImagem().getUrl())
+                .endereco(EnderecoMapper.toEnderecoDto(ong.getEndereco()))
+                .build();
+    }
 }
