@@ -1,21 +1,18 @@
 package com.example.adpotme_api.service;
 
-import com.example.adpotme_api.dto.adotante.AdotanteDadosFoto;
-import com.example.adpotme_api.dto.adotante.AdotanteResponseDto;
-import com.example.adpotme_api.dto.adotante.AdotanteUpdateDto;
+import com.example.adpotme_api.dto.adotante.*;
 import com.example.adpotme_api.entity.adotante.Adotante;
-import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
+import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.endereco.Endereco;
 import com.example.adpotme_api.entity.endereco.ViaCepService;
 import com.example.adpotme_api.entity.formulario.Formulario;
 import com.example.adpotme_api.entity.image.Image;
+import com.example.adpotme_api.entity.ong.Ong;
 import com.example.adpotme_api.mapper.AdotanteMapper;
+import com.example.adpotme_api.mapper.AnimalMapper;
 import com.example.adpotme_api.mapper.FormularioMapper;
-import com.example.adpotme_api.repository.AdotanteRepository;
-import com.example.adpotme_api.repository.EnderecoRepository;
+import com.example.adpotme_api.repository.*;
 import com.example.adpotme_api.integration.CloudinaryService;
-import com.example.adpotme_api.repository.FormularioRepository;
-import com.example.adpotme_api.repository.OngUserRepository;
 import com.example.adpotme_api.util.Sorting;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintViolation;
@@ -44,6 +41,8 @@ public class AdotanteService {
 
     @Autowired
     private EnderecoRepository enderecoRepository;
+    @Autowired
+    private OngRepository ongRepository;
 
     @Autowired
     private ViaCepService viaCepService;
@@ -58,6 +57,8 @@ public class AdotanteService {
     private OngUserRepository ongUserRepository;
     @Autowired
     private Validator validator;
+    @Autowired
+    private AnimalRepository animalRepository;
 
 
     @Transactional
@@ -175,5 +176,67 @@ public class AdotanteService {
         }
         Adotante adotante = adotanteOpt.get();
         return AdotanteMapper.toAdotanteDadosFoto(adotante);
+    }
+
+    public AnimalFavoritoUsuarioDto recuperarAnimaisFavoritosAdotante(Long id) {
+        Optional<Adotante> adotanteOpt = adotanteRepository.findById(id);
+        if(adotanteOpt.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
+        }
+        Adotante adotante = adotanteOpt.get();
+
+          return AdotanteMapper.toAnimalFavoritoUsuarioDto(adotante);
+
+    }
+
+    public Adotante favoritarAnimal(Long idAdotante, Long idAnimal) {
+        Optional<Adotante> adotanteOpt = adotanteRepository.findById(idAdotante);
+        if(adotanteOpt.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
+        }
+        Adotante adotante = adotanteOpt.get();
+
+        Optional<Animal> animalOpt = animalRepository.findById(idAnimal);
+        if(animalOpt.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Animal não encontrado");
+        }
+        for(Animal animal : adotante.getFavoritos()){
+            if(animal.getId().equals(idAnimal)){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Animal já favoritado");
+            }
+        }
+        Animal animal = animalOpt.get();
+        adotante.getFavoritos().add(animal);
+        return adotanteRepository.save(adotante);
+    }
+
+    public Adotante favoritarOng(Long idAdotante, Long idOng) {
+        Optional<Adotante> adotanteOpt = adotanteRepository.findById(idAdotante);
+        if(adotanteOpt.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
+        }
+        Adotante adotante = adotanteOpt.get();
+
+        Optional<Ong> ongOpt = ongRepository.findById(idOng);
+        if(ongOpt.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ong não encontrada");
+        }
+        for(Ong ong : adotante.getOngFavoritas()){
+            if(ong.getId().equals(idOng)){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ong já favoritada");
+            }
+        }
+        Ong ong = ongOpt.get();
+        adotante.getOngFavoritas().add(ong);
+        return adotanteRepository.save(adotante);
+    }
+
+    public AdotanteFavoritoOngDto recuperarOngsFavoritasAdotante(Long id) {
+        Optional<Adotante> adotanteOpt = adotanteRepository.findById(id);
+        if(adotanteOpt.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
+        }
+        Adotante adotante = adotanteOpt.get();
+        return AdotanteMapper.toAdotanteFavoritoOngDto(adotante);
     }
 }

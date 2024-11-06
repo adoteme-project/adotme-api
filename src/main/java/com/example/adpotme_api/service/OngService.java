@@ -1,12 +1,10 @@
 package com.example.adpotme_api.service;
 
-import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
 import com.example.adpotme_api.dto.ong.*;
 import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.dadosBancarios.DadosBancarios;
 import com.example.adpotme_api.entity.endereco.Endereco;
 import com.example.adpotme_api.entity.endereco.ViaCepService;
-import com.example.adpotme_api.entity.formulario.Formulario;
 import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.entity.ong.Ong;
 import com.example.adpotme_api.entity.requisicao.Requisicao;
@@ -57,7 +55,7 @@ public class OngService {
 
 
     @Transactional
-    public OngResponseAllDto cadastrarOng(OngCreateDto dados, String numero, MultipartFile qrCode) {
+    public OngResponseAllDto cadastrarOng(OngCreateDto dados, String numero, MultipartFile qrCode, MultipartFile imgOng) {
         Set<ConstraintViolation<OngCreateDto>> violations = validator.validate(dados);
         if (!violations.isEmpty()) {
             StringBuilder sb = new StringBuilder();
@@ -90,6 +88,14 @@ public class OngService {
             try {
                 Image qrCodeImage = cloudinaryService.upload(qrCode);
                 dadosBancarios.setQrCode(qrCodeImage);
+            } catch (IOException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao salvar imagem");
+            }
+        }
+        if(imgOng != null){
+            try {
+                Image imgOngImage = cloudinaryService.upload(imgOng);
+                ong.setImagem(imgOngImage);
             } catch (IOException e) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao salvar imagem");
             }

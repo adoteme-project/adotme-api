@@ -1,7 +1,14 @@
 package com.example.adpotme_api.mapper;
 
 import com.example.adpotme_api.dto.adotante.*;
+import com.example.adpotme_api.dto.animal.AnimalFavoritoDto;
+import com.example.adpotme_api.dto.ong.OngFavoritaDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
+import com.example.adpotme_api.entity.animal.Animal;
+import com.example.adpotme_api.entity.ong.Ong;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdotanteMapper {
 
@@ -54,6 +61,30 @@ public class AdotanteMapper {
                 .telefone(adotante.getCelular())
                 .urlFoto(adotante.getFotoPerfil() != null ? adotante.getFotoPerfil().getUrl() : null)
                 .endereco(adotante.getEndereco() != null ? EnderecoMapper.toEnderecoDto(adotante.getEndereco()) : null)
+                .build();
+    }
+
+    public static AnimalFavoritoUsuarioDto toAnimalFavoritoUsuarioDto(Adotante adotante) {
+        List<Animal> animaisAdotante = adotante.getFavoritos();
+        List<AnimalFavoritoDto> animaisFavoritos = new ArrayList<>();
+        for (Animal animal : animaisAdotante) {
+            animaisFavoritos.add(AnimalMapper.toAnimalFavorito(animal));
+        }
+
+        return AnimalFavoritoUsuarioDto.builder()
+                .usuarioId(adotante.getId())
+                .animaisfavoritos(animaisFavoritos)
+                .build();
+    }
+    public static AdotanteFavoritoOngDto toAdotanteFavoritoOngDto(Adotante adotante) {
+        List<OngFavoritaDto> ongFavoritas = new ArrayList<>();
+        for (Ong ong : adotante.getOngFavoritas()) {
+            ongFavoritas.add(OngMapper.toOngFavoritaDto(ong));
+        }
+
+        return AdotanteFavoritoOngDto.builder()
+                .usuarioId(adotante.getId())
+                .ongFavoritas(ongFavoritas)
                 .build();
     }
 }

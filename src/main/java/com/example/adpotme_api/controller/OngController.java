@@ -43,14 +43,15 @@ public class OngController {
     public ResponseEntity<OngResponseAllDto> cadastrarOng(@RequestPart("ong") String ongJson,
                                             @RequestPart("numero") String numero,
                                             @RequestPart(value = "qrCode", required = false)
-                                            MultipartFile qrCode
+                                            MultipartFile qrCode,
+                                                          @RequestPart(value ="imgOng", required = false) MultipartFile imgOng
     ) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         OngCreateDto dados = objectMapper.readValue(ongJson, OngCreateDto.class);
-        OngResponseAllDto ong = ongService.cadastrarOng(dados, numero, qrCode);
+        OngResponseAllDto ong = ongService.cadastrarOng(dados, numero, qrCode, imgOng);
 
         return ResponseEntity.status(201).body(ong);
     }

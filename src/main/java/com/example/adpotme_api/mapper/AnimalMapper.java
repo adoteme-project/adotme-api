@@ -1,6 +1,7 @@
 package com.example.adpotme_api.mapper;
 
 import com.example.adpotme_api.dto.animal.AnimalCsvDto;
+import com.example.adpotme_api.dto.animal.AnimalFavoritoDto;
 import com.example.adpotme_api.dto.animal.AnimalOngDto;
 import com.example.adpotme_api.dto.animal.AnimalOngResponseDto;
 import com.example.adpotme_api.entity.animal.Animal;
@@ -51,5 +52,18 @@ public class AnimalMapper {
         animalOngDto.setEspecie(animal.getEspecie().getEspecie());
         animalOngDto.setIdade(LocalDate.now().getYear() - animal.getAnoNascimento());
         return animalOngDto;
+    }
+
+    public static AnimalFavoritoDto toAnimalFavorito(Animal animal){
+        return AnimalFavoritoDto.builder()
+                .animalId(animal.getId())
+                .nome(animal.getNome())
+                .idade(LocalDate.now().getYear() - animal.getAnoNascimento())
+                .especie(animal.getEspecie().getEspecie())
+                .sexo(animal.getSexo())
+                .porte(animal.getPorte())
+                .distancia(0)
+                .imagem(animal.getFotoPerfil().getUrl())
+                .build();
     }
 }
