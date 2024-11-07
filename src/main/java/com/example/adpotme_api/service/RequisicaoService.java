@@ -3,19 +3,18 @@ package com.example.adpotme_api.service;
 
 import com.example.adpotme_api.dto.requisicao.RequisicaoCreateDto;
 import com.example.adpotme_api.dto.requisicao.RequisicaoReadDto;
+import com.example.adpotme_api.entity.adocao.LogAdocao;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.formulario.Formulario;
 import com.example.adpotme_api.entity.requisicao.Requisicao;
 import com.example.adpotme_api.entity.requisicao.Status;
 import com.example.adpotme_api.mapper.RequisicaoMapper;
-import com.example.adpotme_api.repository.AdotanteRepository;
-import com.example.adpotme_api.repository.AnimalRepository;
-import com.example.adpotme_api.repository.FormularioRepository;
-import com.example.adpotme_api.repository.RequisicaoRepository;
+import com.example.adpotme_api.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +28,8 @@ public class RequisicaoService {
     private AdotanteRepository adotanteRepository;
     @Autowired
     private FormularioRepository formularioRepository;
+    @Autowired
+    private LogAdocaoRepository logAdocaoRepository;
 
     public Requisicao criarRequisicao(RequisicaoCreateDto requisicaoCreateDto) {
         Requisicao requisicao = new Requisicao();
@@ -41,6 +42,15 @@ public class RequisicaoService {
         Formulario formulario = adotante.getFormulario();
         formulario.getRequisicao().add(requisicao);
         formularioRepository.save(formulario);
+        LogAdocao log = new LogAdocao();
+        log.setTipo("aplicação");
+        log.setData(LocalDate.now());
+        log.setNomeAdotante(adotante.getNome());
+        log.setNomeAnimal(animal.getNome());
+        log.setOngId(animal.getOng().getId());
+
+        logAdocaoRepository.save(log);
+
 
         return requisicao;
     }

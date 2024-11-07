@@ -111,16 +111,16 @@ public class OngUserController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/adocao-animal/{id}/{idAnimal}")
+    @PutMapping("/adocao-animal/{idAdotante}/{idAnimal}")
     @Transactional
     @Operation(summary = "Adotar um animal", description = "Processa a adoção de um animal por um usuário ONG.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Adoção realizada com sucesso."),
             @ApiResponse(responseCode = "404", description = "Usuário ONG ou animal não encontrados.")
     })
-    public ResponseEntity<Adotante> adotarAnimal(@Parameter(description = "ID do usuário ONG", required = true) @PathVariable Long id,
+    public ResponseEntity<Adotante> adotarAnimal(@Parameter(description = "ID do Adotante", required = true) @PathVariable Long idAdotante,
                                                  @Parameter(description = "ID do animal a ser adotado", required = true) @PathVariable Long idAnimal) {
-        Adotante adotante = ongUserService.adotarAnimal(id, idAnimal);
+        Adotante adotante = ongUserService.adotarAnimal(idAdotante, idAnimal);
         return ResponseEntity.ok(adotante);
     }
 
