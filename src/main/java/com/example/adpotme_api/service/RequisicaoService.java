@@ -81,7 +81,22 @@ public class RequisicaoService {
 
     public Requisicao atualizarRequisicaoAdotado(Long id) {
         Requisicao requisicao = requisicaoRepository.findById(id).orElseThrow();
+        if(requisicao.getStatus() != Status.APROVADO) {
+            throw new RuntimeException("Requisição não está no status aprovado");
+        }
         requisicao.setStatus(Status.ADOTADO);
+        Adotante adotante = requisicao.getFormulario().getAdotante();
+        Animal animal = requisicao.getAnimal();
+        adotante.adotarAnimal(animal);
+        LogAdocao log = new LogAdocao();
+        log.setTipo("adoção");
+        log.setData(LocalDate.now());
+        log.setNomeAdotante(adotante.getNome());
+        log.setNomeAnimal(animal.getNome());
+        log.setOngId(animal.getOng().getId());
+        logAdocaoRepository.save(log);
+        adotanteRepository.save(adotante);
+        animalRepository.save(animal);
         requisicaoRepository.save(requisicao);
 
         return requisicao;

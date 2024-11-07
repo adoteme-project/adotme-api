@@ -120,8 +120,8 @@ public class OngUserController {
     })
     public ResponseEntity<Adotante> adotarAnimal(@Parameter(description = "ID do Adotante", required = true) @PathVariable Long idAdotante,
                                                  @Parameter(description = "ID do animal a ser adotado", required = true) @PathVariable Long idAnimal) {
-        Adotante adotante = ongUserService.adotarAnimal(idAdotante, idAnimal);
-        return ResponseEntity.ok(adotante);
+        ongUserService.adotarAnimal(idAdotante, idAnimal);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/me")

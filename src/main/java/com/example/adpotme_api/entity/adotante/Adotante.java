@@ -80,6 +80,7 @@ public class Adotante implements UserDetails {
 
     public void adotarAnimal(Animal animal) {
         animal.setAdotante(this);
+        animal.setIsAdotado(true);
         this.adotados.add(animal);
     }
 
