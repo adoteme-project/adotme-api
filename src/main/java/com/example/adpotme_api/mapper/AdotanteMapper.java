@@ -87,4 +87,5 @@ public class AdotanteMapper {
                 .ongFavoritas(ongFavoritas)
                 .build();
     }
+
 }
