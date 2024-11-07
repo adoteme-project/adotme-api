@@ -1,29 +1,22 @@
 package com.example.adpotme_api.service;
 
 import com.example.adpotme_api.dto.ongUser.OngUserUpdateDto;
+import com.example.adpotme_api.entity.adocao.LogAdocao;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.animal.Animal;
-import com.example.adpotme_api.entity.animal.Cachorro;
-import com.example.adpotme_api.entity.animal.Gato;
-import com.example.adpotme_api.entity.formulario.Formulario;
 import com.example.adpotme_api.entity.ong.Ong;
 import com.example.adpotme_api.entity.ongUser.OngUser;
 import com.example.adpotme_api.dto.ongUser.OngUserCreateDto;
 import com.example.adpotme_api.entity.ongUser.Role;
 import com.example.adpotme_api.entity.requisicao.Requisicao;
-import com.example.adpotme_api.entity.requisicao.Status;
-import com.example.adpotme_api.repository.AdotanteRepository;
-import com.example.adpotme_api.repository.AnimalRepository;
-import com.example.adpotme_api.repository.FormularioRepository;
-import com.example.adpotme_api.repository.OngRepository;
-import com.example.adpotme_api.repository.OngUserRepository;
-import com.example.adpotme_api.repository.RequisicaoRepository;
+import com.example.adpotme_api.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +37,8 @@ public class OngUserService {
     private AdotanteRepository adotanteRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private LogAdocaoRepository logAdocaoRepository;
 
     public OngUser createOngUser(OngUserCreateDto dto) {
         Optional<Ong> ongOpt = ongRepository.findById(dto.getOngId());
@@ -123,7 +118,29 @@ public class OngUserService {
     }
 
     public Adotante adotarAnimal(Long idAdotante, Long idAnimal) {
-        return null;
+        Optional<Adotante> optAdotante = adotanteRepository.findById(idAdotante);
+        Optional<Animal> optAnimal = animalRepository.findById(idAnimal);
+
+        if (optAdotante.isPresent() && optAnimal.isPresent()) {
+            Adotante adotante = optAdotante.get();
+            Animal animal = optAnimal.get();
+
+            adotante.adotarAnimal(animal);
+            LogAdocao adocao = new LogAdocao();
+            adocao.setNomeAdotante(adotante.getNome());
+            adocao.setOngId(animal.getOng().getId());
+            adocao.setNomeAnimal(animal.getNome());
+            adocao.setData(LocalDate.now());
+            adocao.setTipo("adoção");
+
+            logAdocaoRepository.save(adocao);
+            adotanteRepository.save(adotante);
+            animalRepository.save(animal);
+
+            return adotante;
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Adotante ou Animal não encontrado");
+        }
     }
 
 

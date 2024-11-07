@@ -23,7 +23,7 @@ public class Requisicao {
     private Long id;
 
     @JsonBackReference
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Formulario formulario;
 
     @OneToOne
