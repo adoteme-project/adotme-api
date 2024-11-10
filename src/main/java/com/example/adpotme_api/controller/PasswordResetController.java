@@ -3,12 +3,14 @@ package com.example.adpotme_api.controller;
 
 import com.example.adpotme_api.dto.adotante.PasswordResetRequestDto;
 import com.example.adpotme_api.service.PasswordResetService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/redefinicao-senha")
+@Tag(name = "Redefinição de Senha", description = "Controlador para operações relacionadas a redefinição de senha.")
 public class PasswordResetController {
 
     @Autowired
