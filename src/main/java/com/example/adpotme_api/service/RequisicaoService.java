@@ -81,12 +81,16 @@ public class RequisicaoService {
 
     public Requisicao atualizarRequisicaoAdotado(Long id) {
         Requisicao requisicao = requisicaoRepository.findById(id).orElseThrow();
+        Adotante adotante = requisicao.getFormulario().getAdotante();
+        Animal animal = requisicao.getAnimal();
+        if (animal.getIsAdotado()) {
+            throw new RuntimeException("Animal já adotado");
+        }
         if(requisicao.getStatus() != Status.APROVADO) {
             throw new RuntimeException("Requisição não está no status aprovado");
         }
         requisicao.setStatus(Status.ADOTADO);
-        Adotante adotante = requisicao.getFormulario().getAdotante();
-        Animal animal = requisicao.getAnimal();
+
         adotante.adotarAnimal(animal);
         LogAdocao log = new LogAdocao();
         log.setTipo("adoção");

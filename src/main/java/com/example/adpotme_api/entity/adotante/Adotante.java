@@ -65,6 +65,10 @@ public class Adotante implements UserDetails {
 
     @ManyToMany
     private List<Ong> ongFavoritas;
+    @Setter
+    @Getter
+    private String resetCode;
+
 
 
     public Adotante(AdotanteCreateDto adotanteCreateDto) {
@@ -118,4 +122,5 @@ public class Adotante implements UserDetails {
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
     }
+
 }
