@@ -149,7 +149,7 @@ public class AnimalPerdidoService {
 
 
         CachorroPerdido cachorro = (CachorroPerdido) animal;
-        cachorro.setApelido(cachorroDto.getApelido());
+        cachorro.setNomePet(cachorroDto.getApelido());
         cachorro.setSexo(cachorroDto.getSexo());
         cachorro.setEspecie(cachorroDto.getEspecie());
         cachorro.setIsEncontrado(cachorroDto.getIsEncontrado());
@@ -172,7 +172,7 @@ public class AnimalPerdidoService {
 
 
         GatoPerdido gato = (GatoPerdido) animal;
-        gato.setApelido(gatoDto.getApelido());
+        gato.setNomePet(gatoDto.getApelido());
         gato.setSexo(gatoDto.getSexo());
         gato.setEspecie(gatoDto.getEspecie());
         gato.setIsEncontrado(gatoDto.getIsEncontrado());
