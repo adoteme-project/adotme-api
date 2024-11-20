@@ -12,7 +12,7 @@ public class AnimalPerdidoMapper {
         }
         return AnimalPerdidoCardDto.builder()
                 .id(animalPerdido.getId())
-                .apelido(animalPerdido.getApelido())
+                .apelido(animalPerdido.getNomePet())
                 .especie(animalPerdido.getEspecie())
                 .sexo(animalPerdido.getSexo())
                 .bairroPerdido(animalPerdido.getEnderecoPerdido().getBairro())
@@ -40,7 +40,7 @@ public class AnimalPerdidoMapper {
         }
         return AnimalPerdidoAchadoPerdidoDto.builder()
                 .id(animalPerdido.getId())
-                .apelido(animalPerdido.getApelido())
+                .apelido(animalPerdido.getNomePet())
                 .especie(animalPerdido.getEspecie())
                 .sexo(animalPerdido.getSexo())
                 .bairroPerdido(animalPerdido.getEnderecoPerdido().getBairro())

@@ -25,7 +25,7 @@ public abstract class AnimalPerdido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-    protected String apelido;
+    protected String nomePet;
     protected String sexo;
     protected Double latitude;
     protected Double longitude;
@@ -37,6 +37,7 @@ public abstract class AnimalPerdido {
     protected String descricao;
     protected Boolean isVisible;
     protected Boolean isEncontrado;
+    protected Boolean castrado;
     protected String porte;
     @ManyToOne
     @JoinColumn(name = "ong_id")
@@ -52,17 +53,19 @@ public abstract class AnimalPerdido {
     }
 
     public AnimalPerdido(@Valid AnimalPerdidoCreateDto animal) {
-        this.apelido = animal.getApelido();
+        this.nomePet = animal.getNomePet();
+        this.latitude = animal.getPosicao().getLatitude();
+        this.longitude = animal.getPosicao().getLongitude();
+        this.isVisible = true;
+        this.castrado = animal.getCastrado();
         this.sexo = animal.getSexo();
         this.especie = animal.getEspecie();
         this.isEncontrado = animal.getIsEncontrado();
         this.descricao = animal.getDescricao();
-        this.isVisible = animal.getIsVisible();
         this.porte = animal.getPorte();
         this.cadastro = animal.getCadastro();
         this.raca = animal.getRaca();
-        this.latitude = animal.getLatitude();
-        this.longitude = animal.getLongitude();
+
 
     }
 
