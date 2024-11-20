@@ -49,5 +49,5 @@ jobs:
         with:
           app-name: 'adoteme-backend'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2EC71865EA0F4BA9A813DEA6B421D868 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
           package: '*.jar'
