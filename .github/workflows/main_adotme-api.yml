@@ -60,4 +60,20 @@ jobs:
           app-name: 'adotme-api'
           slot-name: 'Production'
           package: '*.jar'
-          
+
+      - name: Set environment variables
+        run: |
+          echo "Setting environment variables..."
+        env:
+          SPRING_APPLICATION_NAME: ${{ secrets.SPRING_APPLICATION_NAME }}
+          DATASOURCE_URL: ${{ secrets.DATASOURCE_URL }}
+          DATASOURCE_USERNAME: ${{ secrets.DATASOURCE_USERNAME }}
+          DATASOURCE_PASSWORD: ${{ secrets.DATASOURCE_PASSWORD }}
+          THECATAPI_BASE_URL: ${{ secrets.THECATAPI_BASE_URL }}
+          THECATAPI_API_KEY: ${{ secrets.THECATAPI_API_KEY }}
+          CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          SPRING_MAIL_USERNAME: ${{ secrets.SPRING_MAIL_USERNAME }}
+          SPRING_MAIL_PASSWORD: ${{ secrets.SPRING_MAIL_PASSWORD }}
