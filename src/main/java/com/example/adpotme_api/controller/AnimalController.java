@@ -64,7 +64,11 @@ public class AnimalController {
     @ApiResponse(responseCode = "400", description = "Erro ao cadastrar o gato.")
     public ResponseEntity<Animal> cadastrarGato(
             @RequestPart("gato") String gatoJson,
-            @RequestPart(value = "fotoPerfil", required = false) MultipartFile fotoPerfil
+            @RequestPart(value = "Foto de Perfil Principal", required = false) MultipartFile fotoPerfil1,
+            @RequestPart(value = "fotoPerfil2", required = false) MultipartFile fotoPerfil2,
+            @RequestPart(value = "fotoPerfil3", required = false) MultipartFile fotoPerfil3,
+            @RequestPart(value = "fotoPerfil4", required = false) MultipartFile fotoPerfil4,
+            @RequestPart(value = "fotoPerfil5", required = false) MultipartFile fotoPerfil5
     ) throws JsonProcessingException {
 
         objectMapper.registerModule(new JavaTimeModule());
@@ -72,7 +76,7 @@ public class AnimalController {
 
         GatoCreateDto dados = objectMapper.readValue(gatoJson, GatoCreateDto.class);
 
-        Animal gato = animalService.cadastrarGato(dados, fotoPerfil);
+        Animal gato = animalService.cadastrarGato(dados, fotoPerfil1, fotoPerfil2, fotoPerfil3, fotoPerfil4, fotoPerfil5);
         return ResponseEntity.status(201).body(gato);
     }
     @GetMapping("/por-personalidade")

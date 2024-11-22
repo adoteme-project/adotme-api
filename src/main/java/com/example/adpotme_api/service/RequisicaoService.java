@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class RequisicaoService {
         requisicao.setAnimal(animal);
         requisicao.setFormulario(adotante.getFormulario());
         requisicao.setStatus(Status.NOVA);
+        requisicao.setDataRequisicao(LocalDateTime.now());
         requisicaoRepository.save(requisicao);
         Formulario formulario = adotante.getFormulario();
         formulario.getRequisicao().add(requisicao);

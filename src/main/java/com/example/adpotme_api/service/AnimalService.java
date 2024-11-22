@@ -28,6 +28,7 @@ import org.springframework.web.server.ResponseStatusException;
 import jakarta.transaction.Transactional;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -104,7 +105,12 @@ for(MultipartFile fotoPerfil : fotos) {
     }
 
     @Transactional
-    public Animal cadastrarGato(GatoCreateDto gatoDto, MultipartFile fotoPerfil) {
+    public Animal cadastrarGato(GatoCreateDto gatoDto, MultipartFile fotoPerfil1, MultipartFile fotoPerfil2, MultipartFile fotoPerfil3, MultipartFile fotoPerfil4, MultipartFile fotoPerfil5) {
+        List<MultipartFile> fotosGato = new ArrayList<>();
+        fotosGato.add(fotoPerfil2);
+        fotosGato.add(fotoPerfil3);
+        fotosGato.add(fotoPerfil4);
+        fotosGato.add(fotoPerfil5);
         Set<ConstraintViolation<GatoCreateDto>> violations = validator.validate(gatoDto);
         if (!violations.isEmpty()) {
             StringBuilder sb = new StringBuilder();
@@ -124,17 +130,27 @@ for(MultipartFile fotoPerfil : fotos) {
         gato.setPersonalidade(personalidade);
         gato.setOng(ong);
         gato.calcularTaxaAdocao();
-        if(fotoPerfil != null && !fotoPerfil.isEmpty()) {
+        for(MultipartFile fotoPerfil : fotosGato) {
+            if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
+                try {
+                    Image image = cloudinaryService.upload(fotoPerfil);
+                    gato.getFotos().add(image);
+
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        if(fotoPerfil1 != null && !fotoPerfil1.isEmpty()){
             try {
-                Image image = cloudinaryService.upload(fotoPerfil);
-
+                Image image = cloudinaryService.upload(fotoPerfil1);
                 gato.setFotoPerfil(image);
-
-
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
+
         personalidadeRepository.save(personalidade);
         return animalRepository.save(gato);
     }
@@ -293,8 +309,10 @@ for(MultipartFile fotoPerfil : fotos) {
         for(Animal animal : animais) {
             Integer qtdAplicacoes = 0;
             String situacao = "Sem aplicação";
+            LocalDateTime enviado = null;
             for(Requisicao requisicao : requisicoes) {
                 if(requisicao.getAnimal().equals(animal)) {
+                    enviado = requisicao.getDataRequisicao();
                     qtdAplicacoes++;
                     if(!situacao.equals("Adotado")){
                         situacao = "Revisão";
@@ -303,8 +321,9 @@ for(MultipartFile fotoPerfil : fotos) {
                         situacao = "Adotado";
                     }
                 }
+
             }
-            AnimalAplicacaoDto animalDto = AnimalMapper.toAnimalAplicacaoDto(animal, qtdAplicacoes, situacao);
+            AnimalAplicacaoDto animalDto = AnimalMapper.toAnimalAplicacaoDto(animal, qtdAplicacoes, situacao, enviado);
             animaisDto.add(animalDto);
         }
         return animaisDto;
