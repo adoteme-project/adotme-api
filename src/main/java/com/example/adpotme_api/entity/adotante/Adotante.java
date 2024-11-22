@@ -1,16 +1,12 @@
 package com.example.adpotme_api.entity.adotante;
 
 import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
-import com.example.adpotme_api.dto.adotante.AdotanteUpdateDto;
 import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.endereco.Endereco;
 import com.example.adpotme_api.entity.formulario.Formulario;
 import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.entity.ong.Ong;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -20,6 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -68,6 +65,9 @@ public class Adotante implements UserDetails {
     @Setter
     @Getter
     private String resetCode;
+    @Getter
+    @Setter
+    private LocalDateTime resetCodeExpiration;
 
 
 
