@@ -169,4 +169,15 @@ public class AnimalController {
         }
         return ResponseEntity.ok(animais);
     }
+    @GetMapping("/todos-animais-pela-aplicacao-por-ong/{ongId}")
+    @Operation(summary = "Retorna todos os animais pela aplicacao por ong", description = "Recupera uma lista de todos os animais cadastrados no sistema pela aplicacao por ong.")
+    @ApiResponse(responseCode = "200", description = "A lista de animais foi recuperada com sucesso.")
+    @ApiResponse(responseCode = "204", description = "Não há animais cadastrados no sistema.")
+    public ResponseEntity<List<AnimalAplicacaoDto>> recuperarAnimaisPelaAplicacaoPorOng(@PathVariable Long ongId) {
+        List<AnimalAplicacaoDto> animais = animalService.recuperarAnimaisPelaAplicacaoPorOng(ongId);
+        if (animais.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(animais);
+    }
 }

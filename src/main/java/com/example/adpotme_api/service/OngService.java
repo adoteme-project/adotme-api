@@ -209,15 +209,15 @@ public class OngService {
                 }
                 else{
                 for(Requisicao requisicao : requisicoes) {
-                    if (requisicao.getStatus() == Status.REPROVADO) {
+                    if (requisicao.getStatus() == Status.DESCARTADO) {
                         animal.setSituacao("Sem aplicação");
-                    } else if (requisicao.getStatus() == Status.REVISAO || requisicao.getStatus() == Status.INICIO_DA_APLICACAO) {
+                    } else if (requisicao.getStatus() == Status.REVISAO || requisicao.getStatus() == Status.NOVA) {
                         animal.setSituacao("Revisão");
                     } else if (requisicao.getStatus() == Status.DOCUMENTACAO) {
                         animal.setSituacao("Documentação");
                     } else if (requisicao.getStatus() == Status.APROVADO) {
                         animal.setSituacao("Aprovado");
-                    } else if (requisicao.getStatus() == Status.ADOTADO) {
+                    } else if (requisicao.getStatus() == Status.CONCLUIDO) {
                         animal.setSituacao("Adotado");
                     }
                 }

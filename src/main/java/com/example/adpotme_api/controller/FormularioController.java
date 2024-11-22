@@ -69,7 +69,7 @@ public class FormularioController {
     @ApiResponse(responseCode = "200", description = "Lista de formulários reprovados retornada com sucesso.")
     @ApiResponse(responseCode = "204", description = "Não há formulários reprovados.")
     public ResponseEntity<List<Formulario>> listarFormulariosReprovados() {
-        List<Formulario> formularios = formularioService.listarFormulariosPorStatus(Status.REPROVADO);
+        List<Formulario> formularios = formularioService.listarFormulariosPorStatus(Status.DESCARTADO);
         if (formularios.isEmpty()) {
             return ResponseEntity.status(204).build();
         }
@@ -85,7 +85,7 @@ public class FormularioController {
     @ApiResponse(responseCode = "200", description = "Lista de formulários em início de aplicação retornada com sucesso.")
     @ApiResponse(responseCode = "204", description = "Não há formulários no início da aplicação.")
     public ResponseEntity<List<Formulario>> listarFormulariosInicioAplicacao() {
-        List<Formulario> formularios = formularioService.listarFormulariosPorStatus(Status.INICIO_DA_APLICACAO);
+        List<Formulario> formularios = formularioService.listarFormulariosPorStatus(Status.NOVA);
         if (formularios.isEmpty()) {
             return ResponseEntity.status(204).build();
         }
@@ -133,7 +133,7 @@ public class FormularioController {
     @ApiResponse(responseCode = "200", description = "Lista de formulários adotados retornada com sucesso.")
     @ApiResponse(responseCode = "204", description = "Não há formulários adotados.")
     public ResponseEntity<List<Formulario>> listarFormulariosAdotado() {
-        List<Formulario> formularios = formularioService.listarFormulariosPorStatus(Status.ADOTADO);
+        List<Formulario> formularios = formularioService.listarFormulariosPorStatus(Status.CONCLUIDO);
         if (formularios.isEmpty()) {
             return ResponseEntity.status(204).build();
         }

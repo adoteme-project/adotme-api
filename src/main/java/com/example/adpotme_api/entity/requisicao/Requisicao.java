@@ -10,6 +10,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -22,11 +23,13 @@ public class Requisicao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private LocalDate dataRequisicao = LocalDate.now();
+
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
     private Formulario formulario;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "animal_id")
     private Animal animal;
 

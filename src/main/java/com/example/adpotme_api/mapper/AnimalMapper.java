@@ -1,9 +1,6 @@
 package com.example.adpotme_api.mapper;
 
-import com.example.adpotme_api.dto.animal.AnimalCsvDto;
-import com.example.adpotme_api.dto.animal.AnimalFavoritoDto;
-import com.example.adpotme_api.dto.animal.AnimalOngDto;
-import com.example.adpotme_api.dto.animal.AnimalOngResponseDto;
+import com.example.adpotme_api.dto.animal.*;
 import com.example.adpotme_api.entity.animal.Animal;
 
 import java.time.LocalDate;
@@ -64,6 +61,18 @@ public class AnimalMapper {
                 .porte(animal.getPorte())
                 .distancia(0)
                 .imagem(animal.getFotoPerfil().getUrl())
+                .build();
+    }
+
+    public static AnimalAplicacaoDto toAnimalAplicacaoDto(Animal animal, Integer qtdAplicacao, String situacao) {
+        return AnimalAplicacaoDto.builder()
+                .id(animal.getId())
+                .nome(animal.getNome())
+                .qtdAplicacoes(qtdAplicacao)
+                .enviado(animal.getDataAbrigo())
+                .taxaAdocao(animal.getTaxaAdocao())
+                .dataEntrada(animal.getCadastro())
+                .situacao(situacao)
                 .build();
     }
 }
