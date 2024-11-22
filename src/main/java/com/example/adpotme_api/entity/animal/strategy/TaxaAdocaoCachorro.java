@@ -9,9 +9,7 @@ public class TaxaAdocaoCachorro implements TaxaAdocaoStrategy{
         if(animal.getIsCastrado()){
             taxa += 20;
         }
-        if (animal.getIsVermifugado()) {
-            taxa += 20;
-        }
+
         animal.setTaxaAdocao(taxa);
     }
 }

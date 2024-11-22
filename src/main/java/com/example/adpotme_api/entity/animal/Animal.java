@@ -37,15 +37,13 @@ public abstract class Animal {
     protected Especie especie;
     protected String raca;
     protected LocalDate dataAbrigo;
-    protected LocalDate cadastro;
+    protected LocalDate cadastro = LocalDate.now();
     protected Boolean isCastrado;
     protected String descricao;
     protected Boolean isVisible;
     protected Boolean isAdotado;
     protected String porte;
-    protected Boolean isVermifugado;
     protected Double taxaAdocao;
-    protected Boolean isDestaque;
     @Setter
     @Transient
     @JsonIgnore
@@ -82,9 +80,6 @@ public abstract class Animal {
         this.isVisible = animal.getIsVisible();
         this.isAdotado = animal.getIsAdotado();
         this.porte = animal.getPorte();
-        this.isVermifugado = animal.getIsVermifugado();
-        this.cadastro = animal.getCadastro();
-        this.isDestaque = animal.getIsDestaque();
         this.raca = animal.getRaca();
         this.dataAbrigo = animal.getDataAbrigo();
 

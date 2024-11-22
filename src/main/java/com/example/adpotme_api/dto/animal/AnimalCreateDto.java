@@ -22,7 +22,6 @@ public abstract class AnimalCreateDto {
     protected String sexo;
     @PastOrPresent
     protected LocalDate dataAbrigo;
-    protected LocalDate cadastro = LocalDate.now();
     protected Especie especie;
     protected String raca;
     protected Boolean isCastrado;

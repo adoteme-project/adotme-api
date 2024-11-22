@@ -187,9 +187,7 @@ for(MultipartFile fotoPerfil : fotos) {
         cachorro.setIsVisible(cachorroAtualizado.getIsVisible());
         cachorro.setIsAdotado(cachorroAtualizado.getIsAdotado());
         cachorro.setPorte(cachorroAtualizado.getPorte());
-        cachorro.setIsVermifugado(cachorroAtualizado.getIsVermifugado());
         cachorro.setTaxaAdocao(cachorroAtualizado.getTaxaAdocao());
-        cachorro.setIsDestaque(cachorroAtualizado.getIsDestaque());
 
         return animalRepository.save(cachorro);
     }
@@ -212,9 +210,7 @@ for(MultipartFile fotoPerfil : fotos) {
         gato.setIsVisible(gatoAtualizado.getIsVisible());
         gato.setIsAdotado(gatoAtualizado.getIsAdotado());
         gato.setPorte(gatoAtualizado.getPorte());
-        gato.setIsVermifugado(gatoAtualizado.getIsVermifugado());
         gato.setTaxaAdocao(gatoAtualizado.getTaxaAdocao());
-        gato.setIsDestaque(gatoAtualizado.getIsDestaque());
 
 
         return animalRepository.save(gato);

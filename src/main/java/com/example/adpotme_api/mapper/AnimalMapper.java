@@ -36,7 +36,6 @@ public class AnimalMapper {
         animalCsvDto.setIsCastrado(animal.getIsCastrado());
         animalCsvDto.setIsVisible(animal.getIsVisible());
         animalCsvDto.setIsAdotado(animal.getIsAdotado());
-        animalCsvDto.setIsVermifugado(animal.getIsVermifugado());
         animalCsvDto.setTaxaAdocao(animal.getTaxaAdocao());
         return animalCsvDto;
     }
