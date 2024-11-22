@@ -6,12 +6,15 @@ import com.example.adpotme_api.entity.animal.*;
 import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.entity.ong.Ong;
 import com.example.adpotme_api.entity.personalidade.Personalidade;
+import com.example.adpotme_api.entity.requisicao.Requisicao;
+import com.example.adpotme_api.entity.requisicao.Status;
 import com.example.adpotme_api.integration.CloudinaryService;
 import com.example.adpotme_api.mapper.AnimalMapper;
 import com.example.adpotme_api.mapper.PersonalidadeMapper;
 import com.example.adpotme_api.repository.AnimalRepository;
 import com.example.adpotme_api.repository.OngRepository;
 import com.example.adpotme_api.repository.PersonalidadeRepository;
+import com.example.adpotme_api.repository.RequisicaoRepository;
 import com.example.adpotme_api.util.Recursao;
 import com.example.adpotme_api.util.Sorting;
 import jakarta.validation.ConstraintViolation;
@@ -44,6 +47,8 @@ public class AnimalService {
     private PersonalidadeRepository personalidadeRepository;
     @Autowired
     private Validator validator;
+    @Autowired
+    private RequisicaoRepository requisicaoRepository;
 
     @Transactional
     public Animal cadastrarCachorro(CachorroCreateDto cachorroDto, MultipartFile fotoPerfil) {
@@ -253,6 +258,38 @@ public class AnimalService {
         for(Animal animal : animais) {
             AnimalOngResponseDto animalDaVez = AnimalMapper.toAnimalOngResponseDto(animal);
             animaisDto.add(animalDaVez);
+        }
+        return animaisDto;
+    }
+
+    public List<AnimalAplicacaoDto> recuperarAnimaisPelaAplicacaoPorOng(Long ongId) {
+        Optional<Ong> ongOpt = ongRepository.findById(ongId);
+        if (ongOpt.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
+        }
+        Ong ong = ongOpt.get();
+        List<Animal> animais = animalRepository.findByOng(ong);
+        List<Requisicao> requisicoes = requisicaoRepository.findAll();
+
+
+
+                List<AnimalAplicacaoDto> animaisDto = new ArrayList<>();
+        for(Animal animal : animais) {
+            Integer qtdAplicacoes = 0;
+            String situacao = "Sem aplicação";
+            for(Requisicao requisicao : requisicoes) {
+                if(requisicao.getAnimal().equals(animal)) {
+                    qtdAplicacoes++;
+                    if(!situacao.equals("Adotado")){
+                        situacao = "Revisão";
+                    }
+                    if(requisicao.getStatus() == Status.APROVADO) {
+                        situacao = "Adotado";
+                    }
+                }
+            }
+            AnimalAplicacaoDto animalDto = AnimalMapper.toAnimalAplicacaoDto(animal, qtdAplicacoes, situacao);
+            animaisDto.add(animalDto);
         }
         return animaisDto;
     }

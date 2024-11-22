@@ -37,7 +37,7 @@ public class RequisicaoService {
         Adotante adotante = adotanteRepository.findById(requisicaoCreateDto.getIdAdotante()).orElseThrow();
         requisicao.setAnimal(animal);
         requisicao.setFormulario(adotante.getFormulario());
-        requisicao.setStatus(Status.INICIO_DA_APLICACAO);
+        requisicao.setStatus(Status.NOVA);
         requisicaoRepository.save(requisicao);
         Formulario formulario = adotante.getFormulario();
         formulario.getRequisicao().add(requisicao);
@@ -65,7 +65,7 @@ public class RequisicaoService {
 
     public Requisicao atualizarRequisicaoReprovado(Long id) {
         Requisicao requisicao = requisicaoRepository.findById(id).orElseThrow();
-        requisicao.setStatus(Status.REPROVADO);
+        requisicao.setStatus(Status.DESCARTADO);
         requisicaoRepository.save(requisicao);
 
         return requisicao;
@@ -81,6 +81,7 @@ public class RequisicaoService {
 
     public Requisicao atualizarRequisicaoAdotado(Long id) {
         Requisicao requisicao = requisicaoRepository.findById(id).orElseThrow();
+        List<Requisicao> requisicoesDoAnimal = requisicaoRepository.findByAnimal(requisicao.getAnimal());
         Adotante adotante = requisicao.getFormulario().getAdotante();
         Animal animal = requisicao.getAnimal();
         if (animal.getIsAdotado()) {
@@ -89,9 +90,14 @@ public class RequisicaoService {
         if(requisicao.getStatus() != Status.APROVADO) {
             throw new RuntimeException("Requisição não está no status aprovado");
         }
-        requisicao.setStatus(Status.ADOTADO);
+        requisicao.setStatus(Status.CONCLUIDO);
 
         adotante.adotarAnimal(animal);
+        for(Requisicao requisicaoDoAnimal : requisicoesDoAnimal) {
+            if(requisicaoDoAnimal.getStatus() != Status.CONCLUIDO) {
+                requisicaoDoAnimal.setStatus(Status.DESCARTADO);
+            }
+        }
         LogAdocao log = new LogAdocao();
         log.setTipo("adoção");
         log.setData(LocalDate.now());

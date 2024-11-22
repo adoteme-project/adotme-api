@@ -62,7 +62,7 @@ public class OngUser implements UserDetails {
     }
 
     public void rejeitarRequisicao(Requisicao requisicao) {
-        requisicao.setStatus(Status.REPROVADO);
+        requisicao.setStatus(Status.DESCARTADO);
     }
 
     public void aceitarRequisicao(Requisicao requisicao) {
