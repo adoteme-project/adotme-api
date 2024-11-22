@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "animal")
@@ -57,6 +58,9 @@ public abstract class Animal {
     @JoinColumn(name = "ong_id")
     @JsonBackReference
     protected Ong ong;
+    @OneToMany
+    @JoinColumn(name = "foto_perfil_id")
+    private List<Image> fotos = new ArrayList<>();
     @OneToOne
     @JoinColumn(name = "foto_perfil_id")
     private Image fotoPerfil;

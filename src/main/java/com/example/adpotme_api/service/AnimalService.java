@@ -51,7 +51,12 @@ public class AnimalService {
     private RequisicaoRepository requisicaoRepository;
 
     @Transactional
-    public Animal cadastrarCachorro(CachorroCreateDto cachorroDto, MultipartFile fotoPerfil) {
+    public Animal cadastrarCachorro(CachorroCreateDto cachorroDto, MultipartFile fotoPerfil1, MultipartFile fotoPerfil2, MultipartFile fotoPerfil3, MultipartFile fotoPerfil4, MultipartFile fotoPerfil5) {
+        List<MultipartFile> fotos = new ArrayList<>();
+        fotos.add(fotoPerfil2);
+        fotos.add(fotoPerfil3);
+        fotos.add(fotoPerfil4);
+        fotos.add(fotoPerfil5);
         Set<ConstraintViolation<CachorroCreateDto>> violations = validator.validate(cachorroDto);
         if (!violations.isEmpty()) {
             StringBuilder sb = new StringBuilder();
@@ -71,16 +76,27 @@ public class AnimalService {
         cachorro.setOng(ong);
         cachorro.calcularTaxaAdocao();
         cachorro.setPersonalidade(personalidade);
-
-        if(fotoPerfil != null && !fotoPerfil.isEmpty()) {
+        if(fotoPerfil1 != null && !fotoPerfil1.isEmpty()){
             try {
-                Image image = cloudinaryService.upload(fotoPerfil);
+                Image image = cloudinaryService.upload(fotoPerfil1);
                 cachorro.setFotoPerfil(image);
-
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
+
+for(MultipartFile fotoPerfil : fotos) {
+    if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
+        try {
+            Image image = cloudinaryService.upload(fotoPerfil);
+            cachorro.getFotos().add(image);
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
 
         personalidadeRepository.save(personalidade);
 
