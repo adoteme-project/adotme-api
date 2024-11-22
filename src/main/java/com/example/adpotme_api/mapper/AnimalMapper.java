@@ -4,6 +4,7 @@ import com.example.adpotme_api.dto.animal.*;
 import com.example.adpotme_api.entity.animal.Animal;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class AnimalMapper {
@@ -64,12 +65,12 @@ public class AnimalMapper {
                 .build();
     }
 
-    public static AnimalAplicacaoDto toAnimalAplicacaoDto(Animal animal, Integer qtdAplicacao, String situacao) {
+    public static AnimalAplicacaoDto toAnimalAplicacaoDto(Animal animal, Integer qtdAplicacao, String situacao, LocalDateTime enviado) {
         return AnimalAplicacaoDto.builder()
                 .id(animal.getId())
                 .nome(animal.getNome())
                 .qtdAplicacoes(qtdAplicacao)
-                .enviado(animal.getDataAbrigo())
+                .enviado(enviado)
                 .taxaAdocao(animal.getTaxaAdocao())
                 .dataEntrada(animal.getCadastro())
                 .situacao(situacao)

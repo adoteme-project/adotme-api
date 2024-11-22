@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,7 @@ public class Requisicao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate dataRequisicao = LocalDate.now();
+    private LocalDateTime dataRequisicao;
 
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
