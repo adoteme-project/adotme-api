@@ -123,4 +123,12 @@ public class FormularioService {
 
         return FormularioMapper.toResponseDto(formulario);
     }
+
+    public FormularioResponseAdotanteDto formulariosPorId(Long id) {
+        Formulario formulario = formularioRepository.findById(id).orElse(null);
+        if (formulario == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Formulário não encontrado");
+        }
+        return FormularioMapper.toResponseDto(formulario);
+    }
 }

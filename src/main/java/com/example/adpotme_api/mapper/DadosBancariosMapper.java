@@ -14,7 +14,7 @@ public class DadosBancariosMapper {
         dto.setTipoConta(dadosBancarios.getTipoConta());
         dto.setChavePix(dadosBancarios.getChavePix());
         dto.setNomeTitular(dadosBancarios.getNomeTitular());
-        dto.setQrCode(dadosBancarios.getQrCode().getUrl());
+        dto.setQrCode(dadosBancarios.getQrCode() != null ? dadosBancarios.getQrCode().getUrl() : null);
         return dto;
     }
 }

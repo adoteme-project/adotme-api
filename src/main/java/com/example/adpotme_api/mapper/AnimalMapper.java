@@ -1,7 +1,9 @@
 package com.example.adpotme_api.mapper;
 
 import com.example.adpotme_api.dto.animal.*;
+import com.example.adpotme_api.dto.requisicao.RequisicaoDto;
 import com.example.adpotme_api.entity.animal.Animal;
+import com.example.adpotme_api.entity.requisicao.Requisicao;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -73,6 +75,33 @@ public class AnimalMapper {
                 .taxaAdocao(animal.getTaxaAdocao())
                 .dataEntrada(animal.getCadastro())
                 .situacao(situacao)
+                .build();
+    }
+
+    public static RequisicaoDto toRequisicaoDto(Requisicao requisicao) {
+        return RequisicaoDto.builder()
+                .id(requisicao.getId())
+                .nomeAdotante(requisicao.getFormulario().getAdotante().getNome())
+                .dataRequisicao(requisicao.getDataRequisicao())
+                .status(requisicao.getStatus().getStatus())
+                .build();
+    }
+
+    public static AnimalListaAplicacaoDto toAnimalListaAplicacaoDto(Animal animal, List<RequisicaoDto> requisicoesDto) {
+        return AnimalListaAplicacaoDto.builder()
+                .id(animal.getId())
+                .nome(animal.getNome())
+                .taxaAdocao(animal.getTaxaAdocao())
+                .fotoPerfil(animal.getFotoPerfil() != null ? animal.getFotoPerfil().getUrl() : null)
+                .descricao(animal.getDescricao())
+                .especie(animal.getEspecie().getEspecie())
+                .raca(animal.getRaca())
+                .sexo(animal.getSexo())
+                .idade(LocalDate.now().getYear() - animal.getAnoNascimento())
+                .dataAbrigo(animal.getDataAbrigo().toString())
+                .tamanho(animal.getPorte())
+                .personalidade(PersonalidadeMapper.toPersonalidadeAnimal(animal.getPersonalidade()))
+                .requisicoes(requisicoesDto)
                 .build();
     }
 }

@@ -188,4 +188,13 @@ public class AnimalController {
         }
         return ResponseEntity.ok(animais);
     }
+
+    @GetMapping("/animal-com-lista-aplicacao/{idAnimal}")
+    @Operation(summary = "Retorna um animal com lista de aplicacao", description = "Recupera um animal com lista de aplicacao.")
+    @ApiResponse(responseCode = "200", description = "O animal foi encontrado e sua lista de aplicacao foi retornada.")
+    @ApiResponse(responseCode = "404", description = "Animal não encontrado.")
+    public ResponseEntity<AnimalListaAplicacaoDto> recuperarAnimalComListaAplicacao(@PathVariable Long idAnimal) {
+            AnimalListaAplicacaoDto animal = animalService.recuperarAnimalComListaAplicacao(idAnimal);
+        return ResponseEntity.ok(animal);
+    }
 }

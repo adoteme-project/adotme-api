@@ -1,5 +1,6 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.dto.formulario.FormularioResponseAdotanteDto;
 import com.example.adpotme_api.entity.formulario.Formulario;
 import com.example.adpotme_api.dto.formulario.FormularioCreateDto;
 import com.example.adpotme_api.entity.requisicao.Status;
@@ -140,19 +141,17 @@ public class FormularioController {
         return ResponseEntity.ok(formularios);
     }
 
-    @GetMapping("adotante/{id}")
+    @GetMapping("/{id}")
     @Operation(
             summary = "Lista formulários por adotante.",
             description = "Este endpoint retorna todos os formulários associados a um adotante específico, " +
                     "identificado pelo seu ID. Se não houver formulários, retorna um status 204 (Sem Conteúdo)."
     )
     @ApiResponse(responseCode = "200", description = "Lista de formulários por adotante retornada com sucesso.")
-    @ApiResponse(responseCode = "204", description = "Não há formulários para o adotante especificado.")
-    public ResponseEntity<List<Formulario>> listarFormulariosPorAdotante(@PathVariable Long id) {
-        List<Formulario> formularios = formularioService.listarFormulariosPorAdotante(id);
-        if (formularios.isEmpty()) {
-            return ResponseEntity.status(204).build();
-        }
-        return ResponseEntity.ok(formularios);
+    @ApiResponse(responseCode = "404", description = "Adotante não encontrado.")
+    public ResponseEntity<FormularioResponseAdotanteDto> listarFormulariosPorAdotante(@PathVariable Long id) {
+        FormularioResponseAdotanteDto formulario = formularioService.formulariosPorId(id);
+
+        return ResponseEntity.ok(formulario);
     }
 }

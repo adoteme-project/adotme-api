@@ -2,6 +2,7 @@ package com.example.adpotme_api.service;
 
 import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
 import com.example.adpotme_api.dto.animal.*;
+import com.example.adpotme_api.dto.requisicao.RequisicaoDto;
 import com.example.adpotme_api.entity.animal.*;
 import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.entity.ong.Ong;
@@ -323,6 +324,18 @@ for(MultipartFile fotoPerfil : fotos) {
             animaisDto.add(animalDto);
         }
         return animaisDto;
+    }
+
+
+    public AnimalListaAplicacaoDto recuperarAnimalComListaAplicacao(Long idAnimal) {
+        Animal animal = animalRepository.findById(idAnimal).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Animal não encontrado"));
+        List<Requisicao> requisicoes = requisicaoRepository.findByAnimal(animal);
+        List<RequisicaoDto> requisicoesDto = new ArrayList<>();
+        for(Requisicao requisicao : requisicoes) {
+            RequisicaoDto requisicaoDto = AnimalMapper.toRequisicaoDto(requisicao);
+            requisicoesDto.add(requisicaoDto);
+        }
+        return AnimalMapper.toAnimalListaAplicacaoDto(animal, requisicoesDto);
     }
 }
 

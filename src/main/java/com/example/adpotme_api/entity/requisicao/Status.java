@@ -1,12 +1,12 @@
 package com.example.adpotme_api.entity.requisicao;
 
 public enum Status {
-    APROVADO("aprovado"),
-    NOVA("em andamento"),
-    DESCARTADO("descartado"),
-    DOCUMENTACAO("documentação"),
-    REVISAO("revisao"),
-    CONCLUIDO("concluído");
+    APROVADO("Aprovado"),
+    NOVA("Nova"),
+    DESCARTADO("Descartado"),
+    DOCUMENTACAO("Documentação"),
+    REVISAO("Revisão"),
+    CONCLUIDO("Concluído");
 
     private final String status;
 

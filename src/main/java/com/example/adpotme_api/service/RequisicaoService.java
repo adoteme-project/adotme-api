@@ -1,6 +1,7 @@
 package com.example.adpotme_api.service;
 
 
+import com.example.adpotme_api.dto.adotante.AdotanteRequisicaoDto;
 import com.example.adpotme_api.dto.requisicao.RequisicaoCreateDto;
 import com.example.adpotme_api.dto.requisicao.RequisicaoReadDto;
 import com.example.adpotme_api.entity.adocao.LogAdocao;
@@ -18,6 +19,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.adpotme_api.mapper.RequisicaoMapper.ToAdotanteRequisicaoDto;
 
 @Service
 public class RequisicaoService {
@@ -65,8 +68,9 @@ public class RequisicaoService {
         return requisicao;
     }
 
-    public Requisicao atualizarRequisicaoReprovado(Long id) {
+    public Requisicao atualizarRequisicaoReprovado(Long id, String motivo) {
         Requisicao requisicao = requisicaoRepository.findById(id).orElseThrow();
+        requisicao.setMotivoRecusa(motivo);
         requisicao.setStatus(Status.DESCARTADO);
         requisicaoRepository.save(requisicao);
 
@@ -124,5 +128,14 @@ public class RequisicaoService {
         }
 
         return requisicoesReadDto;
+    }
+
+    public AdotanteRequisicaoDto requisicaoAdotante(Long idAdotante) {
+        Adotante adotante = adotanteRepository.findById(idAdotante).orElseThrow();
+        Formulario formulario = adotante.getFormulario();
+
+        return ToAdotanteRequisicaoDto(adotante, formulario);
+
+
     }
 }

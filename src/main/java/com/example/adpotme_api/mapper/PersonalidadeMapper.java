@@ -1,5 +1,6 @@
 package com.example.adpotme_api.mapper;
 
+import com.example.adpotme_api.dto.personalidade.PersonalidadeAnimalOngResponseDto;
 import com.example.adpotme_api.dto.personalidade.PersonalidadeCreateDto;
 import com.example.adpotme_api.entity.personalidade.Personalidade;
 
@@ -24,5 +25,16 @@ public class PersonalidadeMapper {
         personalidadeCreateDto.setTerritorial(personalidade.getTerritorial());
         personalidadeCreateDto.setInteligencia(personalidade.getInteligencia());
         return personalidadeCreateDto;
+    }
+
+    public static PersonalidadeAnimalOngResponseDto toPersonalidadeAnimal(Personalidade personalidade) {
+        PersonalidadeAnimalOngResponseDto personalidadeAnimalOngResponseDto = new PersonalidadeAnimalOngResponseDto();
+        personalidadeAnimalOngResponseDto.setEnergia(personalidade.getEnergia());
+        personalidadeAnimalOngResponseDto.setSociabilidade(personalidade.getSociabilidade());
+        personalidadeAnimalOngResponseDto.setTolerante(personalidade.getTolerante());
+        personalidadeAnimalOngResponseDto.setObediente(personalidade.getObediente());
+        personalidadeAnimalOngResponseDto.setTerritorial(personalidade.getTerritorial());
+        personalidadeAnimalOngResponseDto.setInteligencia(personalidade.getInteligencia());
+        return personalidadeAnimalOngResponseDto;
     }
 }
