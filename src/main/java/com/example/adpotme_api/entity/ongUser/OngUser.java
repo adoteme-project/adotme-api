@@ -34,6 +34,7 @@ public class OngUser implements UserDetails {
     private String email;
     private String senha;
     private LocalDate cadastro;
+    private String celular;
     @Enumerated(EnumType.STRING)
     private Role role;
 

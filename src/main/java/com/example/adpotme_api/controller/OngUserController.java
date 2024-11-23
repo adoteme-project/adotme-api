@@ -1,5 +1,6 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.dto.ongUser.OngUserAllDto;
 import com.example.adpotme_api.dto.ongUser.OngUserDto;
 import com.example.adpotme_api.dto.ongUser.OngUserUpdateDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
@@ -59,6 +60,20 @@ public class OngUserController {
         }
         return ResponseEntity.ok(ongUsers);
     }
+    @GetMapping("/lista-ong-users-por-ong/{ongId}")
+    @Operation(summary = "Recuperar todos os usuários ONG de uma ONG", description = "Retorna uma lista de todos os usuários ONG cadastrados em uma ONG específica.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de usuários ONG retornada com sucesso."),
+            @ApiResponse(responseCode = "204", description = "Nenhum usuário ONG encontrado.")
+    })
+    public ResponseEntity<List<OngUserAllDto>> recuperarOngUsersPorOng(@Parameter(description = "ID da ONG", required = true) @PathVariable Long ongId) {
+        List<OngUserAllDto> ongUsers = ongUserService.findAllOngUsersByOng(ongId);
+        if(ongUsers.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.ok(ongUsers);
+    }
+
 
     @GetMapping("/{id}")
     @Operation(summary = "Recuperar usuário ONG por ID", description = "Retorna um usuário ONG específico com base no ID fornecido.")

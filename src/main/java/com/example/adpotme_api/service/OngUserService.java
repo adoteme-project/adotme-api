@@ -1,5 +1,6 @@
 package com.example.adpotme_api.service;
 
+import com.example.adpotme_api.dto.ongUser.OngUserAllDto;
 import com.example.adpotme_api.dto.ongUser.OngUserUpdateDto;
 import com.example.adpotme_api.entity.adocao.LogAdocao;
 import com.example.adpotme_api.entity.adotante.Adotante;
@@ -9,6 +10,7 @@ import com.example.adpotme_api.entity.ongUser.OngUser;
 import com.example.adpotme_api.dto.ongUser.OngUserCreateDto;
 import com.example.adpotme_api.entity.ongUser.Role;
 import com.example.adpotme_api.entity.requisicao.Requisicao;
+import com.example.adpotme_api.mapper.OngUserMapper;
 import com.example.adpotme_api.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,6 +59,7 @@ public class OngUserService {
         ongUser.setCpf(dto.getCpf());
         ongUser.setRole(Role.valueOf(dto.getRole()));
         ongUser.setOng(ong);
+        ongUser.setCelular(dto.getCelular());
         ongUser.setCadastro(dto.getCadastro());
         ongUser.setEmail(dto.getEmail());
         ongUser.setSenha(dto.getSenha());
@@ -144,4 +148,20 @@ public class OngUserService {
     }
 
 
+    public List<OngUserAllDto> findAllOngUsersByOng(Long ongId) {
+        Ong ong = ongRepository.findById(ongId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada"));
+        List<OngUser> ongUsers = ongUserRepository.findAllByOng(ong);
+        if(ongUsers.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Nenhum usuário ONG encontrado");
+        }
+
+        List<OngUserAllDto> ongUserAllDtos = new ArrayList<>();
+
+        for(OngUser ongUser : ongUsers) {
+            OngUserAllDto userDto = OngUserMapper.toOngUserAllDto(ongUser);
+            ongUserAllDtos.add(userDto);
+        }
+
+        return ongUserAllDtos;
+    }
 }

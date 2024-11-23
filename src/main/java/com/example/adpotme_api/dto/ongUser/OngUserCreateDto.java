@@ -17,15 +17,17 @@ public class OngUserCreateDto {
 
     @NotBlank(message = "CPF não pode ser vazio")
     private String cpf;
-
+    private String celular;
     @NotBlank(message = "Email não pode ser vazio")
     private String email;
     @NotBlank(message = "Senha não pode ser vazia")
     private String senha;
+
     private String role;
     private LocalDate cadastro = LocalDate.now();
     @NotNull(message = "Ong não pode ser nulo")
     private Long ongId; // ID da ONG associada
+
 
 
 //    public OngUserCreateDto() {
