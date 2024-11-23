@@ -1,9 +1,9 @@
 package com.example.adpotme_api.entity.ongUser;
 
 public enum Role {
-    ADMIN("admin"),
-    MODERATOR("moderator"),
-    USER("user");
+    ADMIN("Admin"),
+    MODERATOR("Moderador"),
+    USER("User");
 
     private final String role;
 
