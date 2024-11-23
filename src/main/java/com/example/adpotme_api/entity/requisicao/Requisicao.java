@@ -40,6 +40,7 @@ public class Requisicao {
     @OneToMany(mappedBy = "requisicao", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<RequisicaoUserResponsavel> responsaveis;
+    private String motivoRecusa;
 
     public void adicionarResponsavel(OngUser user) {
         int controle = 0;

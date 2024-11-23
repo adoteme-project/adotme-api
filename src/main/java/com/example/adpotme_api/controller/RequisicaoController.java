@@ -1,5 +1,6 @@
 package com.example.adpotme_api.controller;
 
+import com.example.adpotme_api.dto.adotante.AdotanteRequisicaoDto;
 import com.example.adpotme_api.dto.requisicao.RequisicaoCreateDto;
 import com.example.adpotme_api.dto.requisicao.RequisicaoReadDto;
 import com.example.adpotme_api.entity.requisicao.Requisicao;
@@ -8,6 +9,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +36,11 @@ public class RequisicaoController {
         }
         return ResponseEntity.ok(requisicoes);
     }
+    @GetMapping("/{idAdotante}")
+    public ResponseEntity<AdotanteRequisicaoDto> requisicaoAdotante(@PathVariable Long idAdotante) {
+        AdotanteRequisicaoDto requisicao = requisicaoService.requisicaoAdotante(idAdotante);
+        return ResponseEntity.ok(requisicao);
+    }
 
     @PatchMapping("aprovado/{id}")
     public ResponseEntity<Requisicao> atualizarStatusRequisicaoParaAprovado(@PathVariable Long id) {
@@ -41,8 +48,8 @@ public class RequisicaoController {
         return ResponseEntity.ok(requisicaoAtualizada);
     }
     @PatchMapping("reprovado/{id}")
-    public ResponseEntity<Requisicao> atualizarStatusRequisicaoParaReprovado(@PathVariable Long id) {
-        Requisicao requisicaoAtualizada = requisicaoService.atualizarRequisicaoReprovado(id);
+    public ResponseEntity<Requisicao> atualizarStatusRequisicaoParaReprovado(@PathVariable Long id, @RequestParam String motivo) {
+        Requisicao requisicaoAtualizada = requisicaoService.atualizarRequisicaoReprovado(id, motivo);
         return ResponseEntity.ok(requisicaoAtualizada);
     }
     @PatchMapping("documentacao/{id}")
