@@ -1,6 +1,7 @@
 package com.example.adpotme_api.mapper;
 
 import com.example.adpotme_api.dto.animalPerdido.AnimalPerdidoAchadoPerdidoDto;
+import com.example.adpotme_api.dto.animalPerdido.AnimalPerdidoAchadoPerdidoTabelaDto;
 import com.example.adpotme_api.dto.animalPerdido.AnimalPerdidoCardDto;
 import com.example.adpotme_api.entity.animalPerdido.AnimalPerdido;
 
@@ -61,6 +62,27 @@ public class AnimalPerdidoMapper {
                 .bairro(animalPerdido.getOng().getEndereco().getBairro())
                 .cidade(animalPerdido.getOng().getEndereco().getCidade())
                 .estado(animalPerdido.getOng().getEndereco().getEstado())
+                .build();
+    }
+
+    public static AnimalPerdidoAchadoPerdidoTabelaDto toAnimalPerdidoOngTabelaDto (AnimalPerdido animalPerdido) {
+
+        if(animalPerdido == null) {
+            return null;
+        }
+
+        return AnimalPerdidoAchadoPerdidoTabelaDto.builder()
+                .id(animalPerdido.getId())
+                .apelido(animalPerdido.getNomePet())
+                .especie(animalPerdido.getEspecie())
+                .sexo(animalPerdido.getSexo())
+                .raca(animalPerdido.getRaca())
+                .porte(animalPerdido.getPorte())
+                .dataResgate(animalPerdido.getCadastro())
+                .bairroPerdido(animalPerdido.getEnderecoPerdido().getBairro())
+                .cidadePerdido(animalPerdido.getEnderecoPerdido().getCidade())
+                .ruaPerdido(animalPerdido.getEnderecoPerdido().getRua())
+                .estadoPerdido(animalPerdido.getEnderecoPerdido().getEstado())
                 .build();
     }
 }

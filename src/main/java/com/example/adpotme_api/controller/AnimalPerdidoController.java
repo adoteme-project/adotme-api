@@ -168,6 +168,21 @@ public class AnimalPerdidoController {
         return ResponseEntity.status(200).body(animais);
     }
 
+    @GetMapping("/animal-perdido-achados-perdidos-por-ong-tabela/{idOng}")
+    @Operation(summary = "Recuperar animais perdidos e achados", description = "Retorna uma lista de animais perdidos com os dados resumidos de acordo com o ID da ONG fornecido.")
+    @ApiResponse(responseCode = "200", description = "Lista de animais perdidos e achados recuperada com sucesso.")
+    @ApiResponse(responseCode = "204", description = "Nenhum animal perdido ou achado encontrado.")
+    public ResponseEntity <List<AnimalPerdidoAchadoPerdidoTabelaDto>> recuperarAnimaisPerdidosResumidoPorOng(
+            @PathVariable Long idOng) {
+
+        List<AnimalPerdidoAchadoPerdidoTabelaDto> animais = animalPerdidoService.recuperarAnimaisPerdidosPorOngTabela(idOng);
+        if(animais.isEmpty()){
+            return ResponseEntity.status(204).build();
+        }
+
+        return ResponseEntity.status(200).body(animais);
+    }
+
     @GetMapping("/animal-perdido-achados-perdidos-card/{idAnimalPerdido}")
     @Operation(summary = "Recuperar animais perdidos e achados", description = "Retorna uma lista de animais perdidos e achados cadastrados no sistema com base no Id do animal.")
     @ApiResponse(responseCode = "200", description = "Animal perdido recuperado com sucesso.")
@@ -180,4 +195,6 @@ public class AnimalPerdidoController {
 
         return ResponseEntity.status(200).body(animais);
     }
+
+
 }

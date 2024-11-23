@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public abstract class AnimalPerdidoCreateDto {
-    protected String nomePet;
+    protected String nome;
     protected String sexo;
     protected String cep;
     protected LocalDate cadastro = LocalDate.now();
