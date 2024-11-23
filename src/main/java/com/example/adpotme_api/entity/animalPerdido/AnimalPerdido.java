@@ -53,7 +53,7 @@ public abstract class AnimalPerdido {
     }
 
     public AnimalPerdido(@Valid AnimalPerdidoCreateDto animal) {
-        this.nomePet = animal.getNomePet();
+        this.nomePet = animal.getNome();
         this.latitude = animal.getPosicao().getLatitude();
         this.longitude = animal.getPosicao().getLongitude();
         this.isVisible = true;

@@ -221,6 +221,22 @@ public class AnimalPerdidoService {
         return animaisDto;
     }
 
+    public List<AnimalPerdidoAchadoPerdidoTabelaDto> recuperarAnimaisPerdidosPorOngTabela(Long ongId) {
+        Optional<Ong> ongOpt = ongRepository.findById(ongId);
+        if (ongOpt.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
+        }
+        Ong ong = ongOpt.get();
+        List<AnimalPerdido> animais = animalPerdidoRepository.findByOng(ong);
+        List<AnimalPerdidoAchadoPerdidoTabelaDto> animaisDto = new ArrayList<>();
+        for (AnimalPerdido animal : animais) {
+            AnimalPerdidoAchadoPerdidoTabelaDto animalDto = AnimalPerdidoMapper.toAnimalPerdidoOngTabelaDto(animal);
+            animaisDto.add(animalDto);
+
+        }
+        return animaisDto;
+    }
+
     public AnimalPerdidoCardDto recuperarAnimalPerdidoCardPorId(Long idAnimalPerdido) {
         Optional<AnimalPerdido> animalOpt = animalPerdidoRepository.findById(idAnimalPerdido);
         if (animalOpt.isEmpty()) {
