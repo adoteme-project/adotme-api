@@ -11,7 +11,9 @@ import java.time.LocalDateTime;
 @Builder
 public class RequisicaoDto {
     private Long id;
+    private Long formularioId;
     private String nomeAdotante;
+    private String email;
     private LocalDateTime dataRequisicao;
     private String status;
 }

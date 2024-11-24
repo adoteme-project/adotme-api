@@ -81,7 +81,9 @@ public class AnimalMapper {
     public static RequisicaoDto toRequisicaoDto(Requisicao requisicao) {
         return RequisicaoDto.builder()
                 .id(requisicao.getId())
+                .formularioId(requisicao.getFormulario().getId())
                 .nomeAdotante(requisicao.getFormulario().getAdotante().getNome())
+                .email(requisicao.getFormulario().getAdotante().getEmail())
                 .dataRequisicao(requisicao.getDataRequisicao())
                 .status(requisicao.getStatus().getStatus())
                 .build();
