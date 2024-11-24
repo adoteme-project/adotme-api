@@ -19,6 +19,7 @@ public class AdotanteFormularioDto {
     private String email;
     private LocalDate dataNascimento;
     private String telefone;
+    private String fotoPerfil;
     private EnderecoResponseOngDto endereco;
     private FormularioResponseAdotanteDto formulario;
 

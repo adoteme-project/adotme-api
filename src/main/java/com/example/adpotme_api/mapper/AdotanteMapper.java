@@ -48,6 +48,7 @@ public class AdotanteMapper {
                 .email(adotante.getEmail())
                 .dataNascimento(adotante.getDtNasc())
                 .telefone(adotante.getCelular())
+                .fotoPerfil(adotante.getFotoPerfil() != null ? adotante.getFotoPerfil().getUrl() : null)
                 .endereco(adotante.getEndereco() != null ? EnderecoMapper.toEnderecoResponseOngDto(adotante.getEndereco()) : null)
                 .formulario(adotante.getFormulario() != null ? FormularioMapper.toResponseDto(adotante.getFormulario()) : null)
                 .build();
