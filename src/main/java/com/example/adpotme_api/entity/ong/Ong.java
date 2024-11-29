@@ -26,7 +26,12 @@ public class Ong {
     private String nome;
     @Column(unique = true)
     private String email;
+    private String celular;
+    private String site;
+    private String instagram;
+    private String facebook;
     private String telefone;
+    private String descricao;
     @OneToOne
     private Endereco endereco;
     private String cnpj;

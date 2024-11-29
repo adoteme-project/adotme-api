@@ -15,6 +15,7 @@ import com.example.adpotme_api.repository.*;
 import com.example.adpotme_api.util.PesquisaBinaria;
 import com.example.adpotme_api.util.Sorting;
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Valid;
 import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -242,5 +243,32 @@ public class OngService {
         }
 
         return ongsDto;
+    }
+
+    public OngPutViewDto recuperarOngParaEdicaoVisualizacao(Long idOng) {
+        Optional<Ong> optOng = ongRepository.findById(idOng);
+        if (optOng.isPresent()) {
+            Ong ong = optOng.get();
+            return OngMapper.toOngPutView(ong);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
+        }
+    }
+
+    public OngPutDto editarOng(Long idOng, @Valid OngPutDto ongAtualizada) {
+        Ong ong = ongRepository.findById(idOng)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada"));
+
+        ong.setNome(Optional.ofNullable(ongAtualizada.getNome()).orElse(ong.getNome()));
+        ong.setEmail(Optional.ofNullable(ongAtualizada.getEmail()).orElse(ong.getEmail()));
+        ong.setCelular(Optional.ofNullable(ongAtualizada.getCelular()).orElse(ong.getCelular()));
+        ong.setSite(Optional.ofNullable(ongAtualizada.getSite()).orElse(ong.getSite()));
+        ong.setInstagram(Optional.ofNullable(ongAtualizada.getInstagram()).orElse(ong.getInstagram()));
+        ong.setFacebook(Optional.ofNullable(ongAtualizada.getFacebook()).orElse(ong.getFacebook()));
+        ong.setTelefone(Optional.ofNullable(ongAtualizada.getTelefone()).orElse(ong.getTelefone()));
+        ong.setDescricao(Optional.ofNullable(ongAtualizada.getDescricao()).orElse(ong.getDescricao()));
+
+        ongRepository.save(ong);
+        return ongAtualizada;
     }
 }
