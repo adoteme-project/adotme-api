@@ -71,6 +71,32 @@ public class OngController {
         }
     }
 
+    @GetMapping("/ong-edicao-visualizacao/{idOng}")
+    @Operation(summary = "Recuperar ONG para edição/visualização", description = "Retorna uma ONG específica com base no ID fornecido para edição/visualização.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "ONG encontrada."),
+            @ApiResponse(responseCode = "404", description = "ONG não encontrada.")
+    })
+    public ResponseEntity<OngPutViewDto> recuperarOngParaEdicaoVisualizacao(@Parameter(description = "ID da ONG a ser recuperada", required = true) @PathVariable Long idOng) {
+        OngPutViewDto ong = ongService.recuperarOngParaEdicaoVisualizacao(idOng);
+        return ResponseEntity.ok(ong);
+    }
+
+    @PutMapping("/editar/{idOng}")
+    @Transactional
+    @Operation(summary = "Editar ONG", description = "Edita os dados de uma ONG específica com base no ID fornecido.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "ONG editada com sucesso."),
+            @ApiResponse(responseCode = "404", description = "ONG não encontrada."),
+            @ApiResponse(responseCode = "400", description = "Erro ao editar a ONG.")
+    })
+    public ResponseEntity<OngPutDto> editarOng(@Parameter(description = "ID da ONG a ser editada", required = true) @PathVariable Long idOng,
+                                         @RequestBody @Valid OngPutDto ongAtualizada) {
+        OngPutDto ongAtt = ongService.editarOng(idOng, ongAtualizada);
+        return ResponseEntity.status(200).body(ongAtt);
+    }
+
+
 
     @GetMapping("/com-animal")
     @Operation(summary = "Recuperar todas as ONGs", description = "Retorna uma lista de todas as ONGs com animais cadastradas.")

@@ -39,6 +39,7 @@ public class OngMapper {
         ongResponseAllDto.setNome(ong.getNome());
         ongResponseAllDto.setEmail(ong.getEmail());
         ongResponseAllDto.setTelefone(ong.getTelefone());
+        ongResponseAllDto.setFotoUrl(ong.getImagem().getUrl());
         ongResponseAllDto.setCnpj(ong.getCnpj());
         ongResponseAllDto.setEndereco(EnderecoMapper.toEnderecoResponseOngDto(ong.getEndereco()));
         ongResponseAllDto.setDadosBancarios(DadosBancariosMapper.toDto(ong.getDadosBancarios()));
@@ -98,6 +99,20 @@ public class OngMapper {
                 .nome(ong.getNome())
                 .imagem(ong.getImagem().getUrl())
                 .endereco(EnderecoMapper.toEnderecoDto(ong.getEndereco()))
+                .build();
+    }
+
+    public static OngPutViewDto toOngPutView(Ong ong) {
+        return OngPutViewDto.builder()
+                .nome(ong.getNome())
+                .email(ong.getEmail())
+                .celular(ong.getCelular())
+                .site(ong.getSite())
+                .instagram(ong.getInstagram())
+                .facebook(ong.getFacebook())
+                .telefone(ong.getTelefone())
+                .descricao(ong.getDescricao())
+                .imagemUrl(ong.getImagem().getUrl())
                 .build();
     }
 }
