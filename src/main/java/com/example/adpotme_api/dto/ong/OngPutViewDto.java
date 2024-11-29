@@ -16,7 +16,7 @@ public class OngPutViewDto {
     private String facebook;
     private String telefone;
     private String descricao;
-    private String imagemUrl;
+    private String imagem;
 
 
 

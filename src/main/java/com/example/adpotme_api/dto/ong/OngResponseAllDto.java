@@ -16,5 +16,5 @@ public class OngResponseAllDto {
     private String cnpj;
     private EnderecoResponseOngDto endereco;
     private DadosBancariosDto dadosBancarios;
-    private String fotoUrl;
+    private String imagem;
 }
