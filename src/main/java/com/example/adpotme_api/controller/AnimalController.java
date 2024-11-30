@@ -177,6 +177,17 @@ public class AnimalController {
         }
         return ResponseEntity.ok(animais);
     }
+    @GetMapping("/animal-com-personalidade/{idAnimal}")
+    @Operation(summary = "Retorna um animais com personalidade", description = "Recupera um animal com personalidade.")
+    @ApiResponse(responseCode = "200", description = "O animal foi recuperado com sucesso.")
+    @ApiResponse(responseCode = "404", description = "Animal não encontrado.")
+    public ResponseEntity<AnimalOngResponseDto> recuperarAnimalComPersonalidade(@PathVariable Long idAnimal) {
+        AnimalOngResponseDto animal = animalService.recuperarAnimalComPersonalidade(idAnimal);
+        return ResponseEntity.ok(animal);
+    }
+
+
+
     @GetMapping("/todos-animais-pela-aplicacao-por-ong/{ongId}")
     @Operation(summary = "Retorna todos os animais pela aplicacao por ong", description = "Recupera uma lista de todos os animais cadastrados no sistema pela aplicacao por ong.")
     @ApiResponse(responseCode = "200", description = "A lista de animais foi recuperada com sucesso.")
