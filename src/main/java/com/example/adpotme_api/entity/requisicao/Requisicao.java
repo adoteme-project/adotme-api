@@ -27,7 +27,8 @@ public class Requisicao {
     private LocalDateTime dataRequisicao;
 
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "formulario_id")
     private Formulario formulario;
 
     @ManyToOne

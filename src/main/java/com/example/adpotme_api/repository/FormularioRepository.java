@@ -12,7 +12,6 @@ public interface FormularioRepository extends JpaRepository<Formulario, Long> {
 
     List<Formulario> findByAdotanteId(Long id);
 
-    List<Formulario> findByRequisicaoStatus(Status status);
 
-    List<Formulario> findByRequisicaoIn(List<Requisicao> requisicoesAceitas);
+
 }
