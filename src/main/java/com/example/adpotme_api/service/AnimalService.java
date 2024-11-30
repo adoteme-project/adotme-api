@@ -350,5 +350,10 @@ for(MultipartFile fotoPerfil : fotos) {
         }
         return AnimalMapper.toAnimalListaAplicacaoDto(animal, requisicoesDto);
     }
+
+    public AnimalOngResponseDto recuperarAnimalComPersonalidade(Long idAnimal) {
+        Animal animal = animalRepository.findById(idAnimal).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Animal não encontrado"));
+        return AnimalMapper.toAnimalOngResponseDto(animal);
+    }
 }
 
