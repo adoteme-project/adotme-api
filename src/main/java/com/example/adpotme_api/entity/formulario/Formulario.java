@@ -28,10 +28,6 @@ public class Formulario {
     private Boolean casaPortaoAlto;
     @OneToOne
     private Adotante adotante;
-    @OneToMany(cascade = CascadeType.ALL)
-
-    private List<Requisicao> requisicao;
-
 
     public Formulario(FormularioCreateDto dto) {
         this.temCrianca = dto.getTemCrianca();
