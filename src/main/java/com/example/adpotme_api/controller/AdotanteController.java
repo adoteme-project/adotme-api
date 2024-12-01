@@ -243,6 +243,19 @@ public class AdotanteController {
         return ResponseEntity.status(201).build();
     }
 
+    @GetMapping("/lista-requisicao-adotante/{idAdotante}")
+    @Operation(
+            summary = "Lista as requisições de adoção de um adotante.",
+            description = "Este endpoint permite que um usuário recupere a lista de requisições de adoção de um adotante, " +
+                    "enviando o ID do adotante e recebendo a lista de requisições."
+    )
+    @ApiResponse(responseCode = "200", description = "Requisições de adoção recuperadas com sucesso.")
+    @ApiResponse(responseCode = "404", description = "Adotante não encontrado.")
+    public ResponseEntity<List<AdotanteDtoListaRequisicao>> listarRequisicoesAdotante(@PathVariable Long idAdotante) {
+        List<AdotanteDtoListaRequisicao> requisicoes = adotanteService.listarRequisicoesAdotante(idAdotante);
+        return ResponseEntity.ok(requisicoes);
+    }
+
 
     @GetMapping("/me")
     public ResponseEntity<AdotanteUserDto> adotanteAutenticado() {

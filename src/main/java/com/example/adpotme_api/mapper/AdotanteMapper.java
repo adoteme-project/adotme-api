@@ -6,6 +6,7 @@ import com.example.adpotme_api.dto.ong.OngFavoritaDto;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.animal.Animal;
 import com.example.adpotme_api.entity.ong.Ong;
+import com.example.adpotme_api.entity.requisicao.Requisicao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,4 +90,19 @@ public class AdotanteMapper {
                 .build();
     }
 
+    public static List<AdotanteDtoListaRequisicao> toAdotanteRequisicaoDto(Adotante adotante, List<Requisicao> requisicoesAdotante) {
+        List<AdotanteDtoListaRequisicao> requisicoesDto = new ArrayList<>();
+        for (Requisicao requisicao : requisicoesAdotante) {
+            requisicoesDto.add(AdotanteDtoListaRequisicao.builder()
+                    .idRequisicao(requisicao.getId())
+                    .dataAplicacao(requisicao.getDataRequisicao())
+                    .idAnimal(requisicao.getAnimal().getId())
+                    .nomePet(requisicao.getAnimal().getNome())
+                    .status(requisicao.getStatus().getStatus())
+                            .motivoRecusa(requisicao.getMotivoRecusa())
+                    .build());
+        }
+
+        return requisicoesDto;
+    }
 }
