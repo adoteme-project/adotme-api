@@ -31,3 +31,4 @@ build/
 ### VS Code ###
 .vscode/
 /out/artifacts/adpotme_api_jar/adpotme-api.jar
+/target
