@@ -8,6 +8,7 @@ import com.example.adpotme_api.entity.endereco.ViaCepService;
 import com.example.adpotme_api.entity.formulario.Formulario;
 import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.entity.ong.Ong;
+import com.example.adpotme_api.entity.requisicao.Requisicao;
 import com.example.adpotme_api.mapper.AdotanteMapper;
 import com.example.adpotme_api.mapper.AnimalMapper;
 import com.example.adpotme_api.mapper.FormularioMapper;
@@ -59,6 +60,8 @@ public class AdotanteService {
     private Validator validator;
     @Autowired
     private AnimalRepository animalRepository;
+    @Autowired
+    private RequisicaoRepository requisicaoRepository;
 
 
     @Transactional
@@ -254,5 +257,15 @@ public class AdotanteService {
         Animal animal = animalOpt.get();
         adotante.getFavoritos().remove(animal);
         adotanteRepository.save(adotante);
+    }
+
+    public List<AdotanteDtoListaRequisicao> listarRequisicoesAdotante(Long idAdotante) {
+        Optional<Adotante> adotanteOpt = adotanteRepository.findById(idAdotante);
+        if(adotanteOpt.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
+        }
+        Adotante adotante = adotanteOpt.get();
+        List<Requisicao> requisicoesAdotante = requisicaoRepository.findByFormulario(adotante.getFormulario());
+        return AdotanteMapper.toAdotanteRequisicaoDto(adotante, requisicoesAdotante);
     }
 }
