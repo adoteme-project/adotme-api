@@ -34,6 +34,8 @@ public class RequisicaoService {
     private FormularioRepository formularioRepository;
     @Autowired
     private LogAdocaoRepository logAdocaoRepository;
+    @Autowired
+    private EmailService emailService;
 
     public Requisicao criarRequisicao(RequisicaoCreateDto requisicaoCreateDto) {
         Requisicao requisicao = new Requisicao();
@@ -60,7 +62,26 @@ public class RequisicaoService {
 
     public Requisicao atualizarRequisicaoAprovado(Long id) {
         Requisicao requisicao = requisicaoRepository.findById(id).orElseThrow();
+        Adotante adotante = requisicao.getFormulario().getAdotante();
         requisicao.setStatus(Status.APROVADO);
+        String mensagem = String.format(
+                """
+                        Olá %s, 
+                                
+                        Seu pedido de adoção do pet %s foi aprovado!
+                                
+                        Entre em contato pelo WhatsApp da ONG: %s
+                        
+                        Caso seja um engano, ignore este e-mail.
+                                
+                       
+                                
+                        Atenciosamente,
+                        Equipe AdoteMe
+                        """, adotante.getNome(), requisicao.getAnimal().getNome(), requisicao.getAnimal().getOng().getCelular()
+        );
+
+        emailService.enviarEmail(adotante.getEmail(), "Pedido de adoção aprovado", mensagem);
         requisicaoRepository.save(requisicao);
 
         return requisicao;
