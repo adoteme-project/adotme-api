@@ -101,6 +101,7 @@ com\example\adpotme_api\controller\AnimalController.class
 com\example\adpotme_api\controller\FormularioController.class
 com\example\adpotme_api\controller\RequisicaoController.class
 com\example\adpotme_api\dto\ongUser\OngUserCreateDto.class
+com\example\adpotme_api\dto\adotante\AdotanteDtoListaRequisicao.class
 com\example\adpotme_api\dto\animalPerdido\AnimalPerdidoAchadoPerdidoTabelaDto.class
 com\example\adpotme_api\entity\animalPerdido\GatoPerdido.class
 com\example\adpotme_api\dto\dadosBancarios\DadosBancariosCreateDto.class
@@ -138,6 +139,7 @@ com\example\adpotme_api\repository\RequisicaoRepository.class
 com\example\adpotme_api\entity\adotante\Adotante.class
 com\example\adpotme_api\repository\AnimalRepository.class
 com\example\adpotme_api\dto\ong\OngCreateDto.class
+com\example\adpotme_api\dto\adotante\AdotanteDtoListaRequisicao$AdotanteDtoListaRequisicaoBuilder.class
 com\example\adpotme_api\dto\ongUser\OngUserTokenDtoJWT.class
 com\example\adpotme_api\util\PesquisaBinaria.class
 com\example\adpotme_api\dto\adocao\AdocaoDados.class
