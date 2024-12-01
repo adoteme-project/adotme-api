@@ -4,6 +4,7 @@ import com.example.adpotme_api.dto.adotante.AdotanteCreateDto;
 import com.example.adpotme_api.dto.animal.*;
 import com.example.adpotme_api.dto.requisicao.RequisicaoDto;
 import com.example.adpotme_api.entity.animal.*;
+import com.example.adpotme_api.entity.formulario.Formulario;
 import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.entity.ong.Ong;
 import com.example.adpotme_api.entity.personalidade.Personalidade;
@@ -12,10 +13,7 @@ import com.example.adpotme_api.entity.requisicao.Status;
 import com.example.adpotme_api.integration.CloudinaryService;
 import com.example.adpotme_api.mapper.AnimalMapper;
 import com.example.adpotme_api.mapper.PersonalidadeMapper;
-import com.example.adpotme_api.repository.AnimalRepository;
-import com.example.adpotme_api.repository.OngRepository;
-import com.example.adpotme_api.repository.PersonalidadeRepository;
-import com.example.adpotme_api.repository.RequisicaoRepository;
+import com.example.adpotme_api.repository.*;
 import com.example.adpotme_api.util.Recursao;
 import com.example.adpotme_api.util.Sorting;
 import jakarta.validation.ConstraintViolation;
@@ -51,6 +49,8 @@ public class AnimalService {
     private Validator validator;
     @Autowired
     private RequisicaoRepository requisicaoRepository;
+    @Autowired
+    private FormularioRepository formularioRepository;
 
     @Transactional
     public Animal cadastrarCachorro(CachorroCreateDto cachorroDto, MultipartFile fotoPerfil1, MultipartFile fotoPerfil2, MultipartFile fotoPerfil3, MultipartFile fotoPerfil4, MultipartFile fotoPerfil5) {
@@ -222,6 +222,19 @@ for(MultipartFile fotoPerfil : fotos) {
         if (!animalRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Animal não encontrado");
         }
+        Optional<Animal> animalOpt = animalRepository.findById(id);
+        if (animalOpt.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Animal não encontrado");
+        }
+        List<Requisicao> requisicoes = requisicaoRepository.findByAnimal(animalOpt.get());
+        for(Requisicao requisicao : requisicoes) {
+            if(requisicao.getStatus() == Status.APROVADO || requisicao.getStatus() == Status.REVISAO || requisicao.getStatus() == Status.DOCUMENTACAO || requisicao.getStatus() == Status.NOVA || requisicao.getStatus() == Status.CONCLUIDO) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possível deletar um animal com aplicações ativas");
+            }
+
+            requisicaoRepository.delete(requisicao);
+
+        }
         animalRepository.deleteById(id);
     }
 
@@ -336,6 +349,11 @@ for(MultipartFile fotoPerfil : fotos) {
             requisicoesDto.add(requisicaoDto);
         }
         return AnimalMapper.toAnimalListaAplicacaoDto(animal, requisicoesDto);
+    }
+
+    public AnimalOngResponseDto recuperarAnimalComPersonalidade(Long idAnimal) {
+        Animal animal = animalRepository.findById(idAnimal).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Animal não encontrado"));
+        return AnimalMapper.toAnimalOngResponseDto(animal);
     }
 }
 

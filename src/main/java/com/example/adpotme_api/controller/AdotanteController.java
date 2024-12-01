@@ -212,10 +212,22 @@ public class AdotanteController {
     )
     @ApiResponse(responseCode = "201", description = "Animal favoritado com sucesso.")
     @ApiResponse(responseCode = "404", description = "Adotante ou animal não encontrado.")
-    public ResponseEntity<AnimalFavoritoUsuarioDto> favoritarAnimal(@PathVariable Long idAdotante, @PathVariable Long idAnimal) {
-        Adotante adotante = adotanteService.favoritarAnimal(idAdotante, idAnimal);
-        AnimalFavoritoUsuarioDto adotanteResponse = AdotanteMapper.toAnimalFavoritoUsuarioDto(adotante);
-        return ResponseEntity.status(201).body(adotanteResponse);
+    public ResponseEntity<?> favoritarAnimal(@PathVariable Long idAdotante, @PathVariable Long idAnimal) {
+        adotanteService.favoritarAnimal(idAdotante, idAnimal);
+        return ResponseEntity.status(201).build();
+    }
+
+    @DeleteMapping("desfavoritar-animal/{idAdotante}/{idAnimal}")
+    @Operation(
+            summary = "Desfavorita um animal.",
+            description = "Este endpoint permite que um usuário desfavorita um animal, " +
+                    "enviando o ID do adotante e o ID do animal."
+    )
+    @ApiResponse(responseCode = "204", description = "Animal desfavoritado com sucesso.")
+    @ApiResponse(responseCode = "404", description = "Adotante ou animal não encontrado.")
+    public ResponseEntity<Void> desfavoritarAnimal(@PathVariable Long idAdotante, @PathVariable Long idAnimal) {
+        adotanteService.desfavoritarAnimal(idAdotante, idAnimal);
+        return ResponseEntity.status(204).build();
     }
 
     @PostMapping("favoritar-ong/{idAdotante}/{idOng}")
@@ -226,10 +238,9 @@ public class AdotanteController {
     )
     @ApiResponse(responseCode = "201", description = "ONG favoritada com sucesso.")
     @ApiResponse(responseCode = "404", description = "Adotante ou ONG não encontrado.")
-    public ResponseEntity<AdotanteFavoritoOngDto> favoritarOng(@PathVariable Long idAdotante, @PathVariable Long idOng) {
-        Adotante adotante = adotanteService.favoritarOng(idAdotante, idOng);
-        AdotanteFavoritoOngDto adotanteResponse = AdotanteMapper.toAdotanteFavoritoOngDto(adotante);
-        return ResponseEntity.status(201).body(adotanteResponse);
+    public ResponseEntity<Void> favoritarOng(@PathVariable Long idAdotante, @PathVariable Long idOng) {
+        adotanteService.favoritarOng(idAdotante, idOng);
+        return ResponseEntity.status(201).build();
     }
 
 

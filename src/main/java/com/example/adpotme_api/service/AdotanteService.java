@@ -239,4 +239,20 @@ public class AdotanteService {
         Adotante adotante = adotanteOpt.get();
         return AdotanteMapper.toAdotanteFavoritoOngDto(adotante);
     }
+
+    public void desfavoritarAnimal(Long idAdotante, Long idAnimal) {
+        Optional<Adotante> adotanteOpt = adotanteRepository.findById(idAdotante);
+        if(adotanteOpt.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
+        }
+        Adotante adotante = adotanteOpt.get();
+
+        Optional<Animal> animalOpt = animalRepository.findById(idAnimal);
+        if(animalOpt.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Animal não encontrado");
+        }
+        Animal animal = animalOpt.get();
+        adotante.getFavoritos().remove(animal);
+        adotanteRepository.save(adotante);
+    }
 }

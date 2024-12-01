@@ -3,6 +3,7 @@ package com.example.adpotme_api.mapper;
 import com.example.adpotme_api.dto.animal.*;
 import com.example.adpotme_api.dto.requisicao.RequisicaoDto;
 import com.example.adpotme_api.entity.animal.Animal;
+import com.example.adpotme_api.entity.image.Image;
 import com.example.adpotme_api.entity.requisicao.Requisicao;
 
 import java.time.LocalDate;
@@ -11,9 +12,18 @@ import java.util.List;
 
 public class AnimalMapper {
     public static AnimalOngResponseDto toAnimalOngResponseDto(Animal animal) {
+        List<Image> animalImages = animal.getFotos();
+        String imagem2 = !animalImages.isEmpty() ? animalImages.get(0).getUrl() : null;
+        String imagem3 = animalImages.size() >= 2 ? animalImages.get(1).getUrl() : null;
+        String imagem4 = animalImages.size() >= 3 ? animalImages.get(2).getUrl() : null;
+        String imagem5 = animalImages.size() >= 4 ? animalImages.get(3).getUrl() : null;
         AnimalOngResponseDto animalOngResponseDto = new AnimalOngResponseDto();
         animalOngResponseDto.setId(animal.getId());
         animalOngResponseDto.setImagem(animal.getFotoPerfil().getUrl() != null ? animal.getFotoPerfil().getUrl() : null);
+        animalOngResponseDto.setImagem2(imagem2);
+        animalOngResponseDto.setImagem3(imagem3);
+        animalOngResponseDto.setImagem4(imagem4);
+        animalOngResponseDto.setImagem5(imagem5);
         animalOngResponseDto.setNome(animal.getNome());
         animalOngResponseDto.setPorte(animal.getPorte());
         animalOngResponseDto.setSexo(animal.getSexo());

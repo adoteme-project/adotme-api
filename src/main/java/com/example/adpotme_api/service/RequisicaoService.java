@@ -45,8 +45,6 @@ public class RequisicaoService {
         requisicao.setDataRequisicao(LocalDateTime.now());
         requisicaoRepository.save(requisicao);
         Formulario formulario = adotante.getFormulario();
-        formulario.getRequisicao().add(requisicao);
-        formularioRepository.save(formulario);
         LogAdocao log = new LogAdocao();
         log.setTipo("aplicação");
         log.setData(LocalDate.now());
@@ -122,7 +120,7 @@ public class RequisicaoService {
         List<Requisicao> requisicoes = requisicaoRepository.findAll();
         List<RequisicaoReadDto> requisicoesReadDto = new ArrayList<>();
         for(Requisicao requisicao : requisicoes) {
-            Formulario formulario = requisicaoRepository.findById(requisicao.getId()).orElseThrow().getFormulario();
+            Formulario formulario = requisicao.getFormulario();
             RequisicaoReadDto requisicaoReadDto = RequisicaoMapper.toRequisicaoReadDto(requisicao, formulario);
             requisicoesReadDto.add(requisicaoReadDto);
         }

@@ -60,10 +60,7 @@ public class FormularioService {
         return formularioRepository.findAll();
     }
 
-    public List<Formulario> listarFormulariosPorStatus(Status status) {
-        List<Requisicao> requisicoes = requisicaoRepository.findAllByStatus(status);
-        return formularioRepository.findByRequisicaoIn(requisicoes);
-    }
+
 
     public List<Formulario> listarFormulariosPorAdotante(Long id) {
         return formularioRepository.findByAdotanteId(id);
