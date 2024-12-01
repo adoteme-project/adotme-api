@@ -70,7 +70,8 @@ public class RequisicaoService {
                                 
                         Seu pedido de adoção do pet %s foi aprovado!
                                 
-                        Entre em contato pelo WhatsApp da ONG: %s
+                        Entre em contato pelo WhatsApp da ONG: %s ou pelo e-mail: %s para prosseguir com a adoção.
+                                  
                         
                         Caso seja um engano, ignore este e-mail.
                                 
@@ -78,7 +79,7 @@ public class RequisicaoService {
                                 
                         Atenciosamente,
                         Equipe AdoteMe
-                        """, adotante.getNome(), requisicao.getAnimal().getNome(), requisicao.getAnimal().getOng().getCelular()
+                        """, adotante.getNome(), requisicao.getAnimal().getNome(), requisicao.getAnimal().getOng().getTelefone(), requisicao.getAnimal().getOng().getEmail()
         );
 
         emailService.enviarEmail(adotante.getEmail(), "Pedido de adoção aprovado", mensagem);
