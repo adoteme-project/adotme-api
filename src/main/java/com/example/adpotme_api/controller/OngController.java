@@ -207,4 +207,14 @@ public class OngController {
             return ResponseEntity.status(200).body(ongs);
         }
     }
+    @GetMapping("/nome-e-imagem-ong/{idOng}")
+    @Operation(summary = "Recuperar nome e imagem da ONG", description = "Retorna o nome e a imagem de uma ONG específica com base no ID fornecido.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Nome e imagem da ONG retornados com sucesso."),
+            @ApiResponse(responseCode = "404", description = "ONG não encontrada.")
+    })
+    public ResponseEntity<OngNomeImagemDto> recuperarNomeImagemOng(@Parameter(description = "ID da ONG a ser recuperada", required = true) @PathVariable Long idOng) {
+        OngNomeImagemDto ong = ongService.recuperarNomeImagemOng(idOng);
+        return ResponseEntity.ok(ong);
+    }
 }

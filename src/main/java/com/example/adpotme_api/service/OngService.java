@@ -289,4 +289,10 @@ public class OngService {
         ongRepository.save(ong);
         return ongAtualizada;
     }
+
+    public OngNomeImagemDto recuperarNomeImagemOng(Long idOng) {
+        Ong ong = ongRepository.findById(idOng)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada"));
+        return OngMapper.toOngNomeImagem(ong);
+    }
 }

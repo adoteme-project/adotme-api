@@ -115,4 +115,11 @@ public class OngMapper {
                 .imagem(ong.getImagem().getUrl())
                 .build();
     }
+
+    public static OngNomeImagemDto toOngNomeImagem(Ong ong) {
+        return OngNomeImagemDto.builder()
+                .nome(ong.getNome())
+                .imagem(ong.getImagem().getUrl())
+                .build();
+    }
 }

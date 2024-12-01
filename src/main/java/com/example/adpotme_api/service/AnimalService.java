@@ -328,7 +328,7 @@ for(MultipartFile fotoPerfil : fotos) {
                 if (requisicao.getAnimal().equals(animal)) {
                     qtdAplicacoes++;
                     enviado = requisicao.getDataRequisicao();
-                    
+
                     if (requisicao.getStatus() == Status.CONCLUIDO) {
                         situacao = "Adotado";
                         isAdotado = true;

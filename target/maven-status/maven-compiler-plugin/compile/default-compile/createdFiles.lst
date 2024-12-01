@@ -3,6 +3,7 @@ com\example\adpotme_api\dto\animal\AnimalOngDto.class
 com\example\adpotme_api\controller\AnimalPerdidoController.class
 com\example\adpotme_api\entity\endereco\Endereco.class
 com\example\adpotme_api\controller\PasswordResetController.class
+com\example\adpotme_api\dto\ong\OngNomeImagemDto$OngNomeImagemDtoBuilder.class
 com\example\adpotme_api\entity\animal\Animal.class
 com\example\adpotme_api\dto\animal\AnimalListaAplicacaoDto.class
 com\example\adpotme_api\dto\animal\AnimalFavoritoDto$AnimalFavoritoDtoBuilder.class
@@ -67,6 +68,7 @@ com\example\adpotme_api\mapper\OngMapper.class
 com\example\adpotme_api\dto\ong\OngAnimaisDto.class
 com\example\adpotme_api\service\AnimalService.class
 com\example\adpotme_api\entity\animalPerdido\AnimalPerdido.class
+com\example\adpotme_api\dto\ong\OngNomeImagemDto.class
 com\example\adpotme_api\service\EmailService.class
 com\example\adpotme_api\entity\endereco\ViaCepService.class
 com\example\adpotme_api\service\AdotanteService.class
