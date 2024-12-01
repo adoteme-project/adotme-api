@@ -200,32 +200,50 @@ public class OngService {
             Ong ong = optOng.get();
             List<OngAnimaisDto> animais = new ArrayList<>();
             List<Animal> animaisOng = ong.getAnimal();
-            for(Animal animalOng : animaisOng) {
-                OngAnimaisDto animal = OngMapper.toOngAnimal(animalOng);
 
+            for (Animal animalOng : animaisOng) {
+                OngAnimaisDto animal = OngMapper.toOngAnimal(animalOng);
                 List<Requisicao> requisicoes = requisicaoRepository.findByAnimal(animalOng);
 
-                if(requisicoes.isEmpty()){
+                if (requisicoes.isEmpty()) {
                     animal.setSituacao("Sem aplicação");
-                }
-                else{
-                for(Requisicao requisicao : requisicoes) {
-                    if (requisicao.getStatus() == Status.DESCARTADO) {
-                        animal.setSituacao("Sem aplicação");
-                    } else if (requisicao.getStatus() == Status.REVISAO || requisicao.getStatus() == Status.NOVA) {
-                        animal.setSituacao("Revisão");
-                    } else if (requisicao.getStatus() == Status.DOCUMENTACAO) {
-                        animal.setSituacao("Documentação");
-                    } else if (requisicao.getStatus() == Status.APROVADO) {
-                        animal.setSituacao("Aprovado");
-                    } else if (requisicao.getStatus() == Status.CONCLUIDO) {
+                } else {
+                    boolean isAprovado = false;
+                    boolean isConcluido = false;
+                    Requisicao requisicaoMaisRecente = requisicoes.get(0);
+
+                    for (Requisicao requisicao : requisicoes) {
+
+                        if (requisicao.getStatus() == Status.APROVADO) {
+                            isAprovado = true;
+                        }
+                        if (requisicao.getStatus() == Status.CONCLUIDO) {
+                            isConcluido = true;
+                            break;
+                        }
+
+
+                        if (requisicao.getDataRequisicao().isAfter(requisicaoMaisRecente.getDataRequisicao())) {
+                            requisicaoMaisRecente = requisicao;
+                        }
+                    }
+
+
+                    if (isConcluido) {
                         animal.setSituacao("Adotado");
+                    } else if (isAprovado) {
+                        animal.setSituacao("Aprovado");
+                    } else if (requisicaoMaisRecente.getStatus() == Status.DOCUMENTACAO) {
+                        animal.setSituacao("Documentação");
+                    } else if (requisicaoMaisRecente.getStatus() == Status.NOVA
+                            || requisicaoMaisRecente.getStatus() == Status.REVISAO) {
+                        animal.setSituacao("Revisão");
+                    } else {
+                        animal.setSituacao("Sem aplicação");
                     }
                 }
 
-                }
-
-            animais.add(animal);
+                animais.add(animal);
             }
             return animais;
         } else {
