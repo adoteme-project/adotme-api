@@ -309,35 +309,54 @@ for(MultipartFile fotoPerfil : fotos) {
         if (ongOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
         }
+
         Ong ong = ongOpt.get();
         List<Animal> animais = animalRepository.findByOng(ong);
         List<Requisicao> requisicoes = requisicaoRepository.findAll();
 
+        List<AnimalAplicacaoDto> animaisDto = new ArrayList<>();
 
-
-                List<AnimalAplicacaoDto> animaisDto = new ArrayList<>();
-        for(Animal animal : animais) {
-            Integer qtdAplicacoes = 0;
+        for (Animal animal : animais) {
+            int qtdAplicacoes = 0;
             String situacao = "Sem aplicação";
             LocalDateTime enviado = null;
-            for(Requisicao requisicao : requisicoes) {
-                if(requisicao.getAnimal().equals(animal)) {
-                    enviado = requisicao.getDataRequisicao();
+
+            boolean isAprovado = false;
+            boolean isAdotado = false;
+
+            for (Requisicao requisicao : requisicoes) {
+                if (requisicao.getAnimal().equals(animal)) {
                     qtdAplicacoes++;
-                    if(!situacao.equals("Adotado")){
+                    enviado = requisicao.getDataRequisicao();
+                    
+                    if (requisicao.getStatus() == Status.CONCLUIDO) {
+                        situacao = "Adotado";
+                        isAdotado = true;
+                        break;
+                    }
+
+                    if (requisicao.getStatus() == Status.APROVADO) {
+                        isAprovado = true;
+                    } else if (!isAprovado && (requisicao.getStatus() == Status.REVISAO || requisicao.getStatus() == Status.NOVA)) {
                         situacao = "Revisão";
                     }
-                    if(requisicao.getStatus() == Status.APROVADO) {
-                        situacao = "Adotado";
-                    }
                 }
-
             }
+
+
+            if (isAdotado) {
+                situacao = "Adotado";
+            } else if (isAprovado) {
+                situacao = "Aprovado";
+            }
+
             AnimalAplicacaoDto animalDto = AnimalMapper.toAnimalAplicacaoDto(animal, qtdAplicacoes, situacao, enviado);
             animaisDto.add(animalDto);
         }
+
         return animaisDto;
     }
+
 
 
     public AnimalListaAplicacaoDto recuperarAnimalComListaAplicacao(Long idAnimal) {
