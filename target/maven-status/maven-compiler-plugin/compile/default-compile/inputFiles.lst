@@ -1,155 +1,156 @@
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\adapter\AdotanteAdapter.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\adapter\AdotanteAdapterImp.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\adapter\AdotanteAdapterTarget.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\adapter\AdotanteTarget.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\AdpotmeApiApplication.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\controller\AdocaoController.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\controller\AdotanteController.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\controller\AnimalController.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\controller\AnimalPerdidoController.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\controller\AutenticacaoController.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\controller\CloudinaryController.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\controller\EnderecoController.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\controller\FormularioController.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\controller\OngController.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\controller\OngUserController.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\controller\PasswordResetController.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\controller\RequisicaoController.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\adocao\AdocaoDados.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteCreateDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteDadosAdotados.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteDadosFoto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteDtoListaRequisicao.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteFavoritoOngDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteFormularioDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteLoginDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteRequisicaoDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteResponseDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteTokenDtoJWT.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteUpdateDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteUserDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AnimalFavoritoUsuarioDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\PasswordResetCodeDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\PasswordResetDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\PasswordResetRequestDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalAdotadoDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalAplicacaoDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalCreateDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalCsvDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalFavoritoDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalListaAplicacaoDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalOngDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalOngResponseDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalQuantidadeDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalUpdateDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\CachorroCreateDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\GatoCreateDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animalPerdido\AnimalPerdidoAchadoPerdidoDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animalPerdido\AnimalPerdidoAchadoPerdidoTabelaDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animalPerdido\AnimalPerdidoCardDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animalPerdido\AnimalPerdidoCreateDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animalPerdido\AnimalPerdidoUpdateDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animalPerdido\CachorroPerdidoCreateDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animalPerdido\GatoPerdidoCreateDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\animalPerdido\PosicaoPetPerdido.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\dadosBancarios\DadosBancariosCreateDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\dadosBancarios\DadosBancariosDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\endereco\EnderecoDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\endereco\EnderecoResponseOngDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\formulario\FormularioCreateDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\formulario\FormularioResponseAdotanteDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngAnimaisDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngCreateDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngDadosBancariosAnimalDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngFavoritaDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngPutDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngPutViewDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngResponseAllDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngResponseDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngUpdateDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\ongUser\OngUserAllDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\ongUser\OngUserCreateDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\ongUser\OngUserDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\ongUser\OngUserLoginDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\ongUser\OngUserTokenDtoJWT.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\ongUser\OngUserUpdateDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\personalidade\PersonalidadeAnimalOngResponseDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\personalidade\PersonalidadeCreateDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\requisicao\RequisicaoCreateDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\requisicao\RequisicaoDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\requisicao\RequisicaoReadDto.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\token\RefreshTokenRequest.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\dto\token\TokenResponse.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\adocao\LogAdocao.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\adotante\Adotante.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\animal\Animal.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\animal\Cachorro.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\animal\Especie.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\animal\Gato.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\animal\strategy\TaxaAdocaoCachorro.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\animal\strategy\TaxaAdocaoGato.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\animal\strategy\TaxaAdocaoStrategy.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\animal\TaxaAdocao.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\animalPerdido\AnimalPerdido.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\animalPerdido\CachorroPerdido.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\animalPerdido\GatoPerdido.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\dadosBancarios\DadosBancarios.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\endereco\Endereco.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\endereco\ViaCepService.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\formulario\Formulario.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\image\Image.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\ong\Ong.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\ongUser\OngUser.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\ongUser\Role.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\personalidade\Personalidade.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\requisicao\Requisicao.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\requisicao\Status.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\entity\requisicaoUser\RequisicaoUserResponsavel.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\exception\GlobalExceptionHandler.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\integration\CloudinaryConfig.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\integration\CloudinaryService.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\mapper\AdotanteMapper.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\mapper\AnimalMapper.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\mapper\AnimalPerdidoMapper.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\mapper\DadosBancariosMapper.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\mapper\EnderecoMapper.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\mapper\FormularioMapper.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\mapper\OngMapper.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\mapper\OngUserMapper.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\mapper\PersonalidadeMapper.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\mapper\RequisicaoMapper.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\repository\AdotanteRepository.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\repository\AnimalPerdidoRepository.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\repository\AnimalRepository.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\repository\DadosBancariosRepository.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\repository\EnderecoRepository.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\repository\FormularioRepository.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\repository\ImageRepository.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\repository\LogAdocaoRepository.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\repository\OngRepository.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\repository\OngUserRepository.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\repository\PersonalidadeRepository.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\repository\RequisicaoRepository.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\security\adotante\AdotanteAuthenticationFilter.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\security\adotante\AutenticacaoAdotanteService.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\security\CustomAuthenticationProvider.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\security\ongUser\AutenticacaoOngUserService.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\security\ongUser\OngUserAuthenticationFilter.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\security\PasswordEncoderConfig.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\security\SecurityConfigurations.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\security\TokenService.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\service\AdocaoService.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\service\AdotanteService.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\service\AnimalPerdidoService.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\service\AnimalService.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\service\EmailService.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\service\EnderecoService.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\service\FormularioService.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\service\OngService.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\service\OngUserService.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\service\PasswordResetService.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\service\RequisicaoService.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\util\OpenAPIConfig.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\util\PesquisaBinaria.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\util\Recursao.java
-C:\Users\bruno\OneDrive\Documentos\adotme-api\src\main\java\com\example\adpotme_api\util\Sorting.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\adapter\AdotanteAdapter.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\adapter\AdotanteAdapterImp.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\adapter\AdotanteAdapterTarget.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\adapter\AdotanteTarget.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\AdpotmeApiApplication.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\controller\AdocaoController.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\controller\AdotanteController.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\controller\AnimalController.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\controller\AnimalPerdidoController.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\controller\AutenticacaoController.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\controller\CloudinaryController.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\controller\EnderecoController.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\controller\FormularioController.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\controller\OngController.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\controller\OngUserController.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\controller\PasswordResetController.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\controller\RequisicaoController.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\adocao\AdocaoDados.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteCreateDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteDadosAdotados.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteDadosFoto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteDtoListaRequisicao.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteFavoritoOngDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteFormularioDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteLoginDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteRequisicaoDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteResponseDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteTokenDtoJWT.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteUpdateDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AdotanteUserDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\AnimalFavoritoUsuarioDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\PasswordResetCodeDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\PasswordResetDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\adotante\PasswordResetRequestDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalAdotadoDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalAplicacaoDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalCreateDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalCsvDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalFavoritoDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalListaAplicacaoDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalOngDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalOngResponseDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalQuantidadeDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\AnimalUpdateDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\CachorroCreateDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animal\GatoCreateDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animalPerdido\AnimalPerdidoAchadoPerdidoDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animalPerdido\AnimalPerdidoAchadoPerdidoTabelaDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animalPerdido\AnimalPerdidoCardDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animalPerdido\AnimalPerdidoCreateDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animalPerdido\AnimalPerdidoUpdateDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animalPerdido\CachorroPerdidoCreateDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animalPerdido\GatoPerdidoCreateDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\animalPerdido\PosicaoPetPerdido.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\dadosBancarios\DadosBancariosCreateDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\dadosBancarios\DadosBancariosDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\endereco\EnderecoDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\endereco\EnderecoResponseOngDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\formulario\FormularioCreateDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\formulario\FormularioResponseAdotanteDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngAnimaisDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngCreateDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngDadosBancariosAnimalDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngFavoritaDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngNomeImagemDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngPutDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngPutViewDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngResponseAllDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngResponseDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\ong\OngUpdateDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\ongUser\OngUserAllDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\ongUser\OngUserCreateDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\ongUser\OngUserDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\ongUser\OngUserLoginDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\ongUser\OngUserTokenDtoJWT.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\ongUser\OngUserUpdateDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\personalidade\PersonalidadeAnimalOngResponseDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\personalidade\PersonalidadeCreateDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\requisicao\RequisicaoCreateDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\requisicao\RequisicaoDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\requisicao\RequisicaoReadDto.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\token\RefreshTokenRequest.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\dto\token\TokenResponse.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\adocao\LogAdocao.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\adotante\Adotante.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\animal\Animal.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\animal\Cachorro.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\animal\Especie.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\animal\Gato.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\animal\strategy\TaxaAdocaoCachorro.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\animal\strategy\TaxaAdocaoGato.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\animal\strategy\TaxaAdocaoStrategy.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\animal\TaxaAdocao.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\animalPerdido\AnimalPerdido.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\animalPerdido\CachorroPerdido.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\animalPerdido\GatoPerdido.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\dadosBancarios\DadosBancarios.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\endereco\Endereco.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\endereco\ViaCepService.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\formulario\Formulario.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\image\Image.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\ong\Ong.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\ongUser\OngUser.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\ongUser\Role.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\personalidade\Personalidade.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\requisicao\Requisicao.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\requisicao\Status.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\entity\requisicaoUser\RequisicaoUserResponsavel.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\exception\GlobalExceptionHandler.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\integration\CloudinaryConfig.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\integration\CloudinaryService.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\mapper\AdotanteMapper.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\mapper\AnimalMapper.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\mapper\AnimalPerdidoMapper.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\mapper\DadosBancariosMapper.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\mapper\EnderecoMapper.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\mapper\FormularioMapper.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\mapper\OngMapper.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\mapper\OngUserMapper.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\mapper\PersonalidadeMapper.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\mapper\RequisicaoMapper.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\repository\AdotanteRepository.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\repository\AnimalPerdidoRepository.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\repository\AnimalRepository.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\repository\DadosBancariosRepository.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\repository\EnderecoRepository.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\repository\FormularioRepository.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\repository\ImageRepository.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\repository\LogAdocaoRepository.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\repository\OngRepository.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\repository\OngUserRepository.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\repository\PersonalidadeRepository.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\repository\RequisicaoRepository.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\security\adotante\AdotanteAuthenticationFilter.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\security\adotante\AutenticacaoAdotanteService.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\security\CustomAuthenticationProvider.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\security\ongUser\AutenticacaoOngUserService.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\security\ongUser\OngUserAuthenticationFilter.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\security\PasswordEncoderConfig.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\security\SecurityConfigurations.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\security\TokenService.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\service\AdocaoService.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\service\AdotanteService.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\service\AnimalPerdidoService.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\service\AnimalService.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\service\EmailService.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\service\EnderecoService.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\service\FormularioService.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\service\OngService.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\service\OngUserService.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\service\PasswordResetService.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\service\RequisicaoService.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\util\OpenAPIConfig.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\util\PesquisaBinaria.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\util\Recursao.java
+C:\Users\SilvyoVieira\Documents\Projeto AdoteMe\adotme-api\src\main\java\com\example\adpotme_api\util\Sorting.java
