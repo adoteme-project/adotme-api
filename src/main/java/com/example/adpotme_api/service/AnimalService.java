@@ -72,11 +72,11 @@ public class AnimalService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG não encontrada");
         }
         Cachorro cachorro = new Cachorro(cachorroDto);
-
+        cachorro.setTaxaAdocao(cachorroDto.getTaxaAdocao());
         Personalidade personalidade = PersonalidadeMapper.toEntity(cachorroDto.getPersonalidade());
         Ong ong = ongOpt.get();
         cachorro.setOng(ong);
-        cachorro.calcularTaxaAdocao();
+
         cachorro.setPersonalidade(personalidade);
         if(fotoPerfil1 != null && !fotoPerfil1.isEmpty()){
             try {
@@ -130,7 +130,7 @@ for(MultipartFile fotoPerfil : fotos) {
         Ong ong = ongOpt.get();
         gato.setPersonalidade(personalidade);
         gato.setOng(ong);
-        gato.calcularTaxaAdocao();
+        gato.setTaxaAdocao(gatoDto.getTaxaAdocao());
         for(MultipartFile fotoPerfil : fotosGato) {
             if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
                 try {

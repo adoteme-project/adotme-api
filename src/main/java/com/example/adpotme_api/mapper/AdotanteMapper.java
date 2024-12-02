@@ -98,6 +98,7 @@ public class AdotanteMapper {
                     .dataAplicacao(requisicao.getDataRequisicao())
                     .idAnimal(requisicao.getAnimal().getId())
                     .nomePet(requisicao.getAnimal().getNome())
+                    .imagem(requisicao.getAnimal().getFotoPerfil() != null ? requisicao.getAnimal().getFotoPerfil().getUrl() : null)
                     .status(requisicao.getStatus().getStatus())
                             .motivoRecusa(requisicao.getMotivoRecusa())
                     .build());
