@@ -1,11 +1,8 @@
 package com.example.adpotme_api.controller;
 
-import com.example.adpotme_api.dto.ongUser.OngUserAllDto;
-import com.example.adpotme_api.dto.ongUser.OngUserDto;
-import com.example.adpotme_api.dto.ongUser.OngUserUpdateDto;
+import com.example.adpotme_api.dto.ongUser.*;
 import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.ongUser.OngUser;
-import com.example.adpotme_api.dto.ongUser.OngUserCreateDto;
 import com.example.adpotme_api.mapper.OngUserMapper;
 import com.example.adpotme_api.service.OngUserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,8 +39,8 @@ public class OngUserController {
             @ApiResponse(responseCode = "201", description = "Usuário ONG cadastrado com sucesso."),
             @ApiResponse(responseCode = "400", description = "Erro na validação dos dados fornecidos.")
     })
-    public ResponseEntity<OngUser> createOngUser(@RequestBody @Valid OngUserCreateDto dto) {
-        OngUser ongUser = ongUserService.createOngUser(dto);
+    public ResponseEntity<OngUserEditDto> createOngUser(@RequestBody @Valid OngUserCreateDto dto) {
+        OngUserEditDto ongUser = ongUserService.createOngUser(dto);
         return ResponseEntity.status(201).body(ongUser);
     }
 
@@ -81,11 +78,9 @@ public class OngUserController {
             @ApiResponse(responseCode = "200", description = "Usuário ONG encontrado."),
             @ApiResponse(responseCode = "404", description = "Usuário ONG não encontrado.")
     })
-    public ResponseEntity<OngUser> recuperarOngUserPorId(@Parameter(description = "ID do usuário ONG a ser recuperado", required = true) @PathVariable Long id) {
-        OngUser ongUser = ongUserService.findOngUserById(id);
-        if (ongUser == null) {
-            return ResponseEntity.status(404).build();
-        }
+    public ResponseEntity<OngUserEditDto> recuperarOngUserPorId(@Parameter(description = "ID do usuário ONG a ser recuperado", required = true) @PathVariable Long id) {
+        OngUserEditDto ongUser = ongUserService.findOngUserById(id);
+        
         return ResponseEntity.ok(ongUser);
     }
 

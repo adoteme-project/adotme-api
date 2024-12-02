@@ -13,10 +13,8 @@ public class OngUserUpdateDto {
     @NotBlank(message = "Nome não pode ser vazio")
     private String nome;
 
-
-    @NotBlank(message = "CPF não pode ser vazio")
-    private String cpf;
-
+    private String celular;
+    private String telefone;
 
     @NotBlank(message = "Função não pode ser vazia")
     private String funcao;

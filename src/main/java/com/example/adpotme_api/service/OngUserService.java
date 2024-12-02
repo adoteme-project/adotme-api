@@ -1,6 +1,7 @@
 package com.example.adpotme_api.service;
 
 import com.example.adpotme_api.dto.ongUser.OngUserAllDto;
+import com.example.adpotme_api.dto.ongUser.OngUserEditDto;
 import com.example.adpotme_api.dto.ongUser.OngUserUpdateDto;
 import com.example.adpotme_api.entity.adocao.LogAdocao;
 import com.example.adpotme_api.entity.adotante.Adotante;
@@ -43,7 +44,7 @@ public class OngUserService {
     @Autowired
     private LogAdocaoRepository logAdocaoRepository;
 
-    public OngUser createOngUser(OngUserCreateDto dto) {
+    public OngUserEditDto createOngUser(OngUserCreateDto dto) {
         Optional<Ong> ongOpt = ongRepository.findById(dto.getOngId());
         if (!ongOpt.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ONG não encontrada");
@@ -56,29 +57,33 @@ public class OngUserService {
         Ong ong = ongOpt.get();
         OngUser ongUser = new OngUser();
         ongUser.setNome(dto.getNome());
-        ongUser.setCpf(dto.getCpf());
         ongUser.setRole(Role.valueOf(dto.getRole()));
         ongUser.setOng(ong);
         ongUser.setCelular(dto.getCelular());
-        ongUser.setCadastro(dto.getCadastro());
+        ongUser.setTelefone(dto.getTelefone());
         ongUser.setEmail(dto.getEmail());
         ongUser.setSenha(dto.getSenha());
         ongUser.setSenha(passwordEncoder.encode(dto.getSenha()));
 
-        return ongUserRepository.save(ongUser);
+        ongUserRepository.save(ongUser);
+
+        return OngUserMapper.toOngUserEditDto(ongUser);
+
+
     }
 
     public List<OngUser> findAllOngUsers() {
         return ongUserRepository.findAll();
     }
 
-    public OngUser findOngUserById(Long id) {
+    public OngUserEditDto findOngUserById(Long id) {
         Optional<OngUser> ongUserOpt = ongUserRepository.findById(id);
-        if (ongUserOpt.isPresent()) {
-            return ongUserOpt.get();
-        } else {
+        if (!ongUserOpt.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ONG User não encontrado");
         }
+
+        OngUser ongUser = ongUserOpt.get();
+        return OngUserMapper.toOngUserEditDto(ongUser);
     }
 
     public OngUser updateOngUser(Long id, OngUserUpdateDto ongUserAtualizada) {
@@ -89,7 +94,8 @@ public class OngUserService {
 
         OngUser ongUser = ongUserOpt.get();
         ongUser.setNome(ongUserAtualizada.getNome());
-        ongUser.setCpf(ongUserAtualizada.getCpf());
+        ongUser.setTelefone(ongUserAtualizada.getTelefone());
+        ongUser.setCelular(ongUserAtualizada.getCelular());
         ongUser.setRole(Role.valueOf(ongUserAtualizada.getFuncao()));
         ongUser.setEmail(ongUserAtualizada.getEmail());
         ongUser.setSenha(ongUserAtualizada.getSenha());

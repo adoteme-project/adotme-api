@@ -15,6 +15,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -28,12 +29,11 @@ public class OngUser implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    @Column(unique = true)
-    private String cpf;
+    private String telefone;
     @Column(unique = true)
     private String email;
     private String senha;
-    private LocalDate cadastro;
+    private LocalDateTime cadastro = LocalDateTime.now();
     private String celular;
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -58,8 +58,9 @@ public class OngUser implements UserDetails {
     public OngUser(OngUserCreateDto dto) {
         this.nome = dto.getNome();
         this.role = Role.valueOf(dto.getRole());
-        this.cpf = dto.getCpf();
-        this.cadastro = dto.getCadastro();
+        this.email = dto.getEmail();
+        this.senha = dto.getSenha();
+        this.celular = dto.getCelular();
     }
 
     public void rejeitarRequisicao(Requisicao requisicao) {
