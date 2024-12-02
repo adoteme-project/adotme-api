@@ -3,6 +3,7 @@ package com.example.adpotme_api.mapper;
 
 import com.example.adpotme_api.dto.ongUser.OngUserAllDto;
 import com.example.adpotme_api.dto.ongUser.OngUserDto;
+import com.example.adpotme_api.dto.ongUser.OngUserEditDto;
 import com.example.adpotme_api.entity.ongUser.OngUser;
 import com.example.adpotme_api.entity.ongUser.Role;
 import com.example.adpotme_api.entity.requisicaoUser.RequisicaoUserResponsavel;
@@ -52,5 +53,20 @@ public class OngUserMapper {
                 .funcao(ongUser.getRole().getRole())
                 .build();
 
+    }
+
+    public static OngUserEditDto toOngUserEditDto(OngUser ongUser) {
+        if(ongUser == null) {
+            return null;
+        }
+
+        return OngUserEditDto
+                .builder()
+                .nome(ongUser.getNome())
+                .telefone(ongUser.getTelefone())
+                .celular(ongUser.getCelular())
+                .email(ongUser.getEmail())
+                .funcao(ongUser.getRole().getRole())
+                .build();
     }
 }
