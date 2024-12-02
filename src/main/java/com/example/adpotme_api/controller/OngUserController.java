@@ -80,7 +80,7 @@ public class OngUserController {
     })
     public ResponseEntity<OngUserEditDto> recuperarOngUserPorId(@Parameter(description = "ID do usuário ONG a ser recuperado", required = true) @PathVariable Long id) {
         OngUserEditDto ongUser = ongUserService.findOngUserById(id);
-        
+
         return ResponseEntity.ok(ongUser);
     }
 
