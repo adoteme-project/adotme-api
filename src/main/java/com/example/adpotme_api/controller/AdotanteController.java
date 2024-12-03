@@ -77,6 +77,20 @@ public class AdotanteController {
         return ResponseEntity.status(201).body(formularioResponse);
     }
 
+    @PutMapping(value = "atualizar-foto-adotante/{idAdotante}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    @Operation(
+            summary = "Atualiza a foto de perfil de um adotante.",
+            description = "Este endpoint permite que um usuário atualize a foto de perfil de um adotante, " +
+                    "enviando a nova foto de perfil e recebendo o adotante atualizado como resposta."
+    )
+    @ApiResponse(responseCode = "200", description = "Foto de perfil atualizada com sucesso.")
+    @ApiResponse(responseCode = "404", description = "Adotante não encontrado.")
+    public ResponseEntity<AdotanteResponseDto> atualizarFotoAdotante(@RequestPart(value = "fotoPerfil", required = false) MultipartFile fotoPerfil, @PathVariable Long idAdotante) {
+        Adotante adotante = adotanteService.atualizarFotoAdotante(fotoPerfil, idAdotante);
+        AdotanteResponseDto adotanteResponse = AdotanteMapper.toResponseDto(adotante);
+        return ResponseEntity.ok(adotanteResponse);
+    }
+
     @GetMapping
     @Operation(summary = "Retorna todos os adotantes", description = "Recupera uma lista de todos os adotantes cadastrados no sistema.")
     @ApiResponse(responseCode = "200", description = "A lista de adotantes foi recuperada com sucesso.")
