@@ -73,30 +73,30 @@ public class AutenticacaoController {
         return ResponseEntity.ok(new AdotanteTokenDtoJWT(tokenJWT, idUser));
     }
 
-    @PostMapping("/refresh")
-    @Operation(summary = "Atualiza o token de acesso",
-            description = "Gera um novo token de acesso usando o refresh token fornecido.")
-    @ApiResponse(responseCode = "200", description = "Token de acesso atualizado com sucesso.")
-    public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequest request) {
-        String refreshToken = request.getRefreshToken();
-        try {
-            String email = tokenService.getSubject(refreshToken);
-            Adotante adotante = adotanteRepository.findByEmail(email);
-
-            if (adotante == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Adotante não encontrado.");
-            }
-
-            boolean isValidRefreshToken = tokenService.validateRefreshToken(refreshToken, adotante);
-            if (!isValidRefreshToken) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh token inválido.");
-            }
-
-            String novoAccessToken = tokenService.gerarTokenAdotante(adotante);
-            String novoRefreshToken = tokenService.gerarRefreshToken(adotante);
-            return ResponseEntity.ok(new TokenResponse(novoAccessToken, novoRefreshToken));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh token inválido ou expirado.");
-        }
-    }
+//    @PostMapping("/refresh")
+//    @Operation(summary = "Atualiza o token de acesso",
+//            description = "Gera um novo token de acesso usando o refresh token fornecido.")
+//    @ApiResponse(responseCode = "200", description = "Token de acesso atualizado com sucesso.")
+//    public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequest request) {
+//        String refreshToken = request.getRefreshToken();
+//        try {
+//            String email = tokenService.getSubject(refreshToken);
+//            Adotante adotante = adotanteRepository.findByEmail(email);
+//
+//            if (adotante == null) {
+//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Adotante não encontrado.");
+//            }
+//
+//            boolean isValidRefreshToken = tokenService.validateRefreshToken(refreshToken, adotante);
+//            if (!isValidRefreshToken) {
+//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh token inválido.");
+//            }
+//
+//            String novoAccessToken = tokenService.gerarTokenAdotante(adotante);
+//            String novoRefreshToken = tokenService.gerarRefreshToken(adotante);
+//            return ResponseEntity.ok(new TokenResponse(novoAccessToken, novoRefreshToken));
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh token inválido ou expirado.");
+//        }
+//    }
 }

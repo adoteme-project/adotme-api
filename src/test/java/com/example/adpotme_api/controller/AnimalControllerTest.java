@@ -302,15 +302,8 @@ class AnimalControllerTest {
         Long id = 1L;
         AnimalUpdateDto cachorroAtualizado = new AnimalUpdateDto();
         cachorroAtualizado.setNome("Rex");
-        cachorroAtualizado.setAnoNascimento(2020);
-        cachorroAtualizado.setSexo("Macho");
-        cachorroAtualizado.setEspecie(Especie.CACHORRO);
         cachorroAtualizado.setRaca("Labrador");
-        cachorroAtualizado.setIsCastrado(true);
-        cachorroAtualizado.setDescricao("Cachorro muito amigável.");
         cachorroAtualizado.setIsVisible(true);
-        cachorroAtualizado.setIsAdotado(false);
-        cachorroAtualizado.setPorte("Grande");
         cachorroAtualizado.setTaxaAdocao(200.0);
 
         Cachorro cachorro = new Cachorro();
@@ -341,15 +334,8 @@ class AnimalControllerTest {
         Long id = 1L;
         AnimalUpdateDto gatoAtualizado = new AnimalUpdateDto();
         gatoAtualizado.setNome("Whiskers");
-        gatoAtualizado.setAnoNascimento(2018);
-        gatoAtualizado.setSexo("Fêmea");
-        gatoAtualizado.setEspecie(Especie.GATO);
         gatoAtualizado.setRaca("Siamês");
-        gatoAtualizado.setIsCastrado(true);
-        gatoAtualizado.setDescricao("Gato muito carinhoso.");
         gatoAtualizado.setIsVisible(true);
-        gatoAtualizado.setIsAdotado(false);
-        gatoAtualizado.setPorte("Médio");
         gatoAtualizado.setTaxaAdocao(150.0);
 
         Gato gato = new Gato();

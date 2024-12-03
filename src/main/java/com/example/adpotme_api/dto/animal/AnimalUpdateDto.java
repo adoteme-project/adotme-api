@@ -10,17 +10,8 @@ import java.time.LocalDate;
 @Setter
 public class AnimalUpdateDto {
     protected String nome;
-    protected Integer anoNascimento;
-    protected String sexo;
-    protected LocalDate dataAbrigo;
-    protected Especie especie;
     protected String raca;
-    protected Boolean isCastrado;
-    protected String descricao;
     protected Boolean isVisible;
-    protected Boolean isAdotado;
-    protected String porte;
-    protected Boolean isVermifugado;
     protected Double taxaAdocao;
-    protected Boolean isDestaque;
+
 }

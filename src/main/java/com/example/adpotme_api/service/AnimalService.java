@@ -177,17 +177,10 @@ for(MultipartFile fotoPerfil : fotos) {
         Cachorro cachorro = (Cachorro) animalOpt.get();
 
 
-        cachorro.setEspecie(cachorroAtualizado.getEspecie());
+
         cachorro.setNome(cachorroAtualizado.getNome());
-        cachorro.setAnoNascimento(cachorroAtualizado.getAnoNascimento());
-        cachorro.setSexo(cachorroAtualizado.getSexo());
-        cachorro.setDataAbrigo(cachorroAtualizado.getDataAbrigo());
         cachorro.setRaca(cachorroAtualizado.getRaca());
-        cachorro.setIsCastrado(cachorroAtualizado.getIsCastrado());
-        cachorro.setDescricao(cachorroAtualizado.getDescricao());
         cachorro.setIsVisible(cachorroAtualizado.getIsVisible());
-        cachorro.setIsAdotado(cachorroAtualizado.getIsAdotado());
-        cachorro.setPorte(cachorroAtualizado.getPorte());
         cachorro.setTaxaAdocao(cachorroAtualizado.getTaxaAdocao());
 
         return animalRepository.save(cachorro);
@@ -200,17 +193,9 @@ for(MultipartFile fotoPerfil : fotos) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Gato não encontrado");
         }
         Gato gato = (Gato) animalOpt.get();
-        gato.setEspecie(gatoAtualizado.getEspecie());
         gato.setNome(gatoAtualizado.getNome());
-        gato.setAnoNascimento(gatoAtualizado.getAnoNascimento());
-        gato.setSexo(gatoAtualizado.getSexo());
-        gato.setDataAbrigo(gatoAtualizado.getDataAbrigo());
         gato.setRaca(gatoAtualizado.getRaca());
-        gato.setIsCastrado(gatoAtualizado.getIsCastrado());
-        gato.setDescricao(gatoAtualizado.getDescricao());
         gato.setIsVisible(gatoAtualizado.getIsVisible());
-        gato.setIsAdotado(gatoAtualizado.getIsAdotado());
-        gato.setPorte(gatoAtualizado.getPorte());
         gato.setTaxaAdocao(gatoAtualizado.getTaxaAdocao());
 
 
@@ -298,8 +283,10 @@ for(MultipartFile fotoPerfil : fotos) {
         List<Animal> animais = animalRepository.findAll();
         List<AnimalOngResponseDto> animaisDto = new ArrayList<>();
         for(Animal animal : animais) {
-            AnimalOngResponseDto animalDaVez = AnimalMapper.toAnimalOngResponseDto(animal);
-            animaisDto.add(animalDaVez);
+            if(animal.getIsVisible()) {
+                AnimalOngResponseDto animalDaVez = AnimalMapper.toAnimalOngResponseDto(animal);
+                animaisDto.add(animalDaVez);
+            }
         }
         return animaisDto;
     }
