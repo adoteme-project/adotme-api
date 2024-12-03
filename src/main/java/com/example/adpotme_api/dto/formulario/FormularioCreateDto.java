@@ -1,13 +1,13 @@
 package com.example.adpotme_api.dto.formulario;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class FormularioCreateDto {
     private Boolean temCrianca;
     private Boolean moradoresConcordam;

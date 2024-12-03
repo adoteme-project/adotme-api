@@ -114,44 +114,6 @@ public class OngController {
     }
 
 
-    @GetMapping("/{id}")
-    @Operation(summary = "Recuperar ONG por ID", description = "Retorna uma ONG específica com base no ID fornecido.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "ONG encontrada."),
-            @ApiResponse(responseCode = "404", description = "ONG não encontrada.")
-    })
-    public ResponseEntity<Ong> recuperarOngPorId(@Parameter(description = "ID da ONG a ser recuperada", required = true) @PathVariable Long id) {
-        Ong ong = ongService.recuperarOngPorId(id);
-        if (ong == null) {
-            return ResponseEntity.status(404).build();
-        }
-        return ResponseEntity.status(200).body(ong);
-    }
-
-    @GetMapping("/ordenados-por-estado")
-    @Operation(summary = "Recuperar ONGs ordenadas por estado", description = "Retorna uma lista de ONGs ordenadas por estado.")
-    @ApiResponse(responseCode = "200", description = "Lista de ONGs ordenada retornada com sucesso.")
-    @ApiResponse(responseCode = "204", description = "Nenhuma ONG encontrada.")
-
-    public ResponseEntity<List<Ong>> recuperarOngsOrdenadoPorEstado() {
-        List<Ong> ongs = ongService.recuperarOngsOrdenadoPorEstado();
-        if(ongs.isEmpty()) {
-            return ResponseEntity.status(204).build();
-        }
-        return ResponseEntity.ok(ongs);
-    }
-
-    @GetMapping("/pesquisa-por-nome")
-    @Operation(summary = "Pesquisar ONG por nome", description = "Retorna uma ONG que possue o nome fornecido.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "ONG encontrada."),
-            @ApiResponse(responseCode = "404", description = "ONG não encontrada.")
-    })
-
-    public ResponseEntity<OngResponseAllDto> pesquisarOngPorNome(@Parameter(description = "Nome da ONG a ser pesquisada", required = true) @RequestParam String nome) {
-        OngResponseAllDto ong = ongService.pesquisarOngPorNome(nome);
-        return ResponseEntity.ok(ong);
-    }
 
     @PutMapping("/{id}")
     @Transactional
