@@ -268,4 +268,22 @@ public class AdotanteService {
         List<Requisicao> requisicoesAdotante = requisicaoRepository.findByFormulario(adotante.getFormulario());
         return AdotanteMapper.toAdotanteRequisicaoDto(adotante, requisicoesAdotante);
     }
+
+    public Adotante atualizarFotoAdotante(MultipartFile fotoPerfil, Long idAdotante) {
+        Optional<Adotante> adotanteOpt = adotanteRepository.findById(idAdotante);
+        if(adotanteOpt.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
+        }
+        Adotante adotante = adotanteOpt.get();
+        if(fotoPerfil != null && !fotoPerfil.isEmpty()) {
+            try {
+                Image image = cloudinaryService.upload(fotoPerfil);
+                adotante.setFotoPerfil(image);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return adotanteRepository.save(adotante);
+    }
 }
