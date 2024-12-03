@@ -4,10 +4,7 @@ import com.example.adpotme_api.dto.personalidade.PersonalidadeCreateDto;
 import com.example.adpotme_api.entity.animal.Especie;
 import com.example.adpotme_api.entity.personalidade.Personalidade;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -16,6 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @Setter
+
 public abstract class AnimalCreateDto {
     protected String nome;
     protected Integer anoNascimento;

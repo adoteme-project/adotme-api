@@ -79,49 +79,8 @@ public class AnimalController {
         Animal gato = animalService.cadastrarGato(dados, fotoPerfil1, fotoPerfil2, fotoPerfil3, fotoPerfil4, fotoPerfil5);
         return ResponseEntity.status(201).body(gato);
     }
-    @GetMapping("/por-personalidade")
-    @Operation(summary = "Retorna animais por personalidade", description = "Recupera uma lista de animais com base na personalidade fornecida.")
-    @ApiResponse(responseCode = "200", description = "A lista de animais foi recuperada com sucesso.")
-    @ApiResponse(responseCode = "204", description = "Não há animais com a personalidade fornecida.")
-    public ResponseEntity<Animal[]> recuperarAnimaisPorPersonalidade(@RequestParam String personalidade) {
-        Animal[] animais = animalService.recuperarAnimaisPorPersonalidade(personalidade);
-        return ResponseEntity.ok(animais);
-    }
-
-    @GetMapping
-    @Operation(summary = "Retorna todos os animais", description = "Recupera uma lista de todos os animais cadastrados no sistema.")
-    @ApiResponse(responseCode = "200", description = "A lista de animais foi recuperada com sucesso.")
-    @ApiResponse(responseCode = "204", description = "Não há animais cadastrados no sistema.")
-    public ResponseEntity<List<Animal>> recuperarAnimais() {
-        List<Animal> animais = animalService.recuperarAnimais();
-        if (animais.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(animais);
-    }
 
 
-    @GetMapping("/ong/quantidade/{ongId}")
-    @Operation(summary = "Retorna a quantidade de animais por ong", description = "Recupera a quantidade de animais por ong.")
-    @ApiResponse(responseCode = "200", description = "A quantidade de animais foi recuperada com sucesso.")
-    @ApiResponse(responseCode = "404", description = "ONG não encontrada.")
-    public ResponseEntity<AnimalQuantidadeDto> recuperarQuantidadeAnimaisOng(@PathVariable Long ongId) {
-        Integer quantidadeAnimaisPorOng = animalService.recuperarQuantidadeAnimaisPorOng(ongId);
-
-        AnimalQuantidadeDto animais = new AnimalQuantidadeDto();
-
-        animais.setQuantidade(quantidadeAnimaisPorOng);
-        return ResponseEntity.ok(animais);
-    }
-
-    @GetMapping("/{id}")
-    @Operation(summary = "Retorna um animal pelo ID", description = "Recupera os detalhes de um animal específico com base no ID fornecido.")
-    @ApiResponse(responseCode = "200", description = "O animal foi encontrado e seus detalhes foram retornados.")
-    @ApiResponse(responseCode = "404", description = "Animal não encontrado.")
-    public ResponseEntity<Animal> recuperarAnimalPorId(@PathVariable Long id) {
-        Animal animal = animalService.recuperarAnimalPorId(id);
-        return ResponseEntity.ok(animal);
-    }
 
     @PutMapping("/cachorro/{id}")
     @Operation(summary = "Atualiza os dados de um cachorro", description = "Atualiza as informações de um cachorro existente com base no ID.")

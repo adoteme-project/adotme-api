@@ -1,20 +1,20 @@
 package com.example.adpotme_api.dto.adotante;
 
 import com.example.adpotme_api.dto.endereco.EnderecoDto;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AdotanteDadosFoto {
-    private String nome;
-    private LocalDate dataNascimeto;
-    private String email;
-    private String telefone;
-    private String urlFoto;
-    private EnderecoDto endereco;
+    public String nome;
+    public LocalDate dataNascimeto;
+    public String email;
+    public String telefone;
+    public String urlFoto;
+    public EnderecoDto endereco;
 }

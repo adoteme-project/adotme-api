@@ -49,15 +49,5 @@ public class EnderecoController {
         return ResponseEntity.ok(endereco);
     }
 
-    @GetMapping
-    @Operation(summary = "Buscar dados do endereço", description = """
-      # Busca os dados de um endereço a partir do CEP utilizando uma API externa
-      --- 
-      Retorna os dados de endereço retornados da API.
-      """)
-    @ApiResponse(responseCode = "200", description = "Dados de endereço")
-    public ResponseEntity<EnderecoDto> buscarEndereco(@RequestParam String cep) {
-        EnderecoDto resposta = enderecoService.buscarEnderecoPorCep(cep);
-        return ResponseEntity.ok(resposta);
-    }
+
 }

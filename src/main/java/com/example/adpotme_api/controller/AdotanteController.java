@@ -104,6 +104,9 @@ public class AdotanteController {
     @ApiResponse(responseCode = "204", description = "Nenhum adotante foi encontrado.")
     public ResponseEntity<List<AdotanteResponseDto>> recuperarAdotantesOrdenadosPorEstado() {
         List<AdotanteResponseDto> adotantes = adotanteService.recuperarAdotantesOrdenadosPorEstado();
+        if(adotantes.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
         return ResponseEntity.ok(adotantes);
     }
 
