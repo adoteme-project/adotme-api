@@ -5,6 +5,8 @@ import com.example.adpotme_api.dto.requisicao.RequisicaoCreateDto;
 import com.example.adpotme_api.dto.requisicao.RequisicaoReadDto;
 import com.example.adpotme_api.entity.requisicao.Requisicao;
 import com.example.adpotme_api.service.RequisicaoService;
+import com.example.adpotme_api.util.FilaObj;
+import com.example.adpotme_api.util.PilhaObj;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,36 @@ public class RequisicaoController {
     @Autowired
     private RequisicaoService requisicaoService;
 
+    private final PilhaObj<Requisicao> pilhaRequisicoes = new PilhaObj<>(100);
+    private final FilaObj<Requisicao> filaRequisicoes = new FilaObj<>(100);
+
+
     @PostMapping
     public ResponseEntity<Requisicao> criarRequisicao(@RequestBody RequisicaoCreateDto requisicaoCreateDto) {
         Requisicao requisicao = requisicaoService.criarRequisicao(requisicaoCreateDto);
+        filaRequisicoes.insert(requisicao);
+
+        pilhaRequisicoes.push(requisicao);
         return ResponseEntity.ok(requisicao);
+    }
+
+    @GetMapping("/processar")
+    public ResponseEntity<Requisicao> processarProximaRequisicao() {
+        Requisicao proximaRequisicao = filaRequisicoes.poll();
+        if (proximaRequisicao != null) {
+            return ResponseEntity.ok(proximaRequisicao);
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/desfazer")
+    public ResponseEntity<Requisicao> desfazerUltimaRequisicao() {
+        Requisicao ultimaRequisicao = pilhaRequisicoes.pop();
+        if (ultimaRequisicao != null) {
+            requisicaoService.deletarRequisicao(ultimaRequisicao.getId());
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.noContent().build();
     }
     @GetMapping
     public ResponseEntity<List<RequisicaoReadDto>> listarRequisicoes() {

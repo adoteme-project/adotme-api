@@ -158,4 +158,8 @@ public class RequisicaoService {
 
 
     }
+
+    public void deletarRequisicao(Long id) {
+        requisicaoRepository.deleteById(id);
+    }
 }
