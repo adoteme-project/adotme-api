@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/redefinicao-senha")
 @Tag(name = "Redefinição de Senha", description = "Controlador para operações relacionadas a redefinição de senha.")

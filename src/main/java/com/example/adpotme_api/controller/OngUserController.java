@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/ongusers")
 @Tag(name = "OngUser", description = "Controlador para operações relacionadas aos usuários de ONGs.")

@@ -35,7 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/adotantes")
 @Tag(name = "Adotante", description = "Controlador para operações relacionadas aos adotantes.")

@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/adocoes")
 @Tag(name = "Adocao" , description = "Controlador para operações relacionadas as adocoes de uma ong.")
