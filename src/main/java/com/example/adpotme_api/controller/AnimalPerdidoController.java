@@ -24,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/animais-perdidos")
 @Tag(name = "AnimalPerdido", description = "Controlador para gestão de animais perdidos")

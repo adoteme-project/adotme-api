@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("ongs")
 @Tag(name = "Ong", description = "Controlador para operações relacionadas a ONGs.")

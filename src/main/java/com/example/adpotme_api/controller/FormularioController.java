@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/formularios")
 @Tag(name = "Formulario" , description = "Controlador para operações relacionadas aos formulários de adoção.")
