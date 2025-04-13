@@ -286,4 +286,21 @@ public class AdotanteService {
         }
         return adotanteRepository.save(adotante);
     }
+
+    public Adotante recuperarAdotantePorEmail(String email) {
+        Adotante adotante  = adotanteRepository.findByEmail(email);
+       if(adotante == null) {
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
+       }
+        return adotante;
+    }
+
+    public Adotante ativar2FA(String email) {
+        Adotante adotante = adotanteRepository.findByEmail(email);
+        if (adotante == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
+        }
+        adotante.setHas2FA(true);
+        return adotanteRepository.save(adotante);
+    }
 }

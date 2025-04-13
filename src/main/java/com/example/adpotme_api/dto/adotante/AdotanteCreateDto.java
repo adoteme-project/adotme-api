@@ -26,4 +26,7 @@ public class AdotanteCreateDto {
     private String celular;
     private String numero;
     private FormularioCreateDto formulario;
+    private Boolean has2FA;
+
+
 }

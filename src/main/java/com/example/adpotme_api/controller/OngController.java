@@ -25,7 +25,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("ongs")
+@RequestMapping("/api/ongs")
 @Tag(name = "Ong", description = "Controlador para operações relacionadas a ONGs.")
 @SecurityRequirement(name = "bearerAuth")
 public class OngController {

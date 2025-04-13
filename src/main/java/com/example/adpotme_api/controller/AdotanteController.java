@@ -37,7 +37,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/adotantes")
+@RequestMapping("/api/adotantes")
 @Tag(name = "Adotante", description = "Controlador para operações relacionadas aos adotantes.")
 @SecurityRequirement(name = "bearerAuth")
 public class AdotanteController {
