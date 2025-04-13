@@ -48,6 +48,7 @@ public class AutenticacaoController {
 
     @Autowired
     private TokenService tokenService;
+    @Autowired
     private AdotanteService adotanteService;
 
     @PostMapping("/ong-user")

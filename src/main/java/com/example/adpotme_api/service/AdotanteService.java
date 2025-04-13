@@ -90,6 +90,7 @@ public class AdotanteService {
         adotante.setCelular(dados.getCelular());
         adotante.setEndereco(endereco);
         adotante.setCadastro(dados.getCadastro());
+        adotante.setHas2FA(dados.getHas2FA());
 
         if(fotoPerfil != null && !fotoPerfil.isEmpty()) {
             try {
