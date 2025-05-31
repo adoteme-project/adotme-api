@@ -17,7 +17,6 @@ public class AdotanteUpdateDto {
     private LocalDate dtNasc;
     @Email
     private String email;
-    private String senha;
     private String celular;
     private String numero;
 

@@ -154,7 +154,6 @@ public class AdotanteService {
             Adotante adotanteAtualizado = adotanteOpt.get();
             adotanteAtualizado.setNome(adotante.getNome());
             adotanteAtualizado.setEmail(adotante.getEmail());
-            adotanteAtualizado.setSenha(adotante.getSenha());
             adotanteAtualizado.setDtNasc(adotante.getDtNasc());
             adotanteAtualizado.setCelular(adotante.getCelular());
 
