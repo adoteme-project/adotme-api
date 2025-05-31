@@ -90,6 +90,7 @@ public class Adotante implements UserDetails {
     public void adotarAnimal(Animal animal) {
         animal.setAdotante(this);
         animal.setIsAdotado(true);
+        animal.setIsVisible(false);
         this.adotados.add(animal);
     }
 

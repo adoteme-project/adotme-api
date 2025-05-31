@@ -87,18 +87,18 @@ public class AnimalService {
             }
         }
 
-for(MultipartFile fotoPerfil : fotos) {
-    if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
-        try {
-            Image image = cloudinaryService.upload(fotoPerfil);
-            cachorro.getFotos().add(image);
-
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        for(MultipartFile fotoPerfil : fotos) {
+            if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
+                try {
+                    Image image = cloudinaryService.upload(fotoPerfil);
+                    cachorro.getFotos().add(image);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
-    }
-}
+
+        cachorro.setIsAdotado(false);
 
         personalidadeRepository.save(personalidade);
 
@@ -151,6 +151,8 @@ for(MultipartFile fotoPerfil : fotos) {
                 throw new RuntimeException(e);
             }
         }
+
+        gato.setIsAdotado(false);
 
         personalidadeRepository.save(personalidade);
         return animalRepository.save(gato);
@@ -283,7 +285,7 @@ for(MultipartFile fotoPerfil : fotos) {
         List<Animal> animais = animalRepository.findAll();
         List<AnimalOngResponseDto> animaisDto = new ArrayList<>();
         for(Animal animal : animais) {
-            if(animal.getIsVisible()) {
+            if(animal.getIsVisible() && !animal.getIsAdotado()) {
                 AnimalOngResponseDto animalDaVez = AnimalMapper.toAnimalOngResponseDto(animal);
                 animaisDto.add(animalDaVez);
             }
