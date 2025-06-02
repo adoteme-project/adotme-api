@@ -14,4 +14,6 @@ public interface RequisicaoRepository extends JpaRepository<Requisicao, Long> {
     List<Requisicao> findByAnimal(Animal animalOng);
 
     List<Requisicao> findByFormulario(Formulario formulario);
+
+    List<Requisicao> findByFormularioAndAnimal(Formulario formulario, Animal animal);
 }

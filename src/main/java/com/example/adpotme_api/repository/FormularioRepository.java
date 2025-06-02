@@ -1,5 +1,6 @@
 package com.example.adpotme_api.repository;
 
+import com.example.adpotme_api.entity.adotante.Adotante;
 import com.example.adpotme_api.entity.formulario.Formulario;
 import com.example.adpotme_api.entity.requisicao.Requisicao;
 import com.example.adpotme_api.entity.requisicao.Status;
@@ -13,5 +14,5 @@ public interface FormularioRepository extends JpaRepository<Formulario, Long> {
     List<Formulario> findByAdotanteId(Long id);
 
 
-
+    Formulario findByAdotante(Adotante adotanteExistente);
 }

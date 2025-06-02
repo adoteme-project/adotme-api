@@ -37,7 +37,24 @@ public class RequisicaoService {
     @Autowired
     private EmailService emailService;
 
+
     public Requisicao criarRequisicao(RequisicaoCreateDto requisicaoCreateDto) {
+
+        Adotante adotanteExistente = adotanteRepository.findById(requisicaoCreateDto.getIdAdotante()).orElse(null);
+
+        Formulario formularioExistente = formularioRepository.findByAdotante(adotanteExistente);
+
+        Animal animalExistente = animalRepository.findById(requisicaoCreateDto.getIdAnimal()).orElse(null);
+
+
+        List<Requisicao> requisicaoExistente = requisicaoRepository.findByFormularioAndAnimal(formularioExistente, animalExistente);
+
+        if (requisicaoExistente.size() > 0) {
+            throw new RuntimeException("Já existe uma requisição para este adotante");
+        }
+
+
+
         Requisicao requisicao = new Requisicao();
         Animal animal = animalRepository.findById(requisicaoCreateDto.getIdAnimal()).orElseThrow();
         Adotante adotante = adotanteRepository.findById(requisicaoCreateDto.getIdAdotante()).orElseThrow();

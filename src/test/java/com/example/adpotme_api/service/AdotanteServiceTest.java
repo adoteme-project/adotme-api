@@ -240,7 +240,6 @@ class AdotanteServiceTest {
         AdotanteUpdateDto adotanteAtualizadoDto = AdotanteUpdateDto.builder()
                 .nome("João da Silva")
                 .email("jaozinho@hotmail.com")
-                .senha("654321")
                 .celular("11988888888")
                 .build();
 
@@ -273,7 +272,6 @@ class AdotanteServiceTest {
         AdotanteUpdateDto adotanteAtualizadoDto = AdotanteUpdateDto.builder()
                 .nome("João da Silva")
                 .email("joaozinho@hotmail.com")
-                .senha("654321")
                 .celular("11988888888")
                 .build();
 
