@@ -69,6 +69,10 @@ public class Adotante implements UserDetails {
     @Setter
     private LocalDateTime resetCodeExpiration;
 
+    @Getter
+    @Setter
+    private Boolean has2FA;
+
 
 
     public Adotante(AdotanteCreateDto adotanteCreateDto) {
@@ -78,6 +82,7 @@ public class Adotante implements UserDetails {
         this.email = adotanteCreateDto.getEmail();
         this.senha = adotanteCreateDto.getSenha();
         this.celular = adotanteCreateDto.getCelular();
+        this.has2FA = adotanteCreateDto.getHas2FA();
     }
 
     public Adotante() {}
@@ -85,6 +90,7 @@ public class Adotante implements UserDetails {
     public void adotarAnimal(Animal animal) {
         animal.setAdotante(this);
         animal.setIsAdotado(true);
+        animal.setIsVisible(false);
         this.adotados.add(animal);
     }
 

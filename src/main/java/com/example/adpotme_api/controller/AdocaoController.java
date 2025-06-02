@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/adocoes")
+@RequestMapping("/api/adocoes")
 @Tag(name = "Adocao" , description = "Controlador para operações relacionadas as adocoes de uma ong.")
 @SecurityRequirement(name = "bearerAuth")
 public class AdocaoController {

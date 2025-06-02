@@ -18,7 +18,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/formularios")
+@RequestMapping("/api/formularios")
 @Tag(name = "Formulario" , description = "Controlador para operações relacionadas aos formulários de adoção.")
 @SecurityRequirement(name = "bearerAuth")
 public class FormularioController {

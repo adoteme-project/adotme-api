@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/requisicoes")
+@RequestMapping("/api/requisicoes")
 @Tag(name = "Requisição", description = "Controlador para operações relacionadas às requisições de adoção.")
 @SecurityRequirement(name = "bearerAuth")
 public class RequisicaoController {

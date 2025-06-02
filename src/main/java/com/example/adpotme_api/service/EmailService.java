@@ -19,4 +19,13 @@ public class EmailService {
         message.setText(text);
         mailSender.send(message);
     }
+
+
+    public void sendOTP(String to, String otp) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Seu código OTP");
+        message.setText("Seu código de autenticação é: " + otp);
+        mailSender.send(message);
+    }
 }

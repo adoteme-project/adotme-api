@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/enderecos")
+@RequestMapping("/api/enderecos")
 @Tag(name = "Endereço")
 @SecurityRequirement(name = "bearerAuth")
 public class EnderecoController {

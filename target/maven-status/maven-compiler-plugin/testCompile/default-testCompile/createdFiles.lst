@@ -1,1 +1,9 @@
+com\example\adpotme_api\controller\AdocaoControllerTest.class
+com\example\adpotme_api\service\AdotanteServiceTest.class
+com\example\adpotme_api\controller\AdotanteControllerTest.class
+com\example\adpotme_api\controller\EnderecoControllerTest.class
 com\example\adpotme_api\AdpotmeApiApplicationTests.class
+com\example\adpotme_api\controller\AnimalControllerTest.class
+com\example\adpotme_api\controller\OngControllerTest.class
+com\example\adpotme_api\controller\AnimalPerdidoControllerTest.class
+com\example\adpotme_api\controller\AutenticacaoControllerTest.class

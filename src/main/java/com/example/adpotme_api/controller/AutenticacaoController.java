@@ -12,6 +12,9 @@ import com.example.adpotme_api.repository.AdotanteRepository;
 import com.example.adpotme_api.security.adotante.AutenticacaoAdotanteService;
 import com.example.adpotme_api.security.ongUser.AutenticacaoOngUserService;
 import com.example.adpotme_api.security.TokenService;
+import com.example.adpotme_api.service.AdotanteService;
+import com.example.adpotme_api.service.EmailService;
+import com.example.adpotme_api.service.OTPService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -26,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/login")
+@RequestMapping("api/login")
 @SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Autenticação", description = "Controlador para operações relacionadas ao login (adotante e ong user).")
 public class AutenticacaoController {
@@ -38,13 +41,15 @@ public class AutenticacaoController {
     private AutenticacaoOngUserService authOngUserService;
 
     @Autowired
-    private AutenticacaoAdotanteService authAdotanteService;
+    private OTPService otpService;
 
     @Autowired
-    private AdotanteRepository adotanteRepository;
+    private EmailService emailService;
 
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private AdotanteService adotanteService;
 
     @PostMapping("/ong-user")
     @Operation(summary = "Realiza login do usuário ONG",
@@ -62,17 +67,52 @@ public class AutenticacaoController {
     }
 
     @PostMapping("/adotante")
-    @Operation(summary = "Realiza login do adotante",
-            description = "Realiza a autenticação do adotante e retorna um token JWT.")
-    @ApiResponse(responseCode = "200", description = "Login bem-sucedido. Retorna o token JWT.")
+    @Operation(summary = "Realiza login do adotante com suporte a 2FA",
+            description = "Realiza a autenticação do adotante e verifica se o 2FA está habilitado.")
+    @ApiResponse(responseCode = "200", description = "Login bem-sucedido ou código OTP enviado.")
     public ResponseEntity<?> efetuarLoginAdotante(@RequestBody @Valid AdotanteLoginDto adotanteLogin) {
         var authToken = new UsernamePasswordAuthenticationToken(adotanteLogin.email(), adotanteLogin.senha());
         var authentication = authenticationManager.authenticate(authToken);
-        var tokenJWT = tokenService.gerarTokenAdotante((Adotante) authentication.getPrincipal());
-        var idUser = ((Adotante) authentication.getPrincipal()).getId();
-        return ResponseEntity.ok(new AdotanteTokenDtoJWT(tokenJWT, idUser));
+        var adotante = (Adotante) authentication.getPrincipal();
+
+        if (Boolean.TRUE.equals(adotante.getHas2FA())) {
+            String otp = otpService.generateOTP(adotante.getEmail());
+            emailService.sendOTP(adotante.getEmail(), otp);
+
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Código OTP enviado para o e-mail.");
+        }
+
+        var tokenJWT = tokenService.gerarTokenAdotante(adotante);
+        return ResponseEntity.ok(new AdotanteTokenDtoJWT(tokenJWT, adotante.getId()));
     }
 
+    @PostMapping("/adotante/validar-otp")
+    @Operation(summary = "Valida o código OTP e conclui o login",
+            description = "Valida o código OTP enviado ao e-mail do adotante e retorna o token JWT.")
+    @ApiResponse(responseCode = "200", description = "Código OTP validado e login concluído.")
+    public ResponseEntity<?> validarOTP(@RequestParam String email, @RequestParam String otp) {
+        boolean isValid = otpService.validateOTP(email, otp);
+        if (!isValid) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Código OTP inválido ou expirado.");
+        }
+
+        Adotante adotante = adotanteService.recuperarAdotantePorEmail(email);
+        if (adotante == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Adotante não encontrado.");
+        }
+
+        var tokenJWT = tokenService.gerarTokenAdotante(adotante);
+        return ResponseEntity.ok(new AdotanteTokenDtoJWT(tokenJWT, adotante.getId()));
+    }
+
+    @PostMapping("/ativar/{email}")
+    public ResponseEntity<String> ativar2FA(@PathVariable String email) {
+        Adotante adotante = adotanteService.ativar2FA(email);
+        if (adotante == null) {
+            return ResponseEntity.badRequest().body("Adotante não encontrado.");
+        }
+        return ResponseEntity.ok("2FA ativado com sucesso.");
+    }
 //    @PostMapping("/refresh")
 //    @Operation(summary = "Atualiza o token de acesso",
 //            description = "Gera um novo token de acesso usando o refresh token fornecido.")

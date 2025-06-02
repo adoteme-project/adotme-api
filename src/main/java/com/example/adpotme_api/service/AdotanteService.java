@@ -90,6 +90,7 @@ public class AdotanteService {
         adotante.setCelular(dados.getCelular());
         adotante.setEndereco(endereco);
         adotante.setCadastro(dados.getCadastro());
+        adotante.setHas2FA(dados.getHas2FA());
 
         if(fotoPerfil != null && !fotoPerfil.isEmpty()) {
             try {
@@ -153,7 +154,6 @@ public class AdotanteService {
             Adotante adotanteAtualizado = adotanteOpt.get();
             adotanteAtualizado.setNome(adotante.getNome());
             adotanteAtualizado.setEmail(adotante.getEmail());
-            adotanteAtualizado.setSenha(adotante.getSenha());
             adotanteAtualizado.setDtNasc(adotante.getDtNasc());
             adotanteAtualizado.setCelular(adotante.getCelular());
 
@@ -284,6 +284,23 @@ public class AdotanteService {
                 throw new RuntimeException(e);
             }
         }
+        return adotanteRepository.save(adotante);
+    }
+
+    public Adotante recuperarAdotantePorEmail(String email) {
+        Adotante adotante  = adotanteRepository.findByEmail(email);
+       if(adotante == null) {
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
+       }
+        return adotante;
+    }
+
+    public Adotante ativar2FA(String email) {
+        Adotante adotante = adotanteRepository.findByEmail(email);
+        if (adotante == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Adotante não encontrado");
+        }
+        adotante.setHas2FA(true);
         return adotanteRepository.save(adotante);
     }
 }
