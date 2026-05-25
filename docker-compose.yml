@@ -1,24 +1,42 @@
 version: '3.8'
+
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: adotme-api
     ports:
-      - "8080:8080"
+      - "${APP_PORT:-8080}:8080"
+    env_file:
+      - .env
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/adoteme
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root
+      # Override DB host/name to point at the docker network service `db`.
+      # Other secrets (JWT, Cloudinary, TheCatAPI, mail) come from .env.
+      SPRING_PROFILES_ACTIVE: local
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: ${DB_NAME:-adoteMe}
+      DB_USER: ${DB_USER:-root}
     depends_on:
-      - db
-
+      db:
+        condition: service_healthy
 
   db:
     image: mysql:8.0
-    container_name: mysql
+    container_name: adotme-mysql
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: adoteme
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME:-adoteMe}
+    volumes:
+      - adotme-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${DB_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  adotme-mysql-data:

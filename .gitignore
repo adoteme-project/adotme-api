@@ -2,6 +2,16 @@ HELP.md
 
 !.mvn/wrapper/maven-wrapper.jar
 
+### Secrets / local config — NEVER commit
+.env
+.env.local
+.env.*.local
+*.local.properties
+src/main/resources/application-secrets.properties
+
+### Maven build artifacts
+target/
+!.mvn/wrapper/maven-wrapper.properties
 
 ### STS ###
 .apt_generated

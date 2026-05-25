@@ -1,1 +1,0 @@
-RENAME TABLE voluntario to ongUser;
