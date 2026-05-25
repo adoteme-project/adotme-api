@@ -132,6 +132,89 @@ Once the app is running, interactive API docs are available at:
 
 ---
 
+## Testing the API via Swagger
+
+Once the app is running, open **http://localhost:8080/swagger-ui.html** (or your custom `APP_PORT`) and try the two main create flows below.
+
+> **Security note for reviewers:** the current `SecurityConfigurations` is set to `anyRequest().permitAll()`, so all endpoints are reachable without a token while you explore the API. Lock-down rules (`hasRole("ADMIN")`, JWT filters) are implemented and ready to be re-enabled — see the commented section in [`SecurityConfigurations.java`](src/main/java/com/example/adpotme_api/security/SecurityConfigurations.java).
+
+### Register an adopter — `POST /api/adotantes/cadastrar`
+
+This is a `multipart/form-data` endpoint. In Swagger UI, fill in the two parts:
+
+1. In the **`adotante`** field, paste this JSON:
+
+   ```json
+   {
+     "nome": "Maria Teste",
+     "dtNasc": "1992-03-20",
+     "cep": "01310100",
+     "email": "maria.teste@example.com",
+     "senha": "Senha@123",
+     "celular": "11988887777",
+     "numero": "200",
+     "has2FA": false,
+     "formulario": {
+       "temCrianca": false,
+       "moradoresConcordam": true,
+       "temPet": false,
+       "seraResponsavel": true,
+       "moraEmCasa": true,
+       "isTelado": true,
+       "casaPortaoAlto": true
+     }
+   }
+   ```
+
+2. **`fotoPerfil`** is optional — uncheck *Send empty value* if you don't upload a file.
+
+3. Click **Execute**. Expect `201 Created` with the persisted adopter, password hashed with BCrypt, and the address auto-filled from the CEP via the ViaCEP integration.
+
+### Register a shelter (ONG) — `POST /api/ongs/cadastrar`
+
+Same pattern, with one extra part:
+
+1. In the **`ong`** field, paste:
+
+   ```json
+   {
+     "nome": "ONG Patinhas Felizes",
+     "email": "contato@patinhas.example.com",
+     "telefone": "1133334444",
+     "cnpj": "11222333000181",
+     "cep": "01310100",
+     "dadosBancarios": {
+       "banco": "Itau",
+       "agencia": "1234",
+       "conta": "56789-0",
+       "tipoConta": "Corrente",
+       "chavePix": "contato@patinhas.example.com",
+       "nomeTitular": "ONG Patinhas Felizes"
+     }
+   }
+   ```
+
+2. In **`numero`**, type the building number (e.g. `500`).
+3. In **`imgOng`**, upload any image file — this is required (the response mapper expects an image URL). Cloudinary will host it.
+4. **`qrCode`** is optional.
+5. Click **Execute**. Expect `201 Created` with the ONG, address resolved from CEP, and a Cloudinary URL for the uploaded image.
+
+### cURL equivalents
+
+```bash
+# Adopter
+curl -X POST http://localhost:8080/api/adotantes/cadastrar \
+  -F 'adotante={"nome":"Maria Teste","dtNasc":"1992-03-20","cep":"01310100","email":"maria@example.com","senha":"Senha@123","celular":"11988887777","numero":"200","has2FA":false,"formulario":{"temCrianca":false,"moradoresConcordam":true,"temPet":false,"seraResponsavel":true,"moraEmCasa":true,"isTelado":true,"casaPortaoAlto":true}}'
+
+# Shelter (ONG)
+curl -X POST http://localhost:8080/api/ongs/cadastrar \
+  -F 'ong={"nome":"ONG Patinhas","email":"contato@patinhas.example.com","telefone":"1133334444","cnpj":"11222333000181","cep":"01310100","dadosBancarios":{"banco":"Itau","agencia":"1234","conta":"56789-0","tipoConta":"Corrente","chavePix":"contato@patinhas.example.com","nomeTitular":"ONG Patinhas"}}' \
+  -F 'numero=500' \
+  -F 'imgOng=@path/to/any-image.png'
+```
+
+---
+
 ## Project structure
 
 ```
